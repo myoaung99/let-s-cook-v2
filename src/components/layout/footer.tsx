@@ -4,7 +4,7 @@ import Link from "next/link";
 export const Footer = () => {
     return (
         <footer
-            className="p-4 bg-rose-600 shadow flex items-center justify-center md:justify-between text-white">
+            className="p-4 bg-stone-900 shadow flex items-center justify-center md:justify-between text-white">
             <div className="text-sm text-center hidden md:block space-x-2">
                 <span>© 2022</span>
                 <Link href="/" className="hover:underline">Let's Cook™</Link>

@@ -4,7 +4,7 @@ import { HYDRATE } from "next-redux-wrapper";
 
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const baseApi = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "https://pokeapi.co/api/v2/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://www.themealdb.com/api/json/v1/1/" }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];

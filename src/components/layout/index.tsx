@@ -10,6 +10,7 @@ const Layout: React.FC<LayoutProps> = ({children}) => {
     return (
         <>
             <Header/>
+            <div className='h-16'/>
             <main className='container'>
                 {children}
             </main>

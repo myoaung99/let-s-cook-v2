@@ -6,7 +6,7 @@ export const Header = () => {
     const [showMobileMenu, setShowMobileMenu] = useState(false);
 
     return (
-        <section className="fixed w-full bg-rose-600 text-white z-50">
+        <section className="fixed w-full bg-stone-900 text-white z-50">
             <nav className="container h-16 flex items-center justify-between ">
                 <div className="font-bold text-2xl px-3">
                     <Link href="/">Let's Cook</Link>
@@ -45,8 +45,8 @@ const MenuToggleButton: React.FC<MenuToggleButtonProps> = ({showMobileMenu, setS
 const DesktopMenuItems = () => (
     <ul className="hidden menu-list lg:flex px-3">
         {
-            menuData.map(menu => (
-                <li className=" transition-transform px-4 hover:scale-95">
+            menuData.map((menu: MenuData) => (
+                <li className="transition-transform px-4 hover:scale-95">
                     <Link href={menu.href}>
                         <span className="text-lg px-4">{menu.label}</span>
                     </Link>
