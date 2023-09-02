@@ -41,6 +41,7 @@ const RecipeFilters = () => {
         router.push(`/recipes?ingredient=${filters.ingredient}&category=${filters.category}`)
     }
 
+    //TODO: can filter only with one mode
     return (
         <section className='md:flex md:justify-end py-4'>
             <div className='space-y-2 md:space-y-0 md:flex md:items-center md:space-x-2'>
