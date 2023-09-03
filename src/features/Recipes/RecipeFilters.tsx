@@ -18,6 +18,8 @@ import {
 import {Check, ChevronsUpDown, Search} from "lucide-react";
 import {Category} from "@/types";
 import {Input} from "@/components/ui/input"
+import {Switch} from "@/components/ui/switch"
+import {Label} from "@/components/ui/label"
 
 interface RecipeCategoryComboBoxProps {
     getSearchCategory: (value: string) => void
@@ -25,30 +27,47 @@ interface RecipeCategoryComboBoxProps {
 
 const RecipeFilters = () => {
     const router = useRouter()
-    const [filters, setFilters] = useState({
-        ingredient: '',
-        category: ''
-    })
+    const [isSearchByIngredient, setIsSearchByIngredient] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('')
+    const [searchIngredient, setSearchIngredient] = useState('')
     const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-        setFilters(prevState => ({...prevState, ingredient: event.target.value}))
+        setSearchIngredient(event.target.value)
     }
 
     const getSearchCategory = (data: string) => {
-        setFilters(prevState => ({...prevState, category: data}))
+        setSelectedCategory(data)
     }
 
-    const handleOnSearch = ()=>{
-        router.push(`/recipes?ingredient=${filters.ingredient}&category=${filters.category}`)
+    const handleOnSearch = () => {
+        if(isSearchByIngredient){
+            router.push(`/recipes?filter=ingredient&value=${searchIngredient}`)
+        }else {
+            router.push(`/recipes?filter=category&value=${selectedCategory}`)
+        }
     }
 
-    //TODO: can filter only with one mode
+    const handleOnSearchToggleChange = () => {
+        setSearchIngredient('')
+        setSelectedCategory('')
+        setIsSearchByIngredient(isSearchByIngredient => !isSearchByIngredient)
+    }
+
     return (
-        <section className='md:flex md:justify-end py-4'>
-            <div className='space-y-2 md:space-y-0 md:flex md:items-center md:space-x-2'>
-                <Input placeholder='search by main ingredient' className='md:w-[200px] placeholder:text-gray-400' onChange={handleInputChange}/>
-                <div className='w-full md:w-[200px]'>
+        <section className='md:flex md:justify-between md:items-center py-4 mb-5'>
+            <div className='flex items-center gap-3 mb-3 md:mb-0'>
+                <Label htmlFor="searchWith" className='text-md md:text-lg'>Search By Main Ingredient</Label>
+                <Switch id='searchWith' checked={isSearchByIngredient} onClick={handleOnSearchToggleChange}/>
+            </div>
+
+            <div className='space-y-3 md:space-y-0 md:flex md:items-center md:space-x-2'>
+                {isSearchByIngredient ?
+                    <Input placeholder='search by main ingredient' className='md:w-[200px] placeholder:text-gray-400'
+                           onChange={handleInputChange}/> : null}
+
+                {!isSearchByIngredient ? <div className='w-full md:w-[200px]'>
                     <RecipeCategoryComboBox getSearchCategory={getSearchCategory}/>
-                </div>
+                </div> : null}
+
                 <div className='flex justify-end'>
                     <Button onClick={handleOnSearch}>Search</Button>
                 </div>
@@ -82,7 +101,7 @@ const RecipeCategoryComboBox: React.FC<RecipeCategoryComboBoxProps> = ({getSearc
                 variant="outline"
                 role="combobox"
                 aria-expanded={open}
-                className={`w-full justify-between font-normal ${!!value ?'text-black': 'text-gray-400'}`}
+                className={`w-full justify-between font-normal ${!!value ? 'text-black' : 'text-gray-400'}`}
             >
                 {value
                     ? getSelectedCategoryLabel()

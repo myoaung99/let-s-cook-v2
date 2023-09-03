@@ -6,9 +6,15 @@ export const recipesService = baseApi.injectEndpoints({
         getCategories: build.query({
             query: () => `categories.php`,
         }),
+        getMealsByCategory: build.query({
+            query: (payload) => {
+                console.log(payload)
+                return `filter.php?c=${payload}`
+            }
+        })
     }),
     overrideExisting: false,
 });
 
-export const { getCategories } = recipesService.endpoints;
-export const { useGetCategoriesQuery } = recipesService;
+export const { getCategories, getMealsByCategory } = recipesService.endpoints;
+export const { useGetCategoriesQuery, useGetMealsByCategoryQuery } = recipesService;

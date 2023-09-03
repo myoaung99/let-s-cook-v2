@@ -5,11 +5,7 @@ import {SuggestionMeal} from "@/types";
 import {Button} from "@/components/ui/button";
 
 export const MealPreviewList = ()=> {
-    const PopularMeals = () => {
-        return meals.popularMeals.map((meal: SuggestionMeal) => (
-            <MealCard key={meal.id} title={meal.title} id={meal.id} imgUrl={meal.imgUrl}/>
-        ));
-    };
+
 
     return (
         <section className="mx-auto pt-24 h-screen max-h-screen">
@@ -30,3 +26,8 @@ export const MealPreviewList = ()=> {
     );
 }
 
+const PopularMeals = () => {
+    return meals.popularMeals.map((meal: SuggestionMeal) => (
+        <MealCard key={meal.id} title={meal.title} id={meal.id} imgUrl={meal.imgUrl}/>
+    ));
+};

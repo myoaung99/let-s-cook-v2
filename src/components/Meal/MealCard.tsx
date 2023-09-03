@@ -25,7 +25,7 @@ export const MealCard: React.FC<MealCardProps> = ({id, imgUrl, title}) => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle className='text-xl'>{title}</CardTitle>
+                <CardTitle className='text-xl line-clamp-1'>{title}</CardTitle>
             </CardHeader>
             <CardContent className="mx-6 relative aspect-square">
                 <Image
