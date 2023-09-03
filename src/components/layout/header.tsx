@@ -72,11 +72,11 @@ const MobileMenuItems = ({toggleMobileMenu}: { toggleMobileMenu: () => void }) =
 
 const menuData: Array<MenuData> = [
     {
-        href: '/home',
+        href: '/',
         label: 'Home'
     },
     {
-        href: '/recipes',
+        href: '/recipes?filter=category&value=chicken',
         label: 'Recipes'
     }
 ]

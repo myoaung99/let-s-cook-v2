@@ -7,14 +7,17 @@ export const recipesService = baseApi.injectEndpoints({
             query: () => `categories.php`,
         }),
         getMealsByCategory: build.query({
-            query: (payload) => {
-                console.log(payload)
-                return `filter.php?c=${payload}`
-            }
+            query: (categoryId) => `filter.php?c=${categoryId}`
+        }),
+        getMealById: build.query({
+            query: (mealId)=> `lookup.php?i=${mealId}`
         })
     }),
     overrideExisting: false,
 });
 
-export const { getCategories, getMealsByCategory } = recipesService.endpoints;
-export const { useGetCategoriesQuery, useGetMealsByCategoryQuery } = recipesService;
+export const { getCategories, getMealsByCategory, getMealById } = recipesService.endpoints;
+export const { useGetCategoriesQuery,
+    useGetMealsByCategoryQuery,
+    useGetMealByIdQuery
+} = recipesService;

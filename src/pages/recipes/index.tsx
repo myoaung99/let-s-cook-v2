@@ -19,16 +19,16 @@ export default Recipes;
 
 export const getStaticProps = wrapper.getStaticProps(
     (store) => async (context) => {
-        const value = context.params?.value;
         store.dispatch(getCategories.initiate(''));
-        if (typeof value === 'string') {
-            store.dispatch(getMealsByCategory.initiate(value));
+        const categoryId = context.params?.value;
+        if (typeof categoryId === 'string') {
+            store.dispatch(getMealsByCategory.initiate(categoryId));
         }
         await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
         return {
             props: {},
-            revalidate: 24 * 60 * 60 * 30,
+            revalidate: 24 * 60 * 60 * 90,
         };
     }
 );

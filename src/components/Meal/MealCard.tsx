@@ -18,14 +18,14 @@ interface MealCardProps {
 
 export const MealCard: React.FC<MealCardProps> = ({id, imgUrl, title}) => {
     const router = useRouter()
-    const pathLink = `/detail-recipe/${id}`;
+    const pathLink = `/recipes/${id}`;
     const handleOnClick = () => {
         router.push(pathLink)
     }
     return (
         <Card>
             <CardHeader>
-                <CardTitle className='text-xl line-clamp-1'>{title}</CardTitle>
+                <CardTitle className='text-lg line-clamp-1'>{title}</CardTitle>
             </CardHeader>
             <CardContent className="mx-6 relative aspect-square">
                 <Image
@@ -38,7 +38,7 @@ export const MealCard: React.FC<MealCardProps> = ({id, imgUrl, title}) => {
             </CardContent>
             <br/>
             <CardFooter>
-                <Button className='w-full' onClick={handleOnClick}>View Detail</Button>
+                <Button className='w-full' onClick={handleOnClick} variant='default'>View Detail</Button>
             </CardFooter>
         </Card>
     );
