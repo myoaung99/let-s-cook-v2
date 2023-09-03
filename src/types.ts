@@ -10,6 +10,12 @@ export interface SuggestionMeal {
     imgUrl : string;
 }
 
+export interface Meal {
+    idMeal: string;
+    strMeal: string;
+    strMealThumb : string;
+}
+
 export interface Category{
     idCategory: string;
     strCategory: string;

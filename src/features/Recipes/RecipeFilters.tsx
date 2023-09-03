@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useGetCategoriesQuery} from "@/features/Recipes/recipesService";
 import {useRouter} from "next/router";
 import {cn} from "@/lib/utils"
@@ -39,9 +39,9 @@ const RecipeFilters = () => {
     }
 
     const handleOnSearch = () => {
-        if(isSearchByIngredient){
+        if (isSearchByIngredient) {
             router.push(`/recipes?filter=ingredient&value=${searchIngredient}`)
-        }else {
+        } else {
             router.push(`/recipes?filter=category&value=${selectedCategory}`)
         }
     }
@@ -61,7 +61,8 @@ const RecipeFilters = () => {
 
             <div className='space-y-3 md:space-y-0 md:flex md:items-center md:space-x-2'>
                 {isSearchByIngredient ?
-                    <Input placeholder='search by main ingredient' className='md:w-[200px] placeholder:text-gray-400'
+                    <Input placeholder='search by main ingredient' value={searchIngredient}
+                           className='md:w-[200px] placeholder:text-gray-400'
                            onChange={handleInputChange}/> : null}
 
                 {!isSearchByIngredient ? <div className='w-full md:w-[200px]'>
@@ -80,13 +81,22 @@ export default RecipeFilters;
 
 const RecipeCategoryComboBox: React.FC<RecipeCategoryComboBoxProps> = ({getSearchCategory}) => {
     const router = useRouter();
+    const categoryQuery = router.query?.value as string | undefined
+
+
     const {data, isLoading} = useGetCategoriesQuery({skip: router.isFallback})
     const categories = data?.categories as Array<Category>;
     const [open, setOpen] = React.useState(false)
-    const [value, setValue] = React.useState("")
+    const [value, setValue] = React.useState('')
+
+    useEffect(()=>{
+        if(!!categoryQuery){
+            setValue(categoryQuery.toLowerCase())
+        }
+    }, [categoryQuery])
 
     const getSelectedCategoryLabel = () =>
-        categories.find((category) => category.strCategory.toLowerCase() === value)?.strCategory
+        categories?.find((category) => category.strCategory.toLowerCase() === value)?.strCategory
 
     const handleOnSelect = (currentValue: string) => {
         const selectedValue = currentValue === value ? "" : currentValue;

@@ -4,6 +4,7 @@ import {MealCard} from "@/components/Meal";
 import {useGetMealsByCategoryQuery} from "@/features/Recipes/recipesService";
 import {useRouter} from "next/router";
 import {skipToken} from "@reduxjs/toolkit/query";
+import {Meal} from "@/types";
 
 export const RecipeList = () => {
     return (
@@ -24,7 +25,7 @@ const MealList = () => {
         typeof value === "string" ? value : skipToken,
         {skip: router.isFallback})
 
-    return data?.meals?.map((meal: any) => (
+    return data?.meals?.map((meal: Meal) => (
         <MealCard key={meal.idMeal} title={meal.strMeal} id={meal.idMeal} imgUrl={meal.strMealThumb}/>
     ));
 };
