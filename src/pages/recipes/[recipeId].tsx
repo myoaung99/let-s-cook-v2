@@ -1,20 +1,12 @@
 import {wrapper} from "@/app/store";
 import {getRunningQueriesThunk} from "@/services/controller";
-import {getMealById, useGetMealByIdQuery} from "@/features/Recipes/recipesService";
-import {useRouter} from "next/router";
-import {skipToken} from "@reduxjs/toolkit/query";
+import {getMealById} from "@/features/Recipes/recipesService";
+import {MealDetail} from "@/features/MealDetail";
 
 const RecipeDetail = () => {
-    const router = useRouter()
-    const recipeId = router.query?.recipeId;
-
-    const {data, isLoading} = useGetMealByIdQuery(
-        typeof recipeId === "string" ? recipeId : skipToken,
-        {skip: router.isFallback})
-
-    console.log('isLoading', isLoading)
-
-    return <div>{JSON.stringify(data)}</div>
+    return <>
+        <MealDetail/>
+    </>
 }
 
 export default RecipeDetail;
@@ -29,7 +21,9 @@ export const getStaticPaths = async () => {
 export const getStaticProps = wrapper.getStaticProps(
     (store) => async (context) => {
         const recipeId = context.params?.recipeId;
-        store.dispatch(getMealById.initiate(recipeId))
+        if(typeof recipeId === 'string'){
+            store.dispatch(getMealById.initiate(recipeId))
+        }
         await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
         return {

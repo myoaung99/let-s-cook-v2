@@ -1,5 +1,4 @@
 import { baseApi } from "@/services/controller";
-import {Category} from "@/types";
 
 export const recipesService = baseApi.injectEndpoints({
     endpoints: (build) => ({
