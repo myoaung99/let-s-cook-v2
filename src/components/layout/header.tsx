@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, {useState} from 'react';
 import {MenuData, MenuToggleButtonProps, MobileMenuProps} from "@/components/layout/types";
+import Image from "next/image";
 
 export const Header = () => {
     const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -8,7 +9,8 @@ export const Header = () => {
     return (
         <section className="fixed w-full bg-stone-900 text-white z-50">
             <nav className="container h-16 flex items-center justify-between ">
-                <div className="font-bold text-2xl px-3">
+                <div className="font-bold text-2xl px-3 flex gap-2 items-center">
+                    <Image src={"/static/logo.png"} alt={'logo'} width={40} height={40}/>
                     <Link href="/">Let's Cook</Link>
                 </div>
                 <DesktopMenuItems/>
