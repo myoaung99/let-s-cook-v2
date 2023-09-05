@@ -1,12 +1,12 @@
+import { Provider } from 'react-redux';
+import NProgress from 'nprogress';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { wrapper } from '@/app/store';
-import { Provider } from 'react-redux';
-import Layout from '@/components/layout';
-import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import Layout from '@/components/layout';
 
 export default function App({ Component, pageProps }: AppProps) {
     const router = useRouter();

@@ -9,9 +9,9 @@ import {
 
 const Recipes = () => {
     return (
-        <>
+        <section className="mb-16">
             <RecipeList />
-        </>
+        </section>
     );
 };
 
