@@ -55,8 +55,8 @@ const RecipeFilters = () => {
     return (
         <section className='md:flex md:justify-between md:items-center py-4 mb-5'>
             <div className='flex items-center gap-3 mb-3 md:mb-0'>
-                <Label htmlFor="searchWith" className='text-md md:text-lg'>Search By Main Ingredient</Label>
-                <Switch id='searchWith' checked={isSearchByIngredient} onClick={handleOnSearchToggleChange}/>
+                {/*<Label htmlFor="searchWith" className='text-md md:text-lg'>Search By Main Ingredient</Label>*/}
+                {/*<Switch id='searchWith' checked={isSearchByIngredient} onClick={handleOnSearchToggleChange}/>*/}
             </div>
 
             <div className='space-y-3 md:space-y-0 md:flex md:items-center md:space-x-2'>
