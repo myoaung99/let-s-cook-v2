@@ -1,7 +1,8 @@
 import ParticlesComponent from '@/components/animations/Particles';
-import { Hero } from '@/features/Hero';
-import { MealPreviewList } from '@/features/MealPreview/MealPreviewList';
+import {Hero} from '@/features/Hero';
+import {MealPreviewList} from '@/features/MealPreview/MealPreviewList';
 import {NextSeo} from "next-seo";
+import Script from "next/script";
 
 export default function Home() {
     return (
@@ -27,7 +28,7 @@ export default function Home() {
                             height: 800,
                             alt: 'Let\'s Cook page - Og Image Alt',
                         },
-                        { url: 'https://lets-cook-v2.vercel.app/home-preview.png' },
+                        {url: 'https://lets-cook-v2.vercel.app/home-preview.png'},
                     ],
                 }}
                 additionalMetaTags={[
@@ -40,11 +41,21 @@ export default function Home() {
             />
 
             <section className="mb-16">
+                <Script src="https://www.googletagmanager.com/gtag/js?id=G-5P4C2YF2MT"/>
+                <Script id="google-analytics">
+                    {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+ 
+          gtag('config', 'G-5P4C2YF2MT');
+        `}
+                </Script>
                 <div className="relative h-[600px] overflow-hidden">
-                    <Hero />
-                    <ParticlesComponent />
+                    <Hero/>
+                    <ParticlesComponent/>
                 </div>
-                <MealPreviewList />
+                <MealPreviewList/>
             </section>
         </>
 
