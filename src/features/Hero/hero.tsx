@@ -11,9 +11,9 @@ export const Hero = () => {
 
     return (
         <div className="relative z-10 flex flex-col md:items-center justify-center h-full lg:pb-10 space-y-4">
-            <h1 className="text-slate-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight md:text-center mb-2 md:mb-0">
+            <h2 className="text-slate-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight md:text-center mb-2 md:mb-0">
                 Embark on a Culinary Journey.&trade;
-            </h1>
+            </h2>
             <p className="md:w-3/5 md:text-center text-slate-600">
                 Discover the finest flavors, expertly crafted dishes, and
                 culinary secrets from around the world. Join us in savoring
