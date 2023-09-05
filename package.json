@@ -27,6 +27,7 @@
     "lucide-react": "^0.274.0",
     "next": "13.4.19",
     "next-redux-wrapper": "^8.1.0",
+    "next-seo": "^6.1.0",
     "nprogress": "^0.2.0",
     "postcss": "8.4.29",
     "prettier": "^3.0.3",
