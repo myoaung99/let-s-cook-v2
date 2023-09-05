@@ -4,7 +4,6 @@ import {NextSeo} from "next-seo";
 import Script from "next/script";
 
 export default function Home() {
-    const GA_ID = process.env.NEXT_PUBLIC_GA
     return (
         <>
             <NextSeo
@@ -41,13 +40,13 @@ export default function Home() {
             />
 
             <section className="mb-16">
-                <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}/>
+                <Script src={`https://www.googletagmanager.com/gtag/js?id=G-5P4C2YF2MT`}/>
                 <Script id="google-analytics">
                     {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', '${GA_ID}');
+          gtag('config', 'G-5P4C2YF2MT');
         `}
                 </Script>
                 <div className="relative h-[600px] overflow-hidden">
