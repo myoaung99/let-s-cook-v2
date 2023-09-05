@@ -1,4 +1,3 @@
-import ParticlesComponent from '@/components/animations/Particles';
 import {Hero} from '@/features/Hero';
 import {MealPreviewList} from '@/features/MealPreview/MealPreviewList';
 import {NextSeo} from "next-seo";
@@ -53,7 +52,6 @@ export default function Home() {
                 </Script>
                 <div className="relative h-[600px] overflow-hidden">
                     <Hero/>
-                    <ParticlesComponent/>
                 </div>
                 <MealPreviewList/>
             </section>
