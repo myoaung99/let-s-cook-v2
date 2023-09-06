@@ -9,7 +9,7 @@ export const Header = () => {
     return (
         <section className="fixed w-full bg-stone-900 text-white z-50">
             <nav className="container h-16 flex items-center justify-between ">
-                <div className="font-bold text-2xl px-3 flex gap-2 items-center">
+                <div className="font-bold text-xl px-3 flex gap-2 items-center">
                     <Image src={"/static/logo.png"} alt={'logo'} width={40} height={40}/>
                     <Link href="/">Let's Cook</Link>
                 </div>
@@ -47,10 +47,10 @@ const MenuToggleButton: React.FC<MenuToggleButtonProps> = ({showMobileMenu, setS
 const DesktopMenuItems = () => (
     <ul className="hidden menu-list lg:flex px-3">
         {
-            menuData.map((menu: MenuData) => (
-                <li className="transition-transform px-4 hover:scale-95">
+            menuData.map((menu: MenuData, index) => (
+                <li className="transition-transform px-4 hover:underline" key={index}>
                     <Link href={menu.href}>
-                        <span className="text-lg px-4">{menu.label}</span>
+                        <span className="text-md px-4">{menu.label}</span>
                     </Link>
                 </li>
             ))
@@ -61,8 +61,8 @@ const DesktopMenuItems = () => (
 const MobileMenuItems = ({toggleMobileMenu}: { toggleMobileMenu: () => void }) => (
     <ul className="flex flex-col text-center items-stretch text-white">
         {
-            menuData.map(menu => (
-                <Link onClick={toggleMobileMenu} href={menu.href}>
+            menuData.map((menu, index) => (
+                <Link onClick={toggleMobileMenu} href={menu.href} key={index}>
                     <li className=" p-2 mx-2 cursor-pointer border-collapse my-1 border-b">
                         {menu.label}
                     </li>
