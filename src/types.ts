@@ -16,6 +16,10 @@ export interface Meal {
     strMealThumb : string;
 }
 
+export  interface  Area {
+    strArea: string;
+}
+
 export interface Category{
     idCategory: string;
     strCategory: string;

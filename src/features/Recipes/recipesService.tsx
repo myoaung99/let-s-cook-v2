@@ -5,8 +5,14 @@ export const recipesService = baseApi.injectEndpoints({
         getCategories: build.query({
             query: () => `categories.php`,
         }),
+        getAllCountries: build.query({
+            query: () => `list.php?a=list`
+        }),
         getMealsByCategory: build.query({
             query: (categoryId) => `filter.php?c=${categoryId}`
+        }),
+        getMealsByCountry: build.query({
+            query: (country) => `filter.php?a=${country}`
         }),
         getMealById: build.query({
             query: (mealId)=> `lookup.php?i=${mealId}`
@@ -15,8 +21,10 @@ export const recipesService = baseApi.injectEndpoints({
     overrideExisting: false,
 });
 
-export const { getCategories, getMealsByCategory, getMealById } = recipesService.endpoints;
+export const { getCategories, getMealsByCategory, getMealById, getAllCountries, getMealsByCountry } = recipesService.endpoints;
 export const { useGetCategoriesQuery,
     useGetMealsByCategoryQuery,
-    useGetMealByIdQuery
+    useGetMealByIdQuery,
+    useGetAllCountriesQuery,
+    useGetMealsByCountryQuery
 } = recipesService;

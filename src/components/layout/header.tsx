@@ -78,7 +78,7 @@ const menuData: Array<MenuData> = [
         label: 'Home'
     },
     {
-        href: '/recipes?filter=category&value=chicken',
+        href: '/recipes?filter=Country&value=American',
         label: 'Recipes'
     }
 ]

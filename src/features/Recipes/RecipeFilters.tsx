@@ -1,147 +1,229 @@
-import React, {useEffect, useState} from 'react';
-import {useGetCategoriesQuery} from "@/features/Recipes/recipesService";
+import React, {useEffect} from 'react';
+import {useGetAllCountriesQuery} from "@/features/Recipes/recipesService";
 import {useRouter} from "next/router";
-import {cn} from "@/lib/utils"
 import {Button} from "@/components/ui/button"
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-} from "@/components/ui/command"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import {Check, ChevronsUpDown, Search} from "lucide-react";
-import {Category} from "@/types";
+import {Area} from "@/types";
 import {Input} from "@/components/ui/input"
+import * as z from "zod"
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {ScrollArea} from "@/components/ui/scroll-area"
+import {Label} from "@/components/ui/label";
 
-
-interface RecipeCategoryComboBoxProps {
-    getSearchCategory: (value: string) => void
-}
+const formSchema = z.object({
+    filterBy: z.string().min(1),
+    ingredient: z.string().optional(),
+    country: z.string().optional(),
+})
 
 const RecipeFilters = () => {
-    const router = useRouter()
-    const [isSearchByIngredient, setIsSearchByIngredient] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState('')
-    const [searchIngredient, setSearchIngredient] = useState('')
-    const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-        setSearchIngredient(event.target.value)
-    }
+    const router = useRouter();
+    const filter = router.query.filter as string;
+    const value = router.query.value as string;
 
-    const getSearchCategory = (data: string) => {
-        setSelectedCategory(data)
-    }
+    const {data: countryData} = useGetAllCountriesQuery({skip: router.isFallback})
+    const form = useForm<z.infer<typeof formSchema>>({
+            resolver: zodResolver(formSchema),
+            defaultValues: {}
+        }
+    )
+    const {watch} = form;
+    const watchFilterBy = watch('filterBy')
 
-    const handleOnSearch = () => {
-        if (isSearchByIngredient) {
-            router.push(`/recipes?filter=ingredient&value=${searchIngredient}`)
-        } else {
-            router.push(`/recipes?filter=category&value=${selectedCategory}`)
+    useEffect(() => {
+        if (!!filter && !!value) {
+            form.setValue('filterBy', filter)
+            if (filter === 'Country') {
+                form.setValue('country', value)
+            }
+        }
+    }, [filter, value]);
+
+    const countries = countryData?.meals as Array<Area> | undefined
+
+    const handleOnSearch = (values: z.infer<typeof formSchema>) => {
+        if (values.filterBy === 'Country') {
+            router.push(`/recipes?filter=${values.filterBy}&value=${values.country}`)
+        }
+
+        if (values.filterBy === 'Ingredient') {
+            router.push(`/recipes?filter=${values.filterBy}&value=${values.ingredient}`)
         }
     }
 
-    const handleOnSearchToggleChange = () => {
-        setSearchIngredient('')
-        setSelectedCategory('')
-        setIsSearchByIngredient(isSearchByIngredient => !isSearchByIngredient)
-    }
-
     return (
-        <section className='md:flex md:justify-between md:items-center py-4 mb-5'>
-            <div className='flex items-center gap-3 mb-3 md:mb-0'>
-                {/*<Label htmlFor="searchWith" className='text-md md:text-lg'>Search By Main Ingredient</Label>*/}
-                {/*<Switch id='searchWith' checked={isSearchByIngredient} onClick={handleOnSearchToggleChange}/>*/}
-            </div>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleOnSearch)}>
+                <section className='md:flex md:justify-between md:items-end py-4 mb-5'>
+                    <div className={'flex flex-col md:flex-row gap-2 md:items-center md:gap-4'}>
+                        <Label htmlFor={'filterBy'}>Filter by</Label>
+                        <div key={watchFilterBy} className='flex items-center gap-3 mb-3 md:mb-0'>
+                            <FormField
+                                control={form.control}
+                                name="filterBy"
+                                render={({field}) => (
+                                    <FormItem className='w-full md:w-[200px]'>
+                                        <FormControl>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue/>
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value={'Ingredient'}>{'Ingredient'}</SelectItem>
+                                                    <SelectItem value={'Country'}>{'Country'}</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                        <FormMessage/>
+                                    </FormItem>
+                                )
+                                }
+                            />
+                        </div>
+                    </div>
 
-            <div className='space-y-3 md:space-y-0 md:flex md:items-center md:space-x-2'>
-                {isSearchByIngredient ?
-                    <Input placeholder='search by main ingredient' value={searchIngredient}
-                           className='md:w-[200px] placeholder:text-gray-400'
-                           onChange={handleInputChange}/> : null}
+                    <div className='space-y-3 md:space-y-0 md:flex md:items-center md:space-x-2'>
+                        {watchFilterBy === 'Ingredient' ?
+                            <FormField
+                                control={form.control}
+                                name="ingredient"
+                                render={({field}) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input placeholder='search by main ingredient'
+                                                   className='md:w-[200px] placeholder:text-gray-400'
+                                                   {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage/>
+                                    </FormItem>
+                                )}
+                            />
+                            : null}
 
-                {!isSearchByIngredient ? <div className='w-full md:w-[200px]'>
-                    <RecipeCategoryComboBox getSearchCategory={getSearchCategory}/>
-                </div> : null}
+                        {watchFilterBy === 'Country' ? <FormField
+                            control={form.control}
+                            name="country"
+                            render={({field}) => (
+                                <FormItem className='w-full md:w-[200px]'>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue/>
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <ScrollArea
+                                                    className="sm:h-[300px] md:h-[500px] w-auto rounded-md p-4 ">
+                                                    {countries?.map(country => (
+                                                        <SelectItem key={country.strArea}
+                                                                    value={country.strArea}>{country.strArea}</SelectItem>
+                                                    ))}
+                                                </ScrollArea>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        /> : null}
 
-                <div className='flex justify-end'>
-                    <Button onClick={handleOnSearch}>Search</Button>
-                </div>
-            </div>
-        </section>
+
+                        <div className='flex justify-end'>
+                            <Button type='submit'>Search</Button>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        </Form>
+
     );
 }
 
 export default RecipeFilters;
 
-const RecipeCategoryComboBox: React.FC<RecipeCategoryComboBoxProps> = ({getSearchCategory}) => {
-    const router = useRouter();
-    const categoryQuery = router.query?.value as string | undefined
-
-
-    const {data, isLoading} = useGetCategoriesQuery({skip: router.isFallback})
-    const categories = data?.categories as Array<Category>;
-    const [open, setOpen] = React.useState(false)
-    const [value, setValue] = React.useState('')
-
-    useEffect(()=>{
-        if(!!categoryQuery){
-            setValue(categoryQuery.toLowerCase())
-        }
-    }, [categoryQuery])
-
-    const getSelectedCategoryLabel = () =>
-        categories?.find((category) => category.strCategory.toLowerCase() === value)?.strCategory
-
-    const handleOnSelect = (currentValue: string) => {
-        const selectedValue = currentValue === value ? "" : currentValue;
-        setValue(selectedValue)
-        getSearchCategory(selectedValue)
-        setOpen(false)
-    }
-
-    return <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-            <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={open}
-                className={`w-full justify-between font-normal ${!!value ? 'text-black' : 'text-gray-400'}`}
-            >
-                {value
-                    ? getSelectedCategoryLabel()
-                    : "Select category..."}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
-            </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-full p-0">
-            <Command>
-                <CommandInput placeholder="Search category..."/>
-                <CommandEmpty>No framework found.</CommandEmpty>
-                {isLoading
-                    ? <CommandEmpty>loading..</CommandEmpty> : <CommandGroup>
-                        {categories?.map((category) => (
-                            <CommandItem
-                                key={category?.idCategory}
-                                onSelect={handleOnSelect}
-                            >
-                                <Check
-                                    className={cn(
-                                        "mr-2 h-4 w-4",
-                                        value === category.strCategory.toLowerCase() ? "opacity-100" : "opacity-0"
-                                    )}
-                                />
-                                {category.strCategory}
-                            </CommandItem>
-                        ))}
-                    </CommandGroup>
-                }
-
-            </Command>
-        </PopoverContent>
-    </Popover>
-}
+// const RecipeCategoryComboBox: React.FC<RecipeCategoryComboBoxProps> = ({getSearchCategory}) => {
+//     const router = useRouter();
+//     const categoryQuery = router.query?.value as string | undefined
+//
+//
+//     const {data, isLoading} = useGetCategoriesQuery({skip: router.isFallback})
+//     const categories = data?.categories as Array<Category>;
+//     const [open, setOpen] = React.useState(false)
+//     const [value, setValue] = React.useState('')
+//
+//     useEffect(() => {
+//         if (!!categoryQuery) {
+//             setValue(categoryQuery.toLowerCase())
+//         }
+//     }, [categoryQuery])
+//
+//     const getSelectedCategoryLabel = () =>
+//         categories?.find((category) => category.strCategory.toLowerCase() === value)?.strCategory
+//
+//     const handleOnSelect = (currentValue: string) => {
+//         const selectedValue = currentValue === value ? "" : currentValue;
+//         setValue(selectedValue)
+//         getSearchCategory(selectedValue)
+//         setOpen(false)
+//     }
+//
+//     return <Popover open={open} onOpenChange={setOpen}>
+//         <PopoverTrigger asChild>
+//             <Button
+//                 variant="outline"
+//                 role="combobox"
+//                 aria-expanded={open}
+//                 className={`w-full justify-between font-normal ${!!value ? 'text-black' : 'text-gray-400'}`}
+//             >
+//                 {value
+//                     ? getSelectedCategoryLabel()
+//                     : "Select category..."}
+//                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
+//             </Button>
+//         </PopoverTrigger>
+//         <PopoverContent className="w-full p-0">
+//             <Command>
+//                 <CommandInput placeholder="Search category..."/>
+//                 <CommandEmpty>No framework found.</CommandEmpty>
+//                 {isLoading
+//                     ? <CommandEmpty>loading..</CommandEmpty> : <CommandGroup>
+//                         {categories?.map((category) => (
+//                             <CommandItem
+//                                 key={category?.idCategory}
+//                                 onSelect={handleOnSelect}
+//                             >
+//                                 <Check
+//                                     className={cn(
+//                                         "mr-2 h-4 w-4",
+//                                         value === category.strCategory.toLowerCase() ? "opacity-100" : "opacity-0"
+//                                     )}
+//                                 />
+//                                 {category.strCategory}
+//                             </CommandItem>
+//                         ))}
+//                     </CommandGroup>
+//                 }
+//
+//             </Command>
+//         </PopoverContent>
+//     </Popover>
+// }
