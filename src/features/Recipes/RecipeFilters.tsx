@@ -12,7 +12,6 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form"
 import {
@@ -36,7 +35,6 @@ const RecipeFilters = () => {
     const filter = router.query.filter as string;
     const value = router.query.value as string;
 
-    const {data: countryData} = useGetAllCountriesQuery({skip: router.isFallback})
     const form = useForm<z.infer<typeof formSchema>>({
             resolver: zodResolver(formSchema),
             defaultValues: {}
@@ -53,8 +51,6 @@ const RecipeFilters = () => {
             }
         }
     }, [filter, value]);
-
-    const countries = countryData?.meals as Array<Area> | undefined
 
     const handleOnSearch = (values: z.infer<typeof formSchema>) => {
         if (values.filterBy === 'Country') {
@@ -73,29 +69,7 @@ const RecipeFilters = () => {
                     <div className={'flex flex-col md:flex-row gap-2 md:items-center md:gap-4'}>
                         <Label htmlFor={'filterBy'}>Filter by</Label>
                         <div key={watchFilterBy} className='flex items-center gap-3 mb-3 md:mb-0'>
-                            <FormField
-                                control={form.control}
-                                name="filterBy"
-                                render={({field}) => (
-                                    <FormItem className='w-full md:w-[200px]'>
-                                        <FormControl>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue/>
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent>
-                                                    <SelectItem value={'Ingredient'}>{'Ingredient'}</SelectItem>
-                                                    <SelectItem value={'Country'}>{'Country'}</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </FormControl>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )
-                                }
-                            />
+                            <FilterBySelect form={form}/>
                         </div>
                     </div>
 
@@ -118,34 +92,8 @@ const RecipeFilters = () => {
                             />
                             : null}
 
-                        {watchFilterBy === 'Country' ? <FormField
-                            control={form.control}
-                            name="country"
-                            render={({field}) => (
-                                <FormItem className='w-full md:w-[200px]'>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue/>
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <ScrollArea
-                                                    className="sm:h-[300px] md:h-[500px] w-auto rounded-md p-4 ">
-                                                    {countries?.map(country => (
-                                                        <SelectItem key={country.strArea}
-                                                                    value={country.strArea}>{country.strArea}</SelectItem>
-                                                    ))}
-                                                </ScrollArea>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        /> : null}
-
+                        {watchFilterBy === 'Country' ?
+                            <CountrySelector form={form}/> : null}
 
                         <div className='flex justify-end'>
                             <Button type='submit'>Search</Button>
@@ -159,6 +107,68 @@ const RecipeFilters = () => {
 }
 
 export default RecipeFilters;
+
+const FilterBySelect = ({form}: { form: any }) => (
+    <FormField
+        control={form.control}
+        name="filterBy"
+        render={({field}) => (
+            <FormItem className='w-full md:w-[200px]'>
+                <FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                            <SelectTrigger>
+                                <SelectValue/>
+                            </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                            <SelectItem value={'Ingredient'}>{'Ingredient'}</SelectItem>
+                            <SelectItem value={'Country'}>{'Country'}</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </FormControl>
+                <FormMessage/>
+            </FormItem>
+        )
+        }
+    />
+)
+
+const CountrySelector = ({form}: { form: any }) => {
+    const router = useRouter();
+    const {data: countryData} = useGetAllCountriesQuery({skip: router.isFallback})
+    const countries = countryData?.meals as Array<Area> | undefined
+
+    return (
+        <FormField
+            control={form.control}
+            name="country"
+            render={({field}) => (
+                <FormItem className='w-full md:w-[200px]'>
+                    <FormControl>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue/>
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <ScrollArea
+                                    className="sm:h-[300px] md:h-[500px] w-auto rounded-md p-4 ">
+                                    {countries?.map(country => (
+                                        <SelectItem key={country.strArea}
+                                                    value={country.strArea}>{country.strArea}</SelectItem>
+                                    ))}
+                                </ScrollArea>
+                            </SelectContent>
+                        </Select>
+                    </FormControl>
+                    <FormMessage/>
+                </FormItem>
+            )}
+        />
+    )
+}
 
 // const RecipeCategoryComboBox: React.FC<RecipeCategoryComboBoxProps> = ({getSearchCategory}) => {
 //     const router = useRouter();
