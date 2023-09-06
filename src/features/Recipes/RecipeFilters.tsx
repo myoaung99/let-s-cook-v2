@@ -18,8 +18,7 @@ import {
 import {Check, ChevronsUpDown, Search} from "lucide-react";
 import {Category} from "@/types";
 import {Input} from "@/components/ui/input"
-import {Switch} from "@/components/ui/switch"
-import {Label} from "@/components/ui/label"
+
 
 interface RecipeCategoryComboBoxProps {
     getSearchCategory: (value: string) => void
@@ -125,7 +124,7 @@ const RecipeCategoryComboBox: React.FC<RecipeCategoryComboBoxProps> = ({getSearc
                 <CommandEmpty>No framework found.</CommandEmpty>
                 {isLoading
                     ? <CommandEmpty>loading..</CommandEmpty> : <CommandGroup>
-                        {categories.map((category) => (
+                        {categories?.map((category) => (
                             <CommandItem
                                 key={category?.idCategory}
                                 onSelect={handleOnSelect}

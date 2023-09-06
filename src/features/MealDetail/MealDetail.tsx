@@ -2,10 +2,18 @@ import {useRouter} from "next/router";
 import {useGetMealByIdQuery} from "@/features/Recipes/recipesService";
 import {skipToken} from "@reduxjs/toolkit/query";
 import {Button} from "@/components/ui/button";
+import {PDFDownloadLink} from "@react-pdf/renderer";
+import {MealDetailPDF} from "@/features/MealDetail/MealDetailPDF";
+import {useEffect, useState} from "react";
 
 export const MealDetail = () => {
     const router = useRouter()
     const recipeId = router.query?.recipeId;
+    const [isClient, setIsClient] = useState(false)
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
 
     const {data, isLoading} = useGetMealByIdQuery(
         typeof recipeId === "string" ? recipeId : skipToken,
@@ -13,19 +21,31 @@ export const MealDetail = () => {
 
     const mealDetailData = data?.meals[0]
 
-    if(isLoading){
+    if (isLoading) {
         return <p>loading...</p>
     }
 
-    const handlGoBack = ()=>{
+    const handlGoBack = () => {
         router.back()
     }
 
     return <section className='md:container'>
-        <div className="mt-6">
-            <Button variant='secondary' onClick={handlGoBack}>
+        <div className="mt-6 flex justify-between items-center">
+            <Button size='sm' variant='secondary' onClick={handlGoBack}>
                 Go back
             </Button>
+            {!!mealDetailData && isClient ?
+                <PDFDownloadLink document={<MealDetailPDF title={mealDetailData.strMeal}
+                                                          description={mealDetailData.strInstructions}
+                                                          image={mealDetailData.strMealThumb}
+                                                          video={mealDetailData.strYoutube}
+                />}
+                                 fileName={`${mealDetailData?.strMeal}.pdf`}>
+                    <Button size='sm'>
+                        Download Recipe
+                    </Button>
+                </PDFDownloadLink>
+                : null}
         </div>
 
         <h4 className="mt-6 md:mt-6 text-xl text-center">
@@ -76,7 +96,7 @@ export const transformPara = (str: string) => {
     });
 };
 
-const getYoutubeId = (url: string)=> {
+const getYoutubeId = (url: string) => {
     let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     let match = url?.match(regExp);
 
