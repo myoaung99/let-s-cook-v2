@@ -34,6 +34,7 @@ export const Hero = () => {
                 objectFit={'cover'}
                 objectPosition={'center'}
                 className={'absolute -z-10'}
+                priority={true}
             />
         </>
 
