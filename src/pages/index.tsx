@@ -49,7 +49,7 @@ export default function Home() {
           gtag('config', 'G-5P4C2YF2MT');
         `}
                 </Script>
-                <div className="relative h-[600px] overflow-hidden">
+                <div className="relative mt-8 md:mt-7 lg:mt-12 h-[550px] overflow-hidden">
                     <Hero/>
                 </div>
                 <MealPreviewList/>

@@ -66,15 +66,7 @@ export const MealDetail = () => {
             ></iframe>
         </div>
 
-        {/*<Image*/}
-        {/*    className="rounded-sm shadow-md border-l-4 border-primary border-dashed inline"*/}
-        {/*    src={mealDetailData?.strMealThumb}*/}
-        {/*    alt="meal"*/}
-        {/*    width={140}*/}
-        {/*    height={140}*/}
-        {/*/>*/}
-
-        <div className="md:columns-3 md:gap-6 text-justify mb-6">
+        <div className="md:columns-2 md:w-1/2 mx-auto md:gap-10 text-justify mb-6">
             {transformPara(mealDetailData?.strInstructions)}
         </div>
     </section>

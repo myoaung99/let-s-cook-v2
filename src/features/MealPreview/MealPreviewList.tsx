@@ -8,9 +8,9 @@ export const MealPreviewList = ()=> {
 
 
     return (
-        <section className='mt-6'>
+        <section className='mt-8'>
                 <div className='flex justify-between items-center mb-2'>
-                    <p className="text-xl mb-5 lg:pl-10 xl:pl-0">
+                    <p className="text-xl mb-2 lg:pl-10 xl:pl-0">
                         Today's Popular Meals
                     </p>
                 </div>
