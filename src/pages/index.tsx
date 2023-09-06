@@ -16,18 +16,18 @@ export default function Home() {
                     description: 'This is a recipe finder website built by Next.js - Open Graph Description',
                     images: [
                         {
-                            url: 'https://lets-cook-v2.vercel.app/home-preview-800-600.png',
+                            url: 'https://lets-cook-v2.vercel.app/static/home-preview-800-600.png',
                             width: 800,
                             height: 600,
                             alt: 'Let\'s Cook page - Og Image Alt',
                         },
                         {
-                            url: 'https://lets-cook-v2.vercel.app/home-preview-900-800.png',
+                            url: 'https://lets-cook-v2.vercel.app/static/home-preview-900-800.png',
                             width: 900,
                             height: 800,
                             alt: 'Let\'s Cook page - Og Image Alt',
                         },
-                        {url: 'https://lets-cook-v2.vercel.app/home-preview.png'},
+                        {url: 'https://lets-cook-v2.vercel.app/static/home-preview.png'},
                     ],
                 }}
                 additionalMetaTags={[
