@@ -7,7 +7,7 @@ export const Hero = () => {
     const router = useRouter();
 
     const handleOnBrowse = () => {
-        return router.push('/recipes?filter=category&value=chicken');
+        return router.push('/recipes?filter=Country&value=American');
     };
 
     return (
