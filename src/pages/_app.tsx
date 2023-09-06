@@ -9,6 +9,7 @@ import 'nprogress/nprogress.css';
 import Layout from '@/components/layout';
 import { DefaultSeo } from 'next-seo'
 import * as SEO from '../../next-seo.config'
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App({ Component, pageProps }: AppProps) {
     const router = useRouter();
@@ -39,6 +40,8 @@ export default function App({ Component, pageProps }: AppProps) {
             <Layout>
                 <DefaultSeo {...SEO} />
                 <Component {...props.pageProps} />
+                <Analytics />
+
             </Layout>
         </Provider>
     );
