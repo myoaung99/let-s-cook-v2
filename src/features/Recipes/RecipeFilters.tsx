@@ -3,7 +3,6 @@ import {useGetAllCountriesQuery, useGetAllIngredientQuery} from "@/features/Reci
 import {useRouter} from "next/router";
 import {Button} from "@/components/ui/button"
 import {Area, Ingredient} from "@/types";
-import {Input} from "@/components/ui/input"
 import * as z from "zod"
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -11,8 +10,7 @@ import {
     Form,
     FormControl,
     FormField,
-    FormItem, FormLabel,
-    FormMessage,
+    FormItem, FormMessage,
 } from "@/components/ui/form"
 import {
     Select,
@@ -28,16 +26,14 @@ import {cn} from "@/lib/utils";
 import {Check, ChevronsUpDown} from "lucide-react";
 import {
     Command,
-    CommandDialog,
     CommandEmpty,
     CommandGroup,
     CommandInput,
     CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,
-} from "@/components/ui/command"
 
+
+
+} from "@/components/ui/command"
 
 const formSchema = z.object({
     filterBy: z.string().min(1),

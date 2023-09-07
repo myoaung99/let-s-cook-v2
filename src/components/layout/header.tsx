@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import React, {useState} from 'react';
-import {MenuData, MenuToggleButtonProps, MobileMenuProps} from "@/components/layout/types";
+import React from 'react';
+import {MenuData} from "@/components/layout/types";
 import Image from "next/image";
 import {useDispatch, useSelector} from "@/hooks";
 import {toggleMobileNav} from "@/app/globalSlice";

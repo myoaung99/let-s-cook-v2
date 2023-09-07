@@ -1,21 +1,20 @@
-import counterSlice from "@/features/counter/counterSlice";
-import {pokemonService} from "@/features/pokemon/pokemonService";
+
 import {configureStore} from "@reduxjs/toolkit";
-import {HYDRATE, createWrapper} from "next-redux-wrapper";
+import { createWrapper} from "next-redux-wrapper";
 import globalSlice from "@/app/globalSlice";
+import {recipesService} from "@/features/Recipes/recipesService";
 
 export const store = () =>
     configureStore({
         reducer: {
-            counter: counterSlice,
             global: globalSlice,
             // Add the generated reducer as a specific top-level slice
-            [pokemonService.reducerPath]: pokemonService.reducer,
+            [recipesService.reducerPath]: recipesService.reducer,
         },
         // Adding the api middleware enables caching, invalidation, polling,
         // and other useful features of `rtk-query`.
         middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware().concat(pokemonService.middleware),
+            getDefaultMiddleware().concat(recipesService.middleware),
     });
 
 export type AppStore = ReturnType<typeof store>;
