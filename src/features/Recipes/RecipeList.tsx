@@ -1,8 +1,7 @@
 import React from 'react';
 import RecipeFilters from "@/features/Recipes/RecipeFilters";
-import {MealCard, MealCardLoadingList} from "@/components/Meal";
+import {MealCard, MealCardLoadingList} from "@/components/MealCard";
 import {
-    useGetMealsByCategoryQuery,
     useGetMealsByCountryQuery,
     useGetMealsByIngredientQuery
 } from "@/features/Recipes/recipesService";
@@ -48,7 +47,12 @@ const MealList = () => {
             </>) : null}
 
             {mealsList?.meals?.map((meal: Meal) => (
-                <MealCard key={meal.idMeal} title={meal.strMeal} id={meal.idMeal} imgUrl={meal.strMealThumb}/>
+                <MealCard
+                    mealData={meal}
+                    title={<MealCard.Title/>}
+                    image={<MealCard.Image/>}
+                    action={<MealCard.Button/>}
+                />
             ))}
         </section>
     </>;

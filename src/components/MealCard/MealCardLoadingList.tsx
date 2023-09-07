@@ -1,5 +1,5 @@
 import React from 'react';
-import {MealCardLoading} from "@/components/Meal/MealCardLoading";
+import {MealCardLoading} from "@/components/MealCard/MealCardLoading";
 
 interface MealCardLoadingListProps {
     count?: number

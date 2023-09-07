@@ -1,46 +1,46 @@
 {
   "popularMeals": [
     {
-      "id": "53007",
-      "title": "Honey Yogurt Cheesecake",
-      "imgUrl": "https://www.themealdb.com/images/media/meals/y2irzl1585563479.jpg"
+      "idMeal": "53007",
+      "strMeal": "Honey Yogurt Cheesecake",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/y2irzl1585563479.jpg"
     },
     {
-      "id": "52951",
-      "title": "General Tso's Chicken",
-      "imgUrl": "https://www.themealdb.com/images/media/meals/1529444113.jpg"
+      "idMeal": "52951",
+      "strMeal": "General Tso's Chicken",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/1529444113.jpg"
     },
     {
-      "id": "52900",
-      "title": "Madeira Cake",
-      "imgUrl": "https://www.themealdb.com/images/media/meals/urtqut1511723591.jpg"
+      "idMeal": "52900",
+      "strMeal": "Madeira Cake",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/urtqut1511723591.jpg"
     },
     {
-      "id": "52813",
-      "title": "Kentucky Fried Chicken",
-      "imgUrl": "https://www.themealdb.com/images/media/meals/xqusqy1487348868.jpg"
+      "idMeal": "52813",
+      "strMeal": "Kentucky Fried Chicken",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/xqusqy1487348868.jpg"
     }
   ],
   "suggestionMeals": [
     {
-      "id": "53033",
-      "title": "Japanese gohan rice",
-      "imgUrl": "https://www.themealdb.com/images/media/meals/kw92t41604181871.jpg"
+      "idMeal": "53033",
+      "strMeal": "Japanese gohan rice",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/kw92t41604181871.jpg"
     },
     {
-      "id": "53042",
-      "title": "Portuguese prego with green piri-piri",
-      "imgUrl": "https://www.themealdb.com/images/media/meals/ewcikl1614348364.jpg"
+      "idMeal": "53042",
+      "strMeal": "Portuguese prego with green piri-piri",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/ewcikl1614348364.jpg"
     },
     {
-      "id": "52784",
-      "title": "Smoky Lentil Chili with Squash",
-      "imgUrl": "https://www.themealdb.com/images/media/meals/uwxqwy1483389553.jpg"
+      "idMeal": "52784",
+      "strMeal": "Smoky Lentil Chili with Squash",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/uwxqwy1483389553.jpg"
     },
     {
-      "id": "52964",
-      "title": "Smoked Haddock Kedgeree",
-      "imgUrl": "https://www.themealdb.com/images/media/meals/1550441275.jpg"
+      "idMeal": "52964",
+      "strMeal": "Smoked Haddock Kedgeree",
+      "strMealThumb": "https://www.themealdb.com/images/media/meals/1550441275.jpg"
     }
   ]
 }

@@ -5,9 +5,9 @@ export interface Pokemon {
 }
 
 export interface SuggestionMeal {
-    id: string;
-    title: string;
-    imgUrl : string;
+    idMeal: string;
+    strMeal: string;
+    strMealThumb : string;
 }
 
 export interface Meal {

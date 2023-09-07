@@ -1,12 +1,9 @@
 import React from 'react';
 import * as meals from '@/data/meals.json'
-import {MealCard} from "@/components/Meal";
+import {MealCard} from "@/components/MealCard";
 import {SuggestionMeal} from "@/types";
-import {Button} from "@/components/ui/button";
 
 export const MealPreviewList = ()=> {
-
-
     return (
         <section className='mt-8'>
                 <div className='flex justify-between items-center mb-2'>
@@ -23,6 +20,11 @@ export const MealPreviewList = ()=> {
 
 const PopularMeals = () => {
     return meals.popularMeals.map((meal: SuggestionMeal) => (
-        <MealCard key={meal.id} title={meal.title} id={meal.id} imgUrl={meal.imgUrl}/>
+        <MealCard
+            mealData={meal}
+            title={<MealCard.Title/>}
+            image={<MealCard.Image/>}
+            action={<MealCard.Button/>}
+        />
     ));
 };
