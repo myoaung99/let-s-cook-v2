@@ -2,6 +2,7 @@ import {Hero} from '@/features/Hero';
 import {MealPreviewList} from '@/features/MealPreview/MealPreviewList';
 import {NextSeo} from "next-seo";
 import Script from "next/script";
+import {Benefits} from "@/features/Benefits";
 
 export default function Home() {
     return (
@@ -52,6 +53,7 @@ export default function Home() {
                 <div className="relative mt-8 md:mt-7 lg:mt-12 h-[550px] overflow-hidden">
                     <Hero/>
                 </div>
+                <Benefits/>
                 <MealPreviewList/>
             </section>
         </>

@@ -5,9 +5,9 @@ import {MealCard} from "@/components/MealCard";
 
 export const MealPreviewList = ()=> {
     return (
-        <section className='mt-8'>
+        <section className='md:pt-8'>
                 <div className='flex justify-between items-center mb-2'>
-                    <p className="text-xl mb-2 lg:pl-10 xl:pl-0">
+                    <p className="text-xl mb-2 lg:pl-10 xl:pl-0 font-bold">
                         Today's Popular Meals
                     </p>
                 </div>
