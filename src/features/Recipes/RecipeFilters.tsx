@@ -71,8 +71,11 @@ const RecipeFilters = () => {
         }
     }, [filter, value]);
 
+    useEffect(()=>{
+        form.setValue("ingredientSelector", 'Chicken')
+    }, [])
+
     const handleOnSearch = (values: z.infer<typeof formSchema>) => {
-        console.log('handleOnSearch', values)
         if (values.filterBy === 'Country') {
             router.push(`/recipes?filter=${values.filterBy}&value=${values.countrySelector}`)
         }
