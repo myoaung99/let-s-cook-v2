@@ -1,7 +1,7 @@
 import React from 'react';
 import * as meals from '@/data/meals.json'
-import {MealCard} from "@/components/MealCard";
 import {SuggestionMeal} from "@/types";
+import {MealCard} from "@/components/MealCard";
 
 export const MealPreviewList = ()=> {
     return (

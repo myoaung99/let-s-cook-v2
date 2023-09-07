@@ -1,6 +1,3 @@
 export {MealCard} from './MealCard'
-export {MealCardTitle} from './MealCardTitle'
-export {MealCardImage} from './MealCardImage'
-export {MealCardButton} from './MealCardButton'
 export {MealCardLoading} from './MealCardLoading'
 export {MealCardLoadingList} from './MealCardLoadingList'

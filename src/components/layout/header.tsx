@@ -2,10 +2,10 @@ import Link from 'next/link';
 import React, {useState} from 'react';
 import {MenuData, MenuToggleButtonProps, MobileMenuProps} from "@/components/layout/types";
 import Image from "next/image";
+import {useDispatch, useSelector} from "@/hooks";
+import {toggleMobileNav} from "@/app/globalSlice";
 
 export const Header = () => {
-    const [showMobileMenu, setShowMobileMenu] = useState(false);
-
     return (
         <section className="fixed w-full bg-stone-900 text-white z-50">
             <nav className="container h-16 flex items-center justify-between ">
@@ -14,33 +14,32 @@ export const Header = () => {
                     <Link href="/">Let's Cook</Link>
                 </div>
                 <DesktopMenuItems/>
-                <MenuToggleButton setShowMobileMenu={setShowMobileMenu} showMobileMenu={showMobileMenu}/>
-                <MobileMenu
-                    showMobileMenu={showMobileMenu}
-                    setShowMobileMenu={setShowMobileMenu}
-                />
+                <MenuToggleButton/>
+                <MobileMenu/>
             </nav>
         </section>
     );
 };
 
-const MobileMenu: React.FC<MobileMenuProps> = ({showMobileMenu, setShowMobileMenu}) => {
-    const toggleMobileMenu = ()=> setShowMobileMenu(prevState => !prevState)
+const MobileMenu = () => {
+    const {showMobileNav} = useSelector(state => state.global)
     return (
         <>
-            {showMobileMenu ?  <div className="fixed mx-auto w-full top-16 left-0 bg-rose-300 text-black xl:hidden">
-                <MobileMenuItems toggleMobileMenu={toggleMobileMenu}/>
-            </div>: null}
+            {showMobileNav ? <div className="fixed mx-auto w-full top-16 left-0 bg-rose-300 text-black xl:hidden">
+                <MobileMenuItems/>
+            </div> : null}
         </>
     );
 };
 
-const MenuToggleButton: React.FC<MenuToggleButtonProps> = ({showMobileMenu, setShowMobileMenu}) => {
+const MenuToggleButton = () => {
+    const dispatch = useDispatch()
+    const {showMobileNav} = useSelector(state => state.global)
     const toggleMobileMenu = () => {
-        setShowMobileMenu((prevState: any) => !prevState)
+        dispatch(toggleMobileNav())
     }
     return <button onClick={toggleMobileMenu} className="lg:hidden px-3">
-        {showMobileMenu ? 'Close' : 'Menu'}
+        {showMobileNav ? 'Close' : 'Menu'}
     </button>
 }
 
@@ -58,19 +57,25 @@ const DesktopMenuItems = () => (
     </ul>
 )
 
-const MobileMenuItems = ({toggleMobileMenu}: { toggleMobileMenu: () => void }) => (
-    <ul className="flex flex-col text-center items-stretch text-white">
-        {
-            menuData.map((menu, index) => (
-                <Link onClick={toggleMobileMenu} href={menu.href} key={index}>
-                    <li className=" p-2 mx-2 cursor-pointer border-collapse my-1 border-b">
-                        {menu.label}
-                    </li>
-                </Link>
-            ))
-        }
-    </ul>
-)
+const MobileMenuItems = () => {
+    const dispatch = useDispatch()
+    const toggleMobileMenu = () => {
+        dispatch(toggleMobileNav())
+    }
+    return (
+        <ul className="flex flex-col text-center items-stretch text-white">
+            {
+                menuData.map((menu, index) => (
+                    <Link onClick={toggleMobileMenu} href={menu.href} key={index}>
+                        <li className=" p-2 mx-2 cursor-pointer border-collapse my-1 border-b">
+                            {menu.label}
+                        </li>
+                    </Link>
+                ))
+            }
+        </ul>
+    )
+}
 
 const menuData: Array<MenuData> = [
     {

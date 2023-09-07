@@ -2,7 +2,9 @@ import React, {ReactNode} from 'react';
 import {Card, CardContent, CardFooter, CardHeader,} from "@/components/ui/card"
 import MealCardProvider from "@/components/MealCard/MealCardContext";
 import {SuggestionMeal} from "@/types";
-import {MealCardTitle, MealCardButton, MealCardImage} from "@/components/MealCard";
+import {MealCardTitle} from "@/components/MealCard/MealCardTitle";
+import {MealCardImage} from "@/components/MealCard/MealCardImage";
+import {MealCardButton} from "@/components/MealCard/MealCardButton";
 
 interface MealCardProps {
     title?: ReactNode;
