@@ -1,15 +1,8 @@
 import React, {ReactNode} from 'react';
-import {
-    Card,
-    CardContent,
-    CardFooter,
-    CardHeader, CardTitle,
-} from "@/components/ui/card"
-import MealCardProvider, {useMealCard} from "@/components/MealCard/MealCardContext";
+import {Card, CardContent, CardFooter, CardHeader,} from "@/components/ui/card"
+import MealCardProvider from "@/components/MealCard/MealCardContext";
 import {SuggestionMeal} from "@/types";
-import Image from "next/image";
-import {useRouter} from "next/router";
-import {Button} from "@/components/ui/button";
+import {MealCardTitle, MealCardButton, MealCardImage} from "@/components/MealCard";
 
 interface MealCardProps {
     title?: ReactNode;
@@ -34,37 +27,6 @@ export function MealCard({mealData, title, image, action}: MealCardProps) {
                 </CardFooter>
             </Card>
         </MealCardProvider>
-    );
-}
-
-const MealCardTitle = () => {
-    const {strMeal} = useMealCard();
-    return (
-        <CardTitle className='text-lg line-clamp-1'>{strMeal}</CardTitle>
-    );
-}
-
-
-const MealCardImage = () => {
-    const {strMealThumb} = useMealCard()
-    return (
-        <Image
-            fill
-            src={strMealThumb}
-            className="object-cover mx-auto rounded"
-            alt="meal suggestion"
-        />
-    );
-}
-
-const MealCardButton = () => {
-    const {idMeal} = useMealCard()
-    const router = useRouter()
-    const handleOnClick = () => {
-        router.push(`/recipes/${idMeal}`)
-    }
-    return (
-        <Button className='w-full' onClick={handleOnClick} variant='default'>View Detail</Button>
     );
 }
 
