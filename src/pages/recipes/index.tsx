@@ -3,9 +3,9 @@ import { wrapper } from '@/app/store';
 import { getRunningQueriesThunk } from '@/services/controller';
 import { RecipeList } from '@/features/Recipes';
 import {
-    getAllCountries,
+    getAllCountries, getAllIngredient,
     getCategories,
-    getMealsByCategory, getMealsByCountry,
+    getMealsByCategory, getMealsByCountry, getMealsByIngredient,
 } from '@/features/Recipes/recipesService';
 
 const Recipes = () => {
@@ -22,6 +22,7 @@ export const getStaticProps = wrapper.getStaticProps(
     (store) => async (context) => {
         store.dispatch(getCategories.initiate(''));
         store.dispatch(getAllCountries.initiate(''));
+        store.dispatch(getAllIngredient.initiate(''));
 
         const value = context.params?.value;
         const filterBy = context.params?.filter;
@@ -32,6 +33,10 @@ export const getStaticProps = wrapper.getStaticProps(
 
         if (typeof value === 'string' && filterBy === 'Country') {
             store.dispatch(getMealsByCountry.initiate(value));
+        }
+
+        if (typeof value === 'string' && filterBy === 'Ingredient') {
+            store.dispatch(getMealsByIngredient.initiate(value));
         }
 
         await Promise.all(store.dispatch(getRunningQueriesThunk()));

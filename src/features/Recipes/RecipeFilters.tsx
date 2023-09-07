@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {useGetAllCountriesQuery} from "@/features/Recipes/recipesService";
+import {useGetAllCountriesQuery, useGetAllIngredientQuery} from "@/features/Recipes/recipesService";
 import {useRouter} from "next/router";
 import {Button} from "@/components/ui/button"
-import {Area} from "@/types";
+import {Area, Ingredient} from "@/types";
 import {Input} from "@/components/ui/input"
 import * as z from "zod"
 import {useForm} from "react-hook-form";
@@ -11,7 +11,7 @@ import {
     Form,
     FormControl,
     FormField,
-    FormItem,
+    FormItem, FormLabel,
     FormMessage,
 } from "@/components/ui/form"
 import {
@@ -23,11 +23,26 @@ import {
 } from "@/components/ui/select"
 import {ScrollArea} from "@/components/ui/scroll-area"
 import {Label} from "@/components/ui/label";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import {cn} from "@/lib/utils";
+import {Check, ChevronsUpDown} from "lucide-react";
+import {
+    Command,
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandSeparator,
+    CommandShortcut,
+} from "@/components/ui/command"
+
 
 const formSchema = z.object({
     filterBy: z.string().min(1),
-    ingredient: z.string().optional(),
-    country: z.string().optional(),
+    ingredientSelector: z.string().min(1),
+    countrySelector: z.string().min(1),
 })
 
 const RecipeFilters = () => {
@@ -47,18 +62,23 @@ const RecipeFilters = () => {
         if (!!filter && !!value) {
             form.setValue('filterBy', filter)
             if (filter === 'Country') {
-                form.setValue('country', value)
+                form.setValue('countrySelector', value)
+            }
+
+            if (filter === 'Ingredient') {
+                form.setValue('ingredientSelector', value)
             }
         }
     }, [filter, value]);
 
     const handleOnSearch = (values: z.infer<typeof formSchema>) => {
+        console.log('handleOnSearch', values)
         if (values.filterBy === 'Country') {
-            router.push(`/recipes?filter=${values.filterBy}&value=${values.country}`)
+            router.push(`/recipes?filter=${values.filterBy}&value=${values.countrySelector}`)
         }
 
         if (values.filterBy === 'Ingredient') {
-            router.push(`/recipes?filter=${values.filterBy}&value=${values.ingredient}`)
+            router.push(`/recipes?filter=${values.filterBy}&value=${values.ingredientSelector}`)
         }
     }
 
@@ -75,21 +95,7 @@ const RecipeFilters = () => {
 
                     <div className='space-y-3 md:space-y-0 md:flex md:items-center md:space-x-2'>
                         {watchFilterBy === 'Ingredient' ?
-                            <FormField
-                                control={form.control}
-                                name="ingredient"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input placeholder='search by main ingredient'
-                                                   className='md:w-[200px] placeholder:text-gray-400'
-                                                   {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
-                            />
+                            <IngredientSelector form={form}/>
                             : null}
 
                         {watchFilterBy === 'Country' ?
@@ -142,9 +148,9 @@ const CountrySelector = ({form}: { form: any }) => {
     return (
         <FormField
             control={form.control}
-            name="country"
+            name="countrySelector"
             render={({field}) => (
-                <FormItem className='w-full md:w-[200px]'>
+                <FormItem className='w-full md:w-[250px]'>
                     <FormControl>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
@@ -157,7 +163,8 @@ const CountrySelector = ({form}: { form: any }) => {
                                     className="sm:h-[300px] md:h-[500px] w-auto rounded-md p-4 ">
                                     {countries?.map(country => (
                                         <SelectItem key={country.strArea}
-                                                    value={country.strArea}>{country.strArea}</SelectItem>
+                                                    value={country.strArea}>{country.strArea}
+                                        </SelectItem>
                                     ))}
                                 </ScrollArea>
                             </SelectContent>
@@ -168,6 +175,73 @@ const CountrySelector = ({form}: { form: any }) => {
             )}
         />
     )
+}
+
+const IngredientSelector = ({form}: { form: any }) => {
+    const router = useRouter();
+    const {data: ingredientData} = useGetAllIngredientQuery({skip: router.isFallback})
+    const ingredients = ingredientData?.meals as Array<Ingredient> | undefined
+    const data = ingredients?.map(ingredient => ({label: ingredient.strIngredient, value: ingredient.strIngredient}))
+
+    return <FormField
+        control={form.control}
+        name="ingredientSelector"
+        render={({field}) => (
+            <FormItem className="flex flex-col">
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <FormControl>
+                            <Button
+                                variant="outline"
+                                role="combobox"
+                                className={cn(
+                                    "w-full md:w-[250px] justify-between",
+                                    !field.value && "text-muted-foreground"
+                                )}
+                            >
+                                {field.value
+                                    ? data?.find(
+                                        (ingredient) => ingredient.value === field.value
+                                    )?.label
+                                    : "Select ingredient"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
+                            </Button>
+                        </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full md:w-[250px] p-0">
+                        <Command>
+                            <CommandInput placeholder="Search ingredient..."/>
+                            <CommandEmpty>No ingredient found.</CommandEmpty>
+                            <CommandGroup>
+                                <ScrollArea className="sm:h-[300px] md:h-[500px] w-auto rounded-md p-4">
+                                    {data?.map((ingredient) => (
+                                        <CommandItem
+                                            value={ingredient.label}
+                                            key={ingredient.value}
+                                            onSelect={() => {
+                                                form.setValue("ingredientSelector", ingredient.value)
+                                            }}
+                                        >
+                                            <Check
+                                                className={cn(
+                                                    "mr-2 h-4 w-4",
+                                                    ingredient.value === field.value
+                                                        ? "opacity-100"
+                                                        : "opacity-0"
+                                                )}
+                                            />
+                                            {ingredient.label}
+                                        </CommandItem>
+                                    ))}
+                                </ScrollArea>
+                            </CommandGroup>
+                        </Command>
+                    </PopoverContent>
+                </Popover>
+                <FormMessage/>
+            </FormItem>
+        )}
+    />
 }
 
 // const RecipeCategoryComboBox: React.FC<RecipeCategoryComboBoxProps> = ({getSearchCategory}) => {
@@ -237,3 +311,15 @@ const CountrySelector = ({form}: { form: any }) => {
 //         </PopoverContent>
 //     </Popover>
 // }
+
+const languages = [
+    {label: "English", value: "en"},
+    {label: "French", value: "fr"},
+    {label: "German", value: "de"},
+    {label: "Spanish", value: "es"},
+    {label: "Portuguese", value: "pt"},
+    {label: "Russian", value: "ru"},
+    {label: "Japanese", value: "ja"},
+    {label: "Korean", value: "ko"},
+    {label: "Chinese", value: "zh"},
+] as const

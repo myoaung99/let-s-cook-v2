@@ -20,6 +20,13 @@ export  interface  Area {
     strArea: string;
 }
 
+export interface Ingredient{
+    idIngredient: string;
+    strIngredient: string;
+    strDescription: string;
+    strType: any
+}
+
 export interface Category{
     idCategory: string;
     strCategory: string;
