@@ -1,6 +1,6 @@
 import {Document, Image, Page, StyleSheet, Text, View} from '@react-pdf/renderer';
-import React, {ReactNode} from "react";
-import {Measurement} from "@/features/MealDetail/MealDetail";
+import React from "react";
+import {Measurement} from "@/features/MealDetail/MealIngredients";
 
 interface MealDetailPDFProps {
     title: string,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         width: '50%',
         margin: '0 auto',
         height: 'auto',
-        aspectRatio: 1 / 1,
+        aspectRatio: 1,
         borderRadius: '5px'
     },
     description: {
