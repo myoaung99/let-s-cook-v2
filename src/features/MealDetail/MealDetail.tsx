@@ -64,7 +64,7 @@ export const MealDetail = () => {
                 </Button>
             </div>
 
-            <p className="hidden md:block font-semibold underline md:text-2xl xl:text-3xl underline-offset-2">{mealDetailData?.strMeal}</p>
+            <p className="hidden md:block font-semibold underline md:text-2xl underline-offset-2">{mealDetailData?.strMeal}</p>
 
             {!!mealDetailData && isClient ?
                 <PDFDownloadLink className='w-[150px]' document={<MealDetailPDF title={mealDetailData.strMeal}
@@ -77,7 +77,7 @@ export const MealDetail = () => {
                         Download Recipe
                     </Button>
                 </PDFDownloadLink>
-                : null}
+                : <div className='w-[150px]'/>}
         </div>
 
         <p className="visible md:hidden pb-1 pt-8 font-semibold underline text-2xl text-center underline-offset-2">{mealDetailData?.strMeal}</p>
