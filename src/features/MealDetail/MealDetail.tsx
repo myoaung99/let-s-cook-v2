@@ -5,10 +5,7 @@ import {Button} from "@/components/ui/button";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import {MealDetailPDF} from "@/features/MealDetail/MealDetailPDF";
 import {useEffect, useState} from "react";
-import {Separator} from "@/components/ui/separator"
 import {ScrollArea} from "@/components/ui/scroll-area"
-import {PDFViewer} from '@react-pdf/renderer';
-
 
 export interface Measurement {
     sequence: string;
@@ -83,9 +80,9 @@ export const MealDetail = () => {
         <p className="visible md:hidden pb-1 pt-8 font-semibold underline text-2xl text-center underline-offset-2">{mealDetailData?.strMeal}</p>
 
         <div className='flex flex-col-reverse lg:flex-row justify-between gap-4 md:gap-8 py-8'>
-            <div className='h-[300px] md:h-[330px] lg:h-[300px] xl:[h-500px] w-full lg:w-[300px]'>
+            <div className='w-full lg:w-[300px]'>
                 <p className='text-lg md:text-xl font-semibold'>Ingredients</p>
-                <ScrollArea className="h-full rounded-md py-4 pe-4">
+                <ScrollArea className="h-[300px] md:h-fit rounded-md py-4 pe-4">
                     <IngredientMeasurements/>
                 </ScrollArea>
             </div>
