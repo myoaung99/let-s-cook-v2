@@ -5,10 +5,7 @@ import {Button} from "@/components/ui/button";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import {MealDetailPDF} from "@/features/MealDetail/MealDetailPDF";
 import {useEffect, useState} from "react";
-import {Separator} from "@/components/ui/separator"
 import {ScrollArea} from "@/components/ui/scroll-area"
-import {PDFViewer} from '@react-pdf/renderer';
-
 
 export interface Measurement {
     sequence: string;
