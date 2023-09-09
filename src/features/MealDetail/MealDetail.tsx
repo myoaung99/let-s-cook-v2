@@ -5,6 +5,16 @@ import {Button} from "@/components/ui/button";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import {MealDetailPDF} from "@/features/MealDetail/MealDetailPDF";
 import {useEffect, useState} from "react";
+import {Separator} from "@/components/ui/separator"
+import {ScrollArea} from "@/components/ui/scroll-area"
+import {PDFViewer} from '@react-pdf/renderer';
+
+
+export interface Measurement {
+    sequence: string;
+    name: string;
+    measure: string;
+}
 
 export const MealDetail = () => {
     const router = useRouter()
@@ -29,16 +39,38 @@ export const MealDetail = () => {
         router.back()
     }
 
-    return <section className='md:container'>
+    const mealIngredientMeasures = getRecipeIngredientMeasures(mealDetailData) as Array<Measurement> | undefined | null
+
+    const IngredientMeasurements = () => (
+        <>
+            {
+                mealIngredientMeasures?.map((measurement) => (
+                    <div
+                        key={measurement.sequence}
+                        className='flex justify-between items-baseline border-b last:border-b-0 border-b-slate-400 border-dashed flex-grow mb-1 last:mb-0'>
+                        <p className='text-sm'>{measurement.name} :</p>
+                        <p className='text-sm font-semibold'>{measurement.measure}</p>
+                    </div>
+                ))
+            }
+        </>
+    )
+
+    return <section className='md:container md:pb-16'>
         <div className="mt-6 flex justify-between items-center">
-            <Button size='sm' variant='secondary' onClick={handlGoBack}>
-                Go back
-            </Button>
+            <div className="w-[150px]">
+                <Button size='sm' variant='secondary' onClick={handlGoBack}>
+                    Go back
+                </Button>
+            </div>
+
+            <p className="hidden md:block font-semibold underline md:text-2xl xl:text-3xl underline-offset-2">{mealDetailData?.strMeal}</p>
+
             {!!mealDetailData && isClient ?
-                <PDFDownloadLink document={<MealDetailPDF title={mealDetailData.strMeal}
+                <PDFDownloadLink className='w-[150px]' document={<MealDetailPDF title={mealDetailData.strMeal}
                                                           description={mealDetailData.strInstructions}
                                                           image={mealDetailData.strMealThumb}
-                                                          video={mealDetailData.strYoutube}
+                                                          ingredients={mealIngredientMeasures}
                 />}
                                  fileName={`${mealDetailData?.strMeal}.pdf`}>
                     <Button size='sm'>
@@ -48,26 +80,34 @@ export const MealDetail = () => {
                 : null}
         </div>
 
-        <h4 className="mt-6 md:mt-6 text-xl text-center">
-            <span className='block md:inline'>Instructions for cooking{" "}</span>
-            <span className="font-semibold underline underline-offset-2">{mealDetailData?.strMeal}</span>
-        </h4>
+        <p className="visible md:hidden pb-1 pt-8 font-semibold underline text-2xl text-center underline-offset-2">{mealDetailData?.strMeal}</p>
 
-        <div className="py-12 flex justify-center" id="vd">
-            <iframe
-                width="600"
-                height="400"
-                src={
-                    "https://www.youtube.com/embed/" + getYoutubeId(mealDetailData?.strYoutube)
-                }
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-            ></iframe>
+        <div className='flex flex-col-reverse lg:flex-row justify-between gap-4 md:gap-8 py-8'>
+            <div className='h-[300px] md:h-[330px] lg:h-[300px] xl:[h-500px] w-full lg:w-[300px]'>
+                <p className='text-lg md:text-xl font-semibold'>Ingredients</p>
+                <ScrollArea className="h-full rounded-md py-4 pe-4">
+                    <IngredientMeasurements/>
+                </ScrollArea>
+            </div>
+            <div className="flex-grow" id="vd">
+                <span className='text-lg md:text-xl font-semibold'>Cooking Tutorial</span>
+                <iframe
+                    src={
+                        "https://www.youtube.com/embed/" + getYoutubeId(mealDetailData?.strYoutube)
+                    }
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className='py-3 aspect-video w-full h-auto'
+                ></iframe>
+            </div>
         </div>
 
-        <div className="md:columns-2 md:w-1/2 mx-auto md:gap-10 text-justify mb-6">
-            {transformPara(mealDetailData?.strInstructions)}
+        <div>
+            <p className='text-lg md:text-xl font-semibold pb-2'>Instructions</p>
+            <div className="md:columns-2 lg:columns-3 md:gap-10 text-justify mb-6 indent-20">
+                {transformPara(mealDetailData?.strInstructions)}
+            </div>
         </div>
     </section>
 }
@@ -97,4 +137,35 @@ const getYoutubeId = (url: string) => {
     } else {
         return "error";
     }
+}
+
+
+const getRecipeIngredientMeasures = (mealDetail: any) => {
+    const mealIngredientMeasures: any = []
+
+    for (const [key, value] of Object.entries(mealDetail)) {
+        const ingredientKey = 'strIngredient'
+        const measureKey = 'strMeasure'
+
+        if (key.includes(ingredientKey) && !!value) {
+            mealIngredientMeasures.push({sequence: extractNumberFromString(key), name: value})
+        }
+
+        if (key.includes(measureKey) && !!value && value !== ' ') {
+            const sequence = extractNumberFromString(key)
+            const ingredientMeasure = mealIngredientMeasures.find((ingredrent: any) => ingredrent.sequence === sequence)
+            if (ingredientMeasure) {
+                ingredientMeasure.measure = value
+            }
+        }
+    }
+    return mealIngredientMeasures
+}
+
+const extractNumberFromString = (str: string): string => {
+    const result = str.match(/\d+/g)
+    if (result) {
+        return result[0]
+    }
+    return '0'
 }
