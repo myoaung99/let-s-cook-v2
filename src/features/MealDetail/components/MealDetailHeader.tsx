@@ -2,11 +2,11 @@ import {Button} from "@/components/ui/button";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import {MealDetailPDF} from "@/features/MealDetail/components/MealDetailPDF";
 import {useIsClient} from "@/hooks";
-import {useFetchMealDetail} from "@/features/MealDetail/hooks/useFetchMealDetail";
+import {useGetMealData} from "@/features/MealDetail/hooks/useGetMealData";
 
 export const MealDetailHeader = () => {
     const [isClient] = useIsClient()
-    const {router, mealDetailData, getMealIngredientMeasures} = useFetchMealDetail()
+    const {router, mealDetailData, getMealIngredientMeasures} = useGetMealData()
     const handlGoBack = () => {
         router.back()
     }

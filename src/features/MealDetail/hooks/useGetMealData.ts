@@ -5,7 +5,7 @@ import {getRecipeIngredientMeasures} from "@/features/MealDetail/utils";
 import {useCallback, useMemo} from "react";
 import {Measurement} from "@/features/MealDetail/components/MealIngredients";
 
-export const useFetchMealDetail = () => {
+export const useGetMealData = () => {
     const router = useRouter()
     const recipeId = router.query?.recipeId;
     const {data, isLoading} = useGetMealByIdQuery(

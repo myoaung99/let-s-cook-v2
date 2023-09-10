@@ -1,5 +1,5 @@
 import {ScrollArea} from "@/components/ui/scroll-area";
-import {useFetchMealDetail} from "@/features/MealDetail/hooks/useFetchMealDetail";
+import {useGetMealData} from "@/features/MealDetail/hooks/useGetMealData";
 
 export interface Measurement {
     sequence: string;
@@ -8,7 +8,7 @@ export interface Measurement {
 }
 
 export const MealIngredients = () => {
-    const {getMealIngredientMeasures} = useFetchMealDetail()
+    const {getMealIngredientMeasures} = useGetMealData()
     const mealIngredientMeasures = getMealIngredientMeasures()
 
     return (

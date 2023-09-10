@@ -1,7 +1,7 @@
-import {useFetchMealDetail} from "@/features/MealDetail/hooks/useFetchMealDetail";
+import {useGetMealData} from "@/features/MealDetail/hooks/useGetMealData";
 
 export const MealDetailInstructions = () => {
-    const {mealDetailData} = useFetchMealDetail()
+    const {mealDetailData} = useGetMealData()
 
     return <div>
         <p className='text-lg md:text-xl font-semibold pb-2'>Instructions</p>

@@ -1,8 +1,8 @@
 import {getYoutubeId} from "@/features/MealDetail/utils";
-import {useFetchMealDetail} from "@/features/MealDetail/hooks/useFetchMealDetail";
+import {useGetMealData} from "@/features/MealDetail/hooks/useGetMealData";
 
 export const MealDetailTutorial = () => {
-    const {mealDetailData} = useFetchMealDetail()
+    const {mealDetailData} = useGetMealData()
 
     return (
         <div className="flex-grow" id="vd">

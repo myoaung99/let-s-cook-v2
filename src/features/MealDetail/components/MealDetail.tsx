@@ -2,10 +2,10 @@ import {MealIngredients} from "@/features/MealDetail/components/MealIngredients"
 import {MealDetailHeader} from "@/features/MealDetail/components/MealDetailHeader";
 import {MealDetailTutorial} from "@/features/MealDetail/components/MealDetailTutorial";
 import {MealDetailInstructions} from "@/features/MealDetail/components/MealDetailInstructions";
-import {useFetchMealDetail} from "@/features/MealDetail/hooks/useFetchMealDetail";
+import {useGetMealData} from "@/features/MealDetail/hooks/useGetMealData";
 
 export const MealDetail = () => {
-    const {isLoading} = useFetchMealDetail()
+    const {isLoading} = useGetMealData()
 
     if (isLoading) {
         return <p>loading...</p>
