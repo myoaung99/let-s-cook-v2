@@ -92,7 +92,6 @@ export const MealDetailPDF: React.FC<MealDetailPDFProps> = ({image, description,
                 </Text>
                 <Text style={styles.description}>{description}</Text>
             </View>
-
         </Page>
     </Document>
 );

@@ -15,7 +15,7 @@ export const MealDetailHeader = () => {
 
     return (
         <>
-            <div className="mt-6 flex justify-between items-center">
+            <section className="mt-6 flex justify-between items-center">
                 <div className="w-[150px]">
                     <Button size='sm' variant='secondary' onClick={handlGoBack}>
                         Go back
@@ -39,7 +39,7 @@ export const MealDetailHeader = () => {
                         </Button>
                     </PDFDownloadLink>
                     : <div className='w-[150px]'/>}
-            </div>
+            </section>
             <p className="visible md:hidden pb-1 pt-8 font-semibold underline text-2xl text-center underline-offset-2">{mealDetailData?.strMeal}</p>
         </>
     )
