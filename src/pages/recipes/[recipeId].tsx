@@ -57,7 +57,12 @@ export default RecipeDetail;
 
 export const getStaticPaths = async () => {
     return {
-        paths: [],
+        paths: [
+            {params:{recipeId: '53007'}},
+            {params:{recipeId: '53007'}},
+            {params:{recipeId: '52900'}},
+            {params:{recipeId: '52813'}},
+        ],
         fallback: 'blocking', // false or "blocking"
     }
 }
