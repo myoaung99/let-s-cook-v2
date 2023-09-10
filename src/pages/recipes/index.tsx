@@ -6,7 +6,7 @@ import {
     getAllCountries, getAllIngredient,
     getCategories,
     getMealsByCategory, getMealsByCountry, getMealsByIngredient,
-} from '@/features/Recipes/recipesService';
+} from '@/features/Recipes/components/recipesService';
 import {NextSeo} from "next-seo";
 
 const Recipes = () => {

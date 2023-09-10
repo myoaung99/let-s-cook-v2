@@ -1,6 +1,6 @@
 import {wrapper} from "@/app/store";
 import {getRunningQueriesThunk} from "@/services/controller";
-import {getMealById, useGetMealByIdQuery} from "@/features/Recipes/recipesService";
+import {getMealById, useGetMealByIdQuery} from "@/features/Recipes/components/recipesService";
 import {MealDetail} from "@/features/MealDetail";
 import {NextSeo} from "next-seo";
 import React from "react";

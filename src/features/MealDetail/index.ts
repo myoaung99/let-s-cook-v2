@@ -1,1 +1,1 @@
-export {MealDetail} from './MealDetail'
+export {MealDetail} from './components/MealDetail'

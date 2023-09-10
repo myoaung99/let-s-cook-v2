@@ -1,10 +1,10 @@
 import React from 'react';
-import RecipeFilters from "@/features/Recipes/RecipeFilters";
+import RecipeFilters from "@/features/Recipes/components/RecipeFilters";
 import {MealCard, MealCardLoadingList} from "@/components/MealCard";
 import {
     useGetMealsByCountryQuery,
     useGetMealsByIngredientQuery
-} from "@/features/Recipes/recipesService";
+} from "@/features/Recipes/components/recipesService";
 import {useRouter} from "next/router";
 import {skipToken} from "@reduxjs/toolkit/query";
 import {Meal} from "@/types";

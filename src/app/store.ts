@@ -2,7 +2,7 @@
 import {configureStore} from "@reduxjs/toolkit";
 import { createWrapper} from "next-redux-wrapper";
 import globalSlice from "@/app/globalSlice";
-import {recipesService} from "@/features/Recipes/recipesService";
+import {recipesService} from "@/features/Recipes/components/recipesService";
 
 export const store = () =>
     configureStore({

@@ -1,7 +1,7 @@
-import {MealIngredients} from "@/features/MealDetail/MealIngredients";
-import {MealDetailHeader} from "@/features/MealDetail/MealDetailHeader";
-import {MealDetailTutorial} from "@/features/MealDetail/MealDetailTutorial";
-import {MealDetailInstructions} from "@/features/MealDetail/MealDetailInstructions";
+import {MealIngredients} from "@/features/MealDetail/components/MealIngredients";
+import {MealDetailHeader} from "@/features/MealDetail/components/MealDetailHeader";
+import {MealDetailTutorial} from "@/features/MealDetail/components/MealDetailTutorial";
+import {MealDetailInstructions} from "@/features/MealDetail/components/MealDetailInstructions";
 import {useFetchMealDetail} from "@/features/MealDetail/hooks/useFetchMealDetail";
 
 export const MealDetail = () => {

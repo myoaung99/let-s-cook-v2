@@ -1,6 +1,6 @@
 import {Document, Image, Page, StyleSheet, Text, View} from '@react-pdf/renderer';
 import React from "react";
-import {Measurement} from "@/features/MealDetail/MealIngredients";
+import {Measurement} from "@/features/MealDetail/components/MealIngredients";
 
 interface MealDetailPDFProps {
     title: string,

@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button";
 import {PDFDownloadLink} from "@react-pdf/renderer";
-import {MealDetailPDF} from "@/features/MealDetail/MealDetailPDF";
+import {MealDetailPDF} from "@/features/MealDetail/components/MealDetailPDF";
 import {useIsClient} from "@/hooks";
 import {useFetchMealDetail} from "@/features/MealDetail/hooks/useFetchMealDetail";
 
