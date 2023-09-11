@@ -2,6 +2,7 @@ import {Button} from '@/components/ui/button';
 import {useRouter} from 'next/router';
 import React from 'react';
 import Image from "next/image";
+import Background from '/public/static/hero-bg-2.jpg'
 
 export const Hero = () => {
     const router = useRouter();
@@ -28,13 +29,14 @@ export const Hero = () => {
                 </div>
             </section>
             <Image
-                src={'/static/hero-bg-2.jpg'}
+                src={Background}
                 alt={'background image'}
                 layout={'fill'}
                 objectFit={'cover'}
                 objectPosition={'center'}
                 className={'absolute -z-10'}
                 priority={true}
+                placeholder={'blur'}
             />
         </>
 

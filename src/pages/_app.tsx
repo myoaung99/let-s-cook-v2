@@ -1,47 +1,24 @@
-import { Provider } from 'react-redux';
-import NProgress from 'nprogress';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import {Provider} from 'react-redux';
 import '@/styles/globals.css';
-import type { AppProps } from 'next/app';
-import { wrapper } from '@/app/store';
+import type {AppProps} from 'next/app';
+import {wrapper} from '@/app/store';
 import 'nprogress/nprogress.css';
 import Layout from '@/components/layout';
-import { DefaultSeo } from 'next-seo'
+import {DefaultSeo} from 'next-seo'
 import * as SEO from '../../next-seo.config'
-import { Analytics } from '@vercel/analytics/react';
+import {Analytics} from '@vercel/analytics/react';
+import {useProgressLine} from "@/hooks";
 
-export default function App({ Component, pageProps }: AppProps) {
-    const router = useRouter();
-    const { store, props } = wrapper.useWrappedStore(pageProps);
+export default function App({Component, pageProps}: AppProps) {
+    useProgressLine()
 
-    useEffect(() => {
-        const handleStart = (_: string) => {
-            NProgress.start();
-        };
-
-        const handleStop = () => {
-            NProgress.done();
-        };
-
-        router.events.on('routeChangeStart', handleStart);
-        router.events.on('routeChangeComplete', handleStop);
-        router.events.on('routeChangeError', handleStop);
-
-        return () => {
-            router.events.off('routeChangeStart', handleStart);
-            router.events.off('routeChangeComplete', handleStop);
-            router.events.off('routeChangeError', handleStop);
-        };
-    }, [router]);
-
+    const {store, props} = wrapper.useWrappedStore(pageProps);
     return (
         <Provider store={store}>
             <Layout>
                 <DefaultSeo {...SEO} />
-                <Component {...props.pageProps} />
-                <Analytics />
-
+                    <Component {...props.pageProps} />
+                <Analytics/>
             </Layout>
         </Provider>
     );
