@@ -5,10 +5,11 @@ import * as z from "zod"
 import {Form,} from "@/components/ui/form"
 import {Label} from "@/components/ui/label";
 import {useInitialFilterValues} from "@/features/Recipes/hook/useInitialFilterValues";
-import {formSchema} from "@/features/Recipes/utils";
+import {FILTER_VALUES, formSchema} from "@/features/Recipes/utils";
 import {IngredientSelector} from "@/features/Recipes/components/IngredientSelector";
 import {CountrySelector} from "@/features/Recipes/components/CountrySelector";
 import {FilterBySelect} from "@/features/Recipes/components/FilterBySelect";
+import {CategorySelector} from "@/features/Recipes/components/CategorySelector";
 
 const RecipeFilters = () => {
     const router = useRouter();
@@ -17,13 +18,19 @@ const RecipeFilters = () => {
     const watchFilterBy = watch('filterBy')
 
     const handleOnSearch = (values: z.infer<typeof formSchema>) => {
-        if (values.filterBy === 'Country') {
+        if (values.filterBy === FILTER_VALUES.Country) {
             router.push(`/recipes?filter=${values.filterBy}&value=${values.countrySelector}`)
         }
 
-        if (values.filterBy === 'Ingredient') {
+        if (values.filterBy === FILTER_VALUES.Ingredient) {
             router.push(`/recipes?filter=${values.filterBy}&value=${values.ingredientSelector}`)
         }
+
+        if (values.filterBy === FILTER_VALUES.Category) {
+            router.push(`/recipes?filter=${values.filterBy}&value=${values.categorySelector}`)
+        }
+
+
     }
 
     return (
@@ -38,12 +45,15 @@ const RecipeFilters = () => {
                     </div>
 
                     <div className='space-y-3 md:space-y-0 md:flex md:items-center md:space-x-2'>
-                        {watchFilterBy === 'Ingredient' ?
+                        {watchFilterBy === FILTER_VALUES.Ingredient ?
                             <IngredientSelector form={form}/>
                             : null}
 
-                        {watchFilterBy === 'Country' ?
+                        {watchFilterBy === FILTER_VALUES.Country ?
                             <CountrySelector form={form}/> : null}
+
+                        {watchFilterBy === FILTER_VALUES.Category ?
+                            <CategorySelector form={form}/> : null}
 
                         <div className='flex justify-end'>
                             <Button type='submit'>Search</Button>

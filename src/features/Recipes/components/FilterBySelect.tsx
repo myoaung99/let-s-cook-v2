@@ -2,8 +2,11 @@ import {FormControl, FormField, FormItem, FormMessage} from "@/components/ui/for
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import React from "react";
 import {UseFormReturn} from "react-hook-form";
+import {FILTER_VALUES} from "@/features/Recipes/utils";
 
-export const FilterBySelect = ({form}: { form:  UseFormReturn<{filterBy: string, ingredientSelector: string, countrySelector: string}, any, undefined> }) => (
+export const FilterBySelect = ({form}: {
+    form: UseFormReturn<{ filterBy: string, ingredientSelector: string, countrySelector: string }, any, undefined>
+}) => (
     <FormField
         control={form.control}
         name="filterBy"
@@ -17,8 +20,11 @@ export const FilterBySelect = ({form}: { form:  UseFormReturn<{filterBy: string,
                             </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                            <SelectItem value={'Ingredient'}>{'Ingredient'}</SelectItem>
-                            <SelectItem value={'Country'}>{'Country'}</SelectItem>
+                            {
+                                Object.keys(FILTER_VALUES).map(value => (
+                                    <SelectItem key={value} value={value}>{value}</SelectItem>
+                                ))
+                            }
                         </SelectContent>
                     </Select>
                 </FormControl>

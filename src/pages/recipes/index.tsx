@@ -1,13 +1,14 @@
 import React from 'react';
-import { wrapper } from '@/app/store';
-import { getRunningQueriesThunk } from '@/services/controller';
-import { RecipeList } from '@/features/Recipes';
+import {wrapper} from '@/app/store';
+import {getRunningQueriesThunk} from '@/services/controller';
+import {RecipeList} from '@/features/Recipes';
 import {
     getAllCountries, getAllIngredient,
     getCategories,
     getMealsByCategory, getMealsByCountry, getMealsByIngredient,
 } from '@/features/Recipes/components/recipesService';
 import {NextSeo} from "next-seo";
+import {FILTER_VALUES} from "@/features/Recipes/utils";
 
 const Recipes = () => {
     return (
@@ -43,7 +44,8 @@ const Recipes = () => {
                             'aung, browse, cake, cheesecake, chicken, cook, crafted, creating, culinary, delightful, designed, developed, discover, dishes, embark, expertly, finest, flavors, fried, general, home, honey, join, journey, kentucky, madeira, meals, memories, menu, myint, popular, recipes, reserved, rights, savoring, secrets, tastes, today, unforgettable, view, world, yogurt',
                     },
                 ]}
-            />            <RecipeList />
+            />
+            <RecipeList/>
         </section>
     );
 };
@@ -59,15 +61,15 @@ export const getStaticProps = wrapper.getStaticProps(
         const value = context.params?.value;
         const filterBy = context.params?.filter;
 
-        if (typeof value === 'string' && filterBy === 'category') {
+        if (typeof value === 'string' && filterBy === FILTER_VALUES.Category) {
             store.dispatch(getMealsByCategory.initiate(value));
         }
 
-        if (typeof value === 'string' && filterBy === 'Country') {
+        if (typeof value === 'string' && filterBy === FILTER_VALUES.Country) {
             store.dispatch(getMealsByCountry.initiate(value));
         }
 
-        if (typeof value === 'string' && filterBy === 'Ingredient') {
+        if (typeof value === 'string' && filterBy === FILTER_VALUES.Ingredient) {
             store.dispatch(getMealsByIngredient.initiate(value));
         }
 
