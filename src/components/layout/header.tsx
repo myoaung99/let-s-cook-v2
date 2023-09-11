@@ -1,14 +1,34 @@
 import Link from 'next/link';
-import React from 'react';
+import React, {useState} from 'react';
 import {MenuData} from "@/components/layout/types";
-import Image from "next/image";
 import {useDispatch, useSelector} from "@/hooks";
 import {toggleMobileNav} from "@/app/globalSlice";
 import {NextRouter, useRouter} from "next/router";
+import {motion, useMotionValueEvent, useScroll} from 'framer-motion';
+import Image from "next/image";
+
+const SCROLL_WITH_NAV_HEIGHT = 150;
 
 export const Header = () => {
+    const [hideNavbar, setHideNavbar] = useState(false);
+    const {scrollY} = useScroll();
+
+    useMotionValueEvent(scrollY, 'change', (scrolledPosition) => {
+        const previousScrolledPosition = scrollY.getPrevious();
+        const isScrollingDown = scrolledPosition > previousScrolledPosition;
+        if (isScrollingDown && scrolledPosition > SCROLL_WITH_NAV_HEIGHT) {
+            setHideNavbar(true)
+        } else {
+            setHideNavbar(false)
+        }
+    })
+
     return (
-        <section className="fixed w-full bg-stone-900 text-white z-50">
+        <motion.section
+            variants={{hidden: {y: -100}, visible: {y: 0}}}
+            animate={hideNavbar ? 'hidden' : 'visible'}
+            transition={{delay: 0.3, easings: 'easeInOut'}}
+            className="fixed w-full bg-stone-900 text-white z-50">
             <nav className="container h-16 flex items-center justify-between ">
                 <div className="font-bold text-xl px-3 flex gap-2 items-center">
                     <Image src={"/static/logo.png"} alt={'logo'} width={40} height={40}/>
@@ -18,7 +38,7 @@ export const Header = () => {
                 <MenuToggleButton/>
                 <MobileMenu/>
             </nav>
-        </section>
+        </motion.section>
     );
 };
 
