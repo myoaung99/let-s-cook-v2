@@ -68,11 +68,11 @@ const DesktopMenuItems = () => {
     const router = useRouter();
 
     return (
-        <ul className="hidden menu-list lg:flex px-3">
+        <ul className="hidden menu-list lg:flex">
             {
                 menuData.map((menu: MenuData, index) => (
                     <li
-                        className={`transition-transform p-2 mx-2 hover:underline ${getActiveTabStyles(menu, router)}
+                        className={`transition-transform p-2 mx-2 last:me-0 hover:underline ${getActiveTabStyles(menu, router)}
                             `}
                         key={index}>
                         <Link href={menu.href}>
