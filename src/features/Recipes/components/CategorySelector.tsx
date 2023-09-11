@@ -8,7 +8,7 @@ import {UseFormReturn} from "react-hook-form";
 import { Category} from "@/types";
 
 const CategorySelector = ({form}: {
-    form: UseFormReturn<{ filterBy: string, ingredientSelector: string, countrySelector: string }, any, undefined>
+    form: UseFormReturn<{ filterBy: string, ingredientSelector: string, countrySelector: string, categorySelector: string }, any, undefined>
 }) => {
     const {data} = useGetCategoriesQuery({skip: skipToken})
     const categories = data?.categories as Array<Category> | undefined

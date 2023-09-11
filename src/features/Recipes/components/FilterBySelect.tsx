@@ -5,7 +5,7 @@ import {UseFormReturn} from "react-hook-form";
 import {FILTER_VALUES} from "@/features/Recipes/utils";
 
 export const FilterBySelect = ({form}: {
-    form: UseFormReturn<{ filterBy: string, ingredientSelector: string, countrySelector: string }, any, undefined>
+    form: UseFormReturn<{  categorySelector: string, filterBy: string, ingredientSelector: string, countrySelector: string }, any, undefined>
 }) => (
     <FormField
         control={form.control}

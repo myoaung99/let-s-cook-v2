@@ -11,7 +11,14 @@ import {ScrollArea} from "@/components/ui/scroll-area";
 import React from "react";
 import {UseFormReturn} from "react-hook-form";
 
-export const IngredientSelector = ({form}: { form:  UseFormReturn<{filterBy: string, ingredientSelector: string, countrySelector: string}, any, undefined> }) => {
+export const IngredientSelector = ({form}: {
+    form: UseFormReturn<{
+        categorySelector: string,
+        filterBy: string,
+        ingredientSelector: string,
+        countrySelector: string
+    }, any, undefined>
+}) => {
     const router = useRouter();
     const {data: ingredientData} = useGetAllIngredientQuery({skip: router.isFallback})
     const ingredients = ingredientData?.meals as Array<Ingredient> | undefined

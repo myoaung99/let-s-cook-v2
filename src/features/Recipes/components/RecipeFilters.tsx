@@ -29,8 +29,6 @@ const RecipeFilters = () => {
         if (values.filterBy === FILTER_VALUES.Category) {
             router.push(`/recipes?filter=${values.filterBy}&value=${values.categorySelector}`)
         }
-
-
     }
 
     return (
