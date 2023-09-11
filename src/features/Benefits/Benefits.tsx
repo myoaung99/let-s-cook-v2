@@ -45,7 +45,7 @@ function Benefits() {
                 </div>
                 <div className='flex flex-col-reverse gap-y-4 lg:gap-y-0 lg:grid lg:grid-cols-2'>
                     <div className='lg:p-4 lg:px-16 flex items-center'>
-                        <p className='text-md lg:text-sm xl:text-xl lg:font-serif lg:text-center tracking-wider'>At
+                        <p className='text-md lg:text-sm xl:text-xl lg:font-serif lg:text-center tracking-wider'>
                             {CoreValueDefine}
                         </p>
                     </div>
@@ -77,4 +77,4 @@ const BenefitsContent = [
 
 const MissionDefine = 'Our mission is to empower food enthusiasts of all backgrounds to explore the world of cooking, one recipe at a time. We strive to create a welcoming and user-friendly platform where anyone, from novice home cooks to seasoned chefs, can discover, create, and share culinary delights. Our goal is to provide a diverse and ever-expanding collection of high-quality recipes, supported by educational resources and a vibrant community.';
 
-const CoreValueDefine = 'Let&apos;s Cook, our core values revolve around culinary diversity, user-centricity, quality, community, sustainability, innovation, and transparency. We\'re dedicated to curating a diverse range of recipes, prioritizing the user experience, upholding high quality standards, fostering an inclusive community, promoting sustainable cooking, encouraging continuous learning, and maintaining transparency in all our operations.'
+const CoreValueDefine = "At Let's Cook, our core values revolve around culinary diversity, user-centricity, quality, community, sustainability, innovation, and transparency. We\'re dedicated to curating a diverse range of recipes, prioritizing the user experience, upholding high quality standards, fostering an inclusive community, promoting sustainable cooking, encouraging continuous learning, and maintaining transparency in all our operations."

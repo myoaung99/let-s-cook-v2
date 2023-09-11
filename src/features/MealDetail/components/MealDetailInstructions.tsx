@@ -17,7 +17,7 @@ const transformPara = (str: string) => {
             const firstL = p.charAt(1);
 
             return (
-                <p className="mb-6 text-lg" key={firstL}>
+                <p className="mb-6 text-sm" key={firstL}>
                     {p}
                 </p>
             );
