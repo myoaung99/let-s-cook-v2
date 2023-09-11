@@ -4,7 +4,7 @@ import {MenuData} from "@/components/layout/types";
 import Image from "next/image";
 import {useDispatch, useSelector} from "@/hooks";
 import {toggleMobileNav} from "@/app/globalSlice";
-import {useRouter} from "next/router";
+import {NextRouter, useRouter} from "next/router";
 
 export const Header = () => {
     return (
@@ -46,15 +46,14 @@ const MenuToggleButton = () => {
 
 const DesktopMenuItems = () => {
     const router = useRouter();
-    const pathName = router.pathname;
-    const activeClasses = 'border-2 rounded-sm';
 
     return (
         <ul className="hidden menu-list lg:flex px-3">
             {
                 menuData.map((menu: MenuData, index) => (
                     <li
-                        className={`transition-transform p-2 mx-2 hover:underline ${menu.path === pathName ? activeClasses : ''}`}
+                        className={`transition-transform p-2 mx-2 hover:underline ${getActiveTabStyles(menu, router)}
+                            `}
                         key={index}>
                         <Link href={menu.href}>
                             <span className="text-md px-4">{menu.label}</span>
@@ -83,6 +82,13 @@ const MobileMenuItems = () => {
             }
         </ul>
     )
+}
+
+const getActiveTabStyles = (menu: MenuData, router: NextRouter, activeStyleClasses: string = 'border-2 rounded-sm') => {
+    const pathName = router.pathname;
+    const activeClasses = activeStyleClasses;
+    const isRootPage = menu.path === '/';
+    return (isRootPage ? menu.path === pathName : pathName.startsWith(menu.path)) ? activeClasses : ''
 }
 
 const menuData: Array<MenuData> = [
