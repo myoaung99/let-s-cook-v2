@@ -13,6 +13,7 @@ export const Hero = () => {
     return (
         <>
             <section
+                id='hero'
                 className="relative z-10 flex flex-col md:items-center justify-center h-full space-y-4 px-4 md:px-0">
                 <h2 className="text-slate-900 font-extrabold text-3xl lg:text-5xl tracking-tight md:text-center mb-2 md:mb-0">
                     Embark on a Culinary Journey.&trade;
