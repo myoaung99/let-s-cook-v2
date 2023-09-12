@@ -54,8 +54,7 @@ function Benefits() {
                             variants={{hidden: {opacity: 0}, visible: {opacity: 1}}}
                             initial={'hidden'}
                             whileInView={'visible'}
-                            className='text-3xl md:text-5xl font-bold absolute z-10 text-white'>Mission
-                        </motion.p>
+                            className='text-3xl md:text-5xl font-bold absolute z-10 text-white'>Mission</motion.p>
                     </div>
                     <div className='lg:p-4 lg:px-16 flex items-center'>
                         <motion.p
@@ -63,9 +62,13 @@ function Benefits() {
                             initial={'hidden'}
                             animate={missionControl}
                             transition={{easeings: 'easeInOut', duration: '0.5'}}
-                            className='text-md lg:text-sm xl:text-xl lg:font-serif lg:text-center tracking-wider'>
+                            className='hidden lg:block text-md lg:text-sm xl:text-xl lg:font-serif lg:text-center tracking-wider'>
                             {MissionDefine}
                         </motion.p>
+                        <p
+                            className='lg:hidden text-md lg:text-sm xl:text-xl lg:font-serif lg:text-center tracking-wider'>
+                            {MissionDefine}
+                        </p>
                     </div>
                     <div
                         className='hidden lg:flex w-28 h-28 bg-black rounded-full absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2 items-center justify-center z-20'>
@@ -76,13 +79,13 @@ function Benefits() {
                     </div>
                 </div>
                 <div ref={valueRef} className='flex flex-col-reverse gap-y-4 lg:gap-y-0 lg:grid lg:grid-cols-2'>
-                    <div className='hidden lg:block lg:p-4 lg:px-16 flex items-center'>
+                    <div className='lg:p-4 lg:px-16 flex items-center'>
                         <motion.p
                             variants={{hidden: {opacity: 0, x: 500}, visible: {opacity: 1, x: 0}}}
                             initial={'hidden'}
                             animate={valueControl}
                             transition={{easeings: 'easeInOut', duration: '0.5'}}
-                            className='text-md lg:text-sm xl:text-xl lg:font-serif lg:text-center tracking-wider'>
+                            className='hidden lg:block text-md lg:text-sm xl:text-xl lg:font-serif lg:text-center tracking-wider'>
                             {CoreValueDefine}
                         </motion.p>
                         <p
@@ -93,16 +96,7 @@ function Benefits() {
                     <div className='bg-slate-400 aspect-video flex justify-center items-center relative'>
                         <Image fill src='/static/value.jpg' alt='mission'
                                className='object-cover absolute brightness-50'/>
-                        <motion.p
-                            variants={{hidden: {opacity: 0}, visible: {opacity: 1}}}
-                            initial={'hidden'}
-                            whileInView={'visible'}
-                            className='hidden lg:block text-3xl md:text-5xl font-bold absolute z-10 text-white'>Core Value
-                        </motion.p>
-
-                        <p
-                            className='lg:hidden text-3xl md:text-5xl font-bold absolute z-10 text-white'>Core Value
-                        </p>
+                        <p className='text-3xl md:text-5xl font-bold absolute z-10 text-white'>Core Value</p>
                     </div>
                 </div>
             </section>
