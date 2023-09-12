@@ -3,6 +3,8 @@ import {Button} from "@/components/ui/button";
 import Image from "next/image";
 import {useRouter} from "next/router";
 import {motion, useAnimation, useInView} from "framer-motion";
+import MissionBg from "../../../public/static/mission.jpg"
+import ValueBg from "../../../public/static/value.jpg"
 
 function Benefits() {
     const router = useRouter();
@@ -36,7 +38,7 @@ function Benefits() {
                 {
                     BenefitsContent.map(({title, content}) => (
                         <article className='last:md:col-span-2 last:lg:col-span-1'>
-                            <p className='text-xl font-bold mb-2'>{title}</p>
+                            <p className='text-xl font-bold mb-2 border-b-4 border-b-black w-fit'>{title}</p>
                             <p className='text-slate-500'>{content}</p>
                         </article>
 
@@ -48,7 +50,7 @@ function Benefits() {
                 <div ref={missionRef}
                      className='grid grid-cols-1 lg:grid-cols-2 gap-y-4 lg:gap-y-0 relative mb-12 lg:mb-0'>
                     <div className='bg-slate-400 aspect-video flex items-center justify-center relative'>
-                        <Image fill src='/static/mission.jpg' alt='mission'
+                        <Image fill placeholder={'blur'} src={MissionBg} alt='mission'
                                className='object-cover absolute brightness-50'/>
                         <motion.p
                             variants={{hidden: {opacity: 0}, visible: {opacity: 1}}}
@@ -94,7 +96,7 @@ function Benefits() {
                         </p>
                     </div>
                     <div className='bg-slate-400 aspect-video flex justify-center items-center relative'>
-                        <Image fill src='/static/value.jpg' alt='mission'
+                        <Image fill placeholder={'blur'} src={ValueBg} alt='mission'
                                className='object-cover absolute brightness-50'/>
                         <p className='text-3xl md:text-5xl font-bold absolute z-10 text-white'>Core Value</p>
                     </div>
