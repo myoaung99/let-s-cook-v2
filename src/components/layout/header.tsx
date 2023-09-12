@@ -33,9 +33,9 @@ export const Header = () => {
 
     useEffect(() => {
         if (showMobileNav) {
-            document.body.style.overflow = 'hidden'
+            document.body.style.overflowY = 'hidden'
         } else {
-            document.body.style.overflow = 'scroll'
+            document.body.style.overflowY = 'scroll'
         }
     }, [showMobileNav]);
 
@@ -111,9 +111,9 @@ const MobileMenuItems = () => {
     }
     return (
         <article
-            className="z-30 fixed top-16 left-0 h-screen w-screen bg-black backdrop-filter backdrop-blur bg-opacity-80 text-black xl:hidden overflow-y-hidden">
+            className="z-30 fixed top-16 left-0 h-screen w-full bg-black backdrop-filter backdrop-blur bg-opacity-80 text-black xl:hidden">
             <div
-                className='flex flex-col justify-center items-center h-screen w-full pb-16'>
+                className='flex flex-col justify-center items-center h-full w-full pb-16'>
                 <ul
                     className="flex flex-col text-center items-stretch text-white">
                     {
