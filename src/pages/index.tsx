@@ -3,6 +3,7 @@ import {MealPreviewList} from '@/features/MealPreview/MealPreviewList';
 import {NextSeo} from "next-seo";
 import Script from "next/script";
 import {Benefits} from "@/features/Benefits";
+import {TopCategories} from "@/features/TopCategories";
 
 export default function Home() {
     return (
@@ -55,6 +56,7 @@ export default function Home() {
                 </div>
                 <Benefits/>
                 <MealPreviewList/>
+                <TopCategories/>
             </section>
         </>
 
