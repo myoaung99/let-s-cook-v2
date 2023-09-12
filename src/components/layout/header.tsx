@@ -1,17 +1,25 @@
 import Link from 'next/link';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {MenuData} from "@/components/layout/types";
 import {useDispatch, useSelector} from "@/hooks";
 import {toggleMobileNav} from "@/app/globalSlice";
 import {NextRouter, useRouter} from "next/router";
 import {motion, useMotionValueEvent, useScroll} from 'framer-motion';
 import Image from "next/image";
+import {Playfair} from 'next/font/google'
 
 const SCROLL_WITH_NAV_HEIGHT = 150;
+
+const inter = Playfair({
+    subsets: ['latin'],
+    display: 'swap',
+})
+
 
 export const Header = () => {
     const [hideNavbar, setHideNavbar] = useState(false);
     const {scrollY} = useScroll();
+
 
     useMotionValueEvent(scrollY, 'change', (scrolledPosition) => {
         const previousScrolledPosition = scrollY.getPrevious();
@@ -22,6 +30,7 @@ export const Header = () => {
             setHideNavbar(false)
         }
     })
+
 
     return (
         <motion.section
@@ -43,15 +52,17 @@ export const Header = () => {
 };
 
 const MobileMenu = () => {
-    const {showMobileNav} = useSelector(state => state.global)
-    return (
-        <>
-            {showMobileNav ? <div className="fixed mx-auto w-full top-16 left-0 bg-rose-300 text-black xl:hidden">
-                <MobileMenuItems/>
-            </div> : null}
-        </>
-    );
-};
+        const {showMobileNav} = useSelector(state => state.global)
+
+        return (
+            <>
+                {showMobileNav ?
+                    <MobileMenuItems/>
+                    : null}
+            </>
+        )
+    }
+;
 
 const MenuToggleButton = () => {
     const dispatch = useDispatch()
@@ -59,7 +70,7 @@ const MenuToggleButton = () => {
     const toggleMobileMenu = () => {
         dispatch(toggleMobileNav())
     }
-    return <button onClick={toggleMobileMenu} className="lg:hidden px-3">
+    return <button onClick={toggleMobileMenu} className="lg:hidden ps-3">
         {showMobileNav ? 'Close' : 'Menu'}
     </button>
 }
@@ -86,21 +97,42 @@ const DesktopMenuItems = () => {
 
 const MobileMenuItems = () => {
     const dispatch = useDispatch()
+    const {showMobileNav} = useSelector(state => state.global)
+
+    useEffect(() => {
+        if (showMobileNav) {
+            document.body.style.overflow = 'hidden'
+        }
+    }, [showMobileNav]);
+
     const toggleMobileMenu = () => {
         dispatch(toggleMobileNav())
     }
     return (
-        <ul className="flex flex-col text-center items-stretch text-white">
-            {
-                menuData.map((menu, index) => (
-                    <Link onClick={toggleMobileMenu} href={menu.href} key={index}>
-                        <li className=" p-2 mx-2 cursor-pointer border-collapse my-1 border-b">
-                            {menu.label}
-                        </li>
-                    </Link>
-                ))
-            }
-        </ul>
+        <article
+            className="z-30 fixed top-16 left-0 h-screen w-screen bg-black backdrop-filter backdrop-blur bg-opacity-80 text-black xl:hidden overflow-y-hidden">
+            <div
+                className='flex flex-col justify-center items-center h-screen w-full pb-16'>
+                <ul
+                    className="flex flex-col text-center items-stretch text-white">
+                    {
+                        menuData.map((menu, index) => (
+                            <Link onClick={toggleMobileMenu} href={menu.href} key={index}>
+                                <motion.li
+                                    variants={{hidden: {opacity: 0, y: -400}, visible: {opacity: 1, y: 0}}}
+                                    initial='hidden'
+                                    animate='visible'
+                                    transition={{delay: index * 0.3, easings: 'ease'}}
+                                    className="mx-2 mb-5 cursor-pointer">
+                                    <p className={`text-2xl underline ${inter.className}`}>{menu.label}</p>
+                                </motion.li>
+                            </Link>
+                        ))
+                    }
+                </ul>
+            </div>
+        </article>
+
     )
 }
 
