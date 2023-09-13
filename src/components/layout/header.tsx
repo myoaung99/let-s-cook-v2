@@ -88,7 +88,7 @@ const DesktopMenuItems = () => {
     return (
         <ul className="hidden menu-list lg:flex">
             {
-                menuData.map((menu: MenuData, index) => (
+                menuData.map((menu: MenuData) => (
                     <li
                         className={`transition-transform p-2 mx-2 last:me-0 hover:underline ${getActiveTabStyles(menu, router)}
                             `}
