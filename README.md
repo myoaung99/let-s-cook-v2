@@ -1,5 +1,4 @@
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 # Let's Cook
 
 ## Technical Note
@@ -52,6 +51,7 @@ yarn dev
 # or
 pnpm dev
 ```
+Open [http://localhost:8080](http://localhost:3000) with your browser to see the result.
 
 ## Learn More
 
