@@ -37,8 +37,8 @@ function Benefits() {
             <section className='grid md:grid-cols-2 lg:grid-cols-3 gap-6 my-12'>
                 {
                     BenefitsContent.map(({title, content}) => (
-                        <article className='last:md:col-span-2 last:lg:col-span-1'>
-                            <p className='text-xl font-bold mb-2 border-b-4 border-b-black w-fit'>{title}</p>
+                        <article key='title' className='last:md:col-span-2 last:lg:col-span-1'>
+                            <p className='text-xl font-bold mb-2 w-fit'>{title}</p>
                             <p className='text-slate-500'>{content}</p>
                         </article>
 
@@ -123,4 +123,4 @@ const BenefitsContent = [
 
 const MissionDefine = 'Our mission is to empower food enthusiasts of all backgrounds to explore the world of cooking, one recipe at a time. We strive to create a welcoming and user-friendly platform where anyone, from novice home cooks to seasoned chefs, can discover, create, and share culinary delights. Our goal is to provide a diverse and ever-expanding collection of high-quality recipes, supported by educational resources and a vibrant community.';
 
-const CoreValueDefine = "At Let's Cook, our core values revolve around culinary diversity, user-centricity, quality, community, sustainability, innovation, and transparency. We\'re dedicated to curating a diverse range of recipes, prioritizing the user experience, upholding high quality standards, fostering an inclusive community, promoting sustainable cooking, encouraging continuous learning, and maintaining transparency in all our operations."
+const CoreValueDefine = "At Let's Cook, our core values revolve around culinary diversity, user-centricity, quality, community, sustainability, innovation, and transparency. We're dedicated to curating a diverse range of recipes, prioritizing the user experience, upholding high quality standards, fostering an inclusive community, promoting sustainable cooking, encouraging continuous learning, and maintaining transparency in all our operations."

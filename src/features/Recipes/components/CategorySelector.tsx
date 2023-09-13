@@ -28,7 +28,7 @@ const CategorySelector = ({form}: {
                         <SelectContent>
                             <ScrollArea
                                 className="sm:h-[300px] md:h-[500px] w-auto rounded-md p-4 ">
-                                {!!categories ? categories.map( category => (
+                                {categories ? categories.map( category => (
                                     <SelectItem key={category.idCategory}
                                                 value={category.strCategory}>{category.strCategory}
                                     </SelectItem>

@@ -38,6 +38,7 @@ const MealList = () => {
 
             {recipesList?.meals?.map((meal: Meal, index: number) => (
                 <motion.div
+                    key={meal.idMeal}
                     variants={mealCardVariants}
                     initial={'hidden'}
                     whileInView={'animate'}

@@ -8,7 +8,7 @@ interface MealCardLoadingListProps {
 export const MealCardLoadingList: React.FC<MealCardLoadingListProps> = ({count}) => {
     return (
         <>
-            {Array(count || 8).fill(0).map((_, index) => (<MealCardLoading key={'loading' + index}/>))}
+            {Array(count ?? 8).fill(0).map((value, index) => (<MealCardLoading key={'loading' + value}/>))}
         </>
     );
 }

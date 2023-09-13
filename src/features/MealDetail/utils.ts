@@ -31,7 +31,7 @@ const extractNumberFromString = (str: string): string => {
 
 const getYoutubeId = (url: string) => {
     let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    let match = url?.match(regExp);
+    let match = regExp.exec(url)
 
     if (match && match[2].length === 11) {
         return match[2];

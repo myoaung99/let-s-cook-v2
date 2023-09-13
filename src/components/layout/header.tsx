@@ -92,7 +92,7 @@ const DesktopMenuItems = () => {
                     <li
                         className={`transition-transform p-2 mx-2 last:me-0 hover:underline ${getActiveTabStyles(menu, router)}
                             `}
-                        key={index}>
+                        key={menu.href}>
                         <Link href={menu.href}>
                             <span className="text-md px-4">{menu.label}</span>
                         </Link>
@@ -118,7 +118,7 @@ const MobileMenuItems = () => {
                     className="flex flex-col text-center items-stretch text-white">
                     {
                         menuData.map((menu, index) => (
-                            <Link onClick={toggleMobileMenu} href={menu.href} key={index}>
+                            <Link onClick={toggleMobileMenu} href={menu.href} key={menu.href}>
                                 <motion.li
                                     variants={{hidden: {opacity: 0, y: -400}, visible: {opacity: 1, y: 0}}}
                                     initial='hidden'
@@ -141,7 +141,11 @@ const getActiveTabStyles = (menu: MenuData, router: NextRouter, activeStyleClass
     const pathName = router.pathname;
     const activeClasses = activeStyleClasses;
     const isRootPage = menu.path === '/';
-    return (isRootPage ? menu.path === pathName : pathName.startsWith(menu.path)) ? activeClasses : ''
+    if (isRootPage) {
+        return menu.path === pathName ? activeClasses : ''
+    } else {
+        return pathName.startsWith(menu.path) ? activeClasses : ''
+    }
 }
 
 const menuData: Array<MenuData> = [

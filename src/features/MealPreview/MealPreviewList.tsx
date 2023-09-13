@@ -21,6 +21,7 @@ export const MealPreviewList = () => {
 const PopularMeals = () => {
     return meals.popularMeals.map((meal: SuggestionMeal) => (
         <MealCard
+            key={meal.idMeal}
             mealData={meal}
             title={<MealCard.Title/>}
             image={<MealCard.Image/>}
