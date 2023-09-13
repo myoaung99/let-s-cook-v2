@@ -1,6 +1,8 @@
 
 # Let's Cook
 
+![Let's Cook Home Page](https://i.imgur.com/g0UL2mM.png)
+
 ## Technical Note
 
 - **Built with Next.js:** 'Let's Cook' is a solo project developed using Next.js, a powerful React framework for building modern web applications.
@@ -23,6 +25,8 @@
 
 - **Seamless Animations:** Enjoy a visually engaging experience with smooth animations that enhance your cooking journey.
 
+![Best practice, PWA, SEO](https://i.imgur.com/1Wxos6W.png)
+
 ## Cooking Made Easy
 
 ### View Recipe Page
@@ -34,6 +38,10 @@ Each recipe page provides you with:
 - **Cooking Video Tutorial:** Follow along with step-by-step video instructions.
 
 - **Step-by-Step Instructions:** Detailed guidance to ensure your meal turns out perfectly.
+
+![List of recipes and filters](https://i.imgur.com/T4r7EtX.png)
+
+![Recipe Detail Page](https://i.imgur.com/4ovh6t4.png)
 
 Join me on this culinary adventure, and let's cook up something amazing together!
 
