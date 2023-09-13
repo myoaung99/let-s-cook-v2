@@ -1,6 +1,12 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Let's Cook
+
 
 ## Getting Started
+
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
 
 First, run the development server:
 
@@ -12,15 +18,41 @@ yarn dev
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technical Note
 
-You can start editing the page by modifying `pages/MealDetail.tsx`. The page auto-updates as you edit the file.
+- **Built with Next.js:** 'Let's Cook' is a solo project developed using Next.js, a powerful React framework for building modern web applications.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- **State Management with Redux Toolkit:** Redux Toolkit is used for efficient state management, ensuring a seamless user experience.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- **Data Fetching with Redux Toolkit Query:** Redux Toolkit Query is leveraged to streamline data fetching and management, providing real-time recipe updates and a responsive user interface.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Styled with Tailwind CSS:** The user interface is crafted with Tailwind CSS, providing a clean and responsive design.
+
+- **Powered by Shadcn UI:** The Shadcn UI library is used to enhance the visual appeal of the web app.
+
+## Rich Features
+
+- **PWA (Progressive Web App):** Install Let's Cook on your device for quick access and an app-like experience.
+
+- **User-Friendly:** The interface is designed with simplicity in mind, making it easy to navigate, search, and save your favorite recipes.
+
+- **SEO Configuration:** The content is optimized to ensure easy discovery of Let's Cook recipes through search engines.
+
+- **Seamless Animations:** Enjoy a visually engaging experience with smooth animations that enhance your cooking journey.
+
+## Cooking Made Easy
+
+### View Recipe Page
+
+Each recipe page provides you with:
+
+- **Ingredient List:** Know exactly what you need before you start cooking.
+
+- **Cooking Video Tutorial:** Follow along with step-by-step video instructions.
+
+- **Step-by-Step Instructions:** Detailed guidance to ensure your meal turns out perfectly.
+
+Join me on this culinary adventure, and let's cook up something amazing together!
 
 ## Learn More
 
