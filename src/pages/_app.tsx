@@ -8,18 +8,20 @@ import {DefaultSeo} from 'next-seo'
 import * as SEO from '../../next-seo.config'
 import {Analytics} from '@vercel/analytics/react';
 import {useProgressLine} from "@/hooks";
+import {ClerkProvider} from "@clerk/nextjs";
 
 export default function App({Component, pageProps}: AppProps) {
     useProgressLine()
-
     const {store, props} = wrapper.useWrappedStore(pageProps);
     return (
         <Provider store={store}>
-            <Layout>
-                <DefaultSeo {...SEO} />
+            <ClerkProvider {...pageProps}>
+                <Layout>
+                    <DefaultSeo {...SEO} />
                     <Component {...props.pageProps} />
-                <Analytics/>
-            </Layout>
+                    <Analytics/>
+                </Layout>
+            </ClerkProvider>
         </Provider>
     );
 }

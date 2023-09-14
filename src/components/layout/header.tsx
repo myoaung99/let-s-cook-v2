@@ -7,6 +7,8 @@ import {NextRouter, useRouter} from "next/router";
 import {motion, useMotionValueEvent, useScroll} from 'framer-motion';
 import Image from "next/image";
 import {Playfair} from 'next/font/google'
+import {useAuth, UserButton} from "@clerk/nextjs";
+import {Button} from "@/components/ui/button";
 
 const SCROLL_WITH_NAV_HEIGHT = 150;
 
@@ -77,20 +79,28 @@ const MenuToggleButton = () => {
     const toggleMobileMenu = () => {
         dispatch(toggleMobileNav())
     }
-    return <button onClick={toggleMobileMenu} className="lg:hidden ps-3">
-        {showMobileNav ? 'Close' : 'Menu'}
-    </button>
+    return <>
+        <button onClick={toggleMobileMenu} className="lg:hidden ps-3">
+            {showMobileNav ? 'Close' : 'Menu'}
+        </button>
+    </>
+
 }
 
 const DesktopMenuItems = () => {
     const router = useRouter();
+    const {isLoaded, userId} = useAuth();
+
+    const handleToLogin = () => {
+        router.push('/sign-in')
+    }
 
     return (
-        <ul className="hidden menu-list lg:flex">
+        <ul className={`hidden menu-list lg:flex items-center gap-1`}>
             {
                 menuData.map((menu: MenuData) => (
                     <li
-                        className={`transition-transform p-2 mx-2 last:me-0 hover:underline ${getActiveTabStyles(menu, router)}
+                        className={`transition-transform p-2 mx-1 last:me-0 hover:underline ${getActiveTabStyles(menu, router)}
                             `}
                         key={menu.href}>
                         <Link href={menu.href}>
@@ -99,6 +109,14 @@ const DesktopMenuItems = () => {
                     </li>
                 ))
             }
+            {!userId || !isLoaded ?
+                <Button onClick={handleToLogin} variant='ghost'
+                        className={`w-[60px] hover:cursor-pointer text-md`}>
+                    Login
+                </Button> : null
+            }
+
+            <UserButton afterSignOutUrl="/"/>
         </ul>)
 }
 
