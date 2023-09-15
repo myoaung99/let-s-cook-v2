@@ -57,7 +57,9 @@ G.idea/sonarlint/issuestore/3/6/3651e713ece587e8fda93e3d904743942f92b92a,7\4\74
 -.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
 B
 src/pages/_app.tsx,2\e\2eefa41a18ed6ea3f58b3748f9e5559a28e77646
-I
-src/lib/supabaseClient.js,d\b\db506ce253b6a27058e7b8e8b5d8cdc92d37de28
 C
 src/pages/index.tsx,d\2\d2d3bb60cab7e8c869b5fdf0a820b7edf2fc7859
+D
+src/lib/db-config.js,5\b\5bbe61c965a0a0982049701c1b791cf585be8d70
+A
+src/Model/User.js,4\f\4f7372d0c4e690f82b817851d1c7ce32d01ba354

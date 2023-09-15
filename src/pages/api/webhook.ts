@@ -29,11 +29,11 @@ export default async function handler(
     const eventType = evt.type;
 
     if (eventType === 'user.created') {
-        connectDB();
-        // const newUser = new User({clerk_id: id})
-        // const user = await newUser.save()
-        // console.log('user', user)
-        // res.status(201).json({user});
+        await connectDB();
+        const newUser = new User({clerk_id: id})
+        const user = await newUser.save()
+        console.log('user', user)
+        res.status(201).json({user});
         console.log(`User ${id} was ${eventType}`);
     }
 }
