@@ -3,9 +3,12 @@ import {wrapper} from '@/app/store';
 import {getRunningQueriesThunk} from '@/services/controller';
 import {RecipeList} from '@/features/Recipes';
 import {
-    getAllCountries, getAllIngredient,
+    getAllCountries,
+    getAllIngredient,
     getCategories,
-    getMealsByCategory, getMealsByCountry, getMealsByIngredient,
+    getMealsByCategory,
+    getMealsByCountry,
+    getMealsByIngredient,
 } from '@/features/Recipes/components/recipesService';
 import {NextSeo} from "next-seo";
 import {FILTER_VALUES} from "@/features/Recipes/utils";

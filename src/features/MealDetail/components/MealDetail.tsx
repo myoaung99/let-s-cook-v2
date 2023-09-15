@@ -3,11 +3,13 @@ import {MealDetailHeader} from "@/features/MealDetail/components/MealDetailHeade
 import {MealDetailTutorial} from "@/features/MealDetail/components/MealDetailTutorial";
 import {MealDetailInstructions} from "@/features/MealDetail/components/MealDetailInstructions";
 import {useGetMealData} from "@/features/MealDetail/hooks/useGetMealData";
+import {useAuth} from "@clerk/nextjs";
 
 export const MealDetail = () => {
     const {isLoading} = useGetMealData()
+    const {isLoaded} = useAuth()
 
-    if (isLoading) {
+    if (isLoading || !isLoaded) {
         return <p>loading...</p>
     }
 

@@ -96,28 +96,33 @@ const DesktopMenuItems = () => {
     }
 
     return (
-        <ul className={`hidden menu-list lg:flex items-center gap-1`}>
-            {
-                menuData.map((menu: MenuData) => (
-                    <li
-                        className={`transition-transform p-2 mx-1 last:me-0 hover:underline ${getActiveTabStyles(menu, router)}
+        <div className={"flex items-center gap-6"}>
+            <ul className={`hidden menu-list lg:flex items-center gap-1`}>
+                {
+                    menuData.map((menu: MenuData) => (
+                        <li
+                            className={`transition-transform p-2 mx-1 last:me-0 hover:underline ${getActiveTabStyles(menu, router)}
                             `}
-                        key={menu.href}>
-                        <Link href={menu.href}>
-                            <span className="text-md px-4">{menu.label}</span>
-                        </Link>
-                    </li>
-                ))
-            }
-            {!userId || !isLoaded ?
-                <Button onClick={handleToLogin} variant='ghost'
-                        className={`w-[60px] hover:cursor-pointer text-md`}>
-                    Login
-                </Button> : null
-            }
+                            key={menu.href}>
+                            <Link href={menu.href}>
+                                <span className="text-md px-4">{menu.label}</span>
+                            </Link>
+                        </li>
+                    ))
+                }
+            </ul>
 
-            <UserButton afterSignOutUrl="/"/>
-        </ul>)
+            <div>
+                {!userId || !isLoaded ?
+                    <Button onClick={handleToLogin} variant='ghost'
+                            className={`w-[60px] hover:cursor-pointer text-md`}>
+                        Login
+                    </Button> :
+                    <UserButton afterSignOutUrl="/"/>
+                }
+            </div>
+        </div>
+    )
 }
 
 const MobileMenuItems = () => {

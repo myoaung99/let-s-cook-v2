@@ -18,5 +18,5 @@ export const useGetMealData = () => {
         return getRecipeIngredientMeasures(mealDetailData) as Array<Measurement> | undefined | null
     }, [mealDetailData])
 
-    return {data, isLoading, getMealIngredientMeasures, mealDetailData, router}
+    return {data, isLoading, getMealIngredientMeasures, mealDetailData, router, recipeId}
 }
