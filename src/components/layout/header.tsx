@@ -9,6 +9,16 @@ import Image from "next/image";
 import {Playfair} from 'next/font/google'
 import {useAuth, UserButton} from "@clerk/nextjs";
 import {Button} from "@/components/ui/button";
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
 
 const SCROLL_WITH_NAV_HEIGHT = 150;
 
@@ -22,6 +32,7 @@ export const Header = () => {
     const [hideNavbar, setHideNavbar] = useState(false);
     const {scrollY} = useScroll();
     const {showMobileNav} = useSelector(state => state.global)
+    const dispatch = useDispatch();
 
     useMotionValueEvent(scrollY, 'change', (scrolledPosition) => {
         const previousScrolledPosition = scrollY.getPrevious();
@@ -41,6 +52,10 @@ export const Header = () => {
         }
     }, [showMobileNav]);
 
+    const toggleMobileMenu = () => {
+        dispatch(toggleMobileNav())
+    }
+
     return (
         <motion.section
             variants={{hidden: {y: -100}, visible: {y: 0}}}
@@ -53,38 +68,50 @@ export const Header = () => {
                     <Link href="/">Let's Cook</Link>
                 </div>
                 <DesktopMenuItems/>
-                <MenuToggleButton/>
-                <MobileMenu/>
+                <Sheet>
+                    {
+                        <SheetTrigger onClick={toggleMobileMenu}>Open</SheetTrigger>
+                    }
+                    <MobileMenu/>
+                </Sheet>
             </nav>
         </motion.section>
     );
 };
 
 const MobileMenu = () => {
-        const {showMobileNav} = useSelector(state => state.global)
+    const {isLoaded, userId} = useAuth();
+    const router = useRouter()
 
-        return (
-            <>
-                {showMobileNav ?
-                    <MobileMenuItems/>
-                    : null}
-            </>
-        )
+    const handleToLogin = () => {
+        router.push('/sign-in')
     }
-;
+    return (
+        <SheetContent>
+            <SheetHeader>
+                <SheetTitle className='text-left'>Let's Cook</SheetTitle>
+                <SheetDescription className='pt-5'>
+                    {
+                        menuData.map((menu, index) => (
+                            <Link href={menu.href} key={menu.href} className={"border-b-2"}>
+                                <SheetClose asChild>
+                                    <p className={`text-lg text-start ${inter.className}`}>{menu.label}</p>
+                                </SheetClose>
+                            </Link>
+                        ))
+                    }
+                </SheetDescription>
+                <SheetFooter className='absolute bottom-4 right-4'>
+                    <div>
+                        {userId || isLoaded ?
+                            <UserButton afterSignOutUrl="/"/> : null
 
-const MenuToggleButton = () => {
-    const dispatch = useDispatch()
-    const {showMobileNav} = useSelector(state => state.global)
-    const toggleMobileMenu = () => {
-        dispatch(toggleMobileNav())
-    }
-    return <>
-        <button onClick={toggleMobileMenu} className="lg:hidden ps-3">
-            {showMobileNav ? 'Close' : 'Menu'}
-        </button>
-    </>
-
+                        }
+                    </div>
+                </SheetFooter>
+            </SheetHeader>
+        </SheetContent>
+    )
 }
 
 const DesktopMenuItems = () => {
@@ -112,7 +139,7 @@ const DesktopMenuItems = () => {
                 }
             </ul>
 
-            <div>
+            <div className='hidden lg:block'>
                 {!userId || !isLoaded ?
                     <Button onClick={handleToLogin} variant='ghost'
                             className={`w-[60px] hover:cursor-pointer text-md`}>
@@ -127,7 +154,6 @@ const DesktopMenuItems = () => {
 
 const MobileMenuItems = () => {
     const dispatch = useDispatch()
-
 
     const toggleMobileMenu = () => {
         dispatch(toggleMobileNav())
