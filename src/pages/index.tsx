@@ -4,30 +4,10 @@ import {NextSeo} from "next-seo";
 import Script from "next/script";
 import {Benefits} from "@/features/Benefits";
 import {TopCategories} from "@/features/TopCategories";
-import supabase from "@/lib/supabaseClient";
-import {useAuth} from "@clerk/nextjs";
 
 export default function Home() {
-    const { getToken } = useAuth()
-
-    const fetchData = async () => {
-        // TODO #1: Replace with your JWT template name
-        const token = await getToken({ template: 'supabase' })
-
-        supabase.auth.setAuth(token)
-
-        // TODO #2: Replace with your database table name
-        const { data, error } = await supabase.from('your_table').select()
-
-        // TODO #3: Handle the response
-    }
-
-
     return (
         <>
-            <button type="button" onClick={fetchData}>
-                Fetch data
-            </button>
             <NextSeo
                 title="Let's Cook"
                 description="Explore a world of recipes on our Next.js site. From savory dishes to sweet treats, find culinary inspiration here!"

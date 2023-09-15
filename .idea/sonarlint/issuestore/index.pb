@@ -57,3 +57,7 @@ H
 src/pages/api/webhook.ts,1\8\18362590ee66d27b5cb43e2be6035a78be935715
 A
 src/middleware.ts,c\8\c877023f10ac16a1ece2899a03aec3e05df9896c
+I
+src/lib/supabaseClient.js,d\b\db506ce253b6a27058e7b8e8b5d8cdc92d37de28
+C
+src/pages/index.tsx,d\2\d2d3bb60cab7e8c869b5fdf0a820b7edf2fc7859

@@ -35,6 +35,8 @@
     "cmdk": "^0.2.0",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.274.0",
+    "mongodb": "^6.1.0",
+    "mongoose": "^7.5.1",
     "next": "13.4.19",
     "next-offline": "^5.0.5",
     "next-redux-wrapper": "^8.1.0",
