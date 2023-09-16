@@ -5,7 +5,7 @@ const withOffline = require('next-offline')
 const nextConfig = {
     reactStrictMode: true,
     images: {
-        domains: ['www.themealdb.com', 'www.themealdb.com/images/media/meals']
+        domains: ['www.themealdb.com', 'www.themealdb.com/images/media/meals', 'img.clerk.com']
     },
     workboxOpts: {
         swDest: process.env.NEXT_EXPORT

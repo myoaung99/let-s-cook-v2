@@ -7,7 +7,7 @@ import {NextRouter, useRouter} from "next/router";
 import {motion, useMotionValueEvent, useScroll} from 'framer-motion';
 import Image from "next/image";
 import {Playfair} from 'next/font/google'
-import {useAuth, UserButton} from "@clerk/nextjs";
+import {useAuth, UserButton, useUser} from "@clerk/nextjs";
 import {Button} from "@/components/ui/button";
 import {
     Sheet,
@@ -61,7 +61,7 @@ export const Header = () => {
             variants={{hidden: {y: -100}, visible: {y: 0}}}
             animate={hideNavbar ? 'hidden' : 'visible'}
             transition={{delay: 0.3, easings: 'easeInOut'}}
-            className="fixed w-full bg-stone-900 text-white z-50">
+            className="fixed w-full bg-stone-900 text-white z-10">
             <nav className="container h-16 flex items-center justify-between ">
                 <div className="font-bold text-xl px-3 flex gap-2 items-center">
                     <Image src={"/static/logo.png"} alt={'logo'} width={40} height={40}/>
@@ -70,7 +70,7 @@ export const Header = () => {
                 <DesktopMenuItems/>
                 <Sheet>
                     {
-                        <SheetTrigger onClick={toggleMobileMenu}>Open</SheetTrigger>
+                        <SheetTrigger className='lg:hidden' onClick={toggleMobileMenu}>Open</SheetTrigger>
                     }
                     <MobileMenu/>
                 </Sheet>
@@ -81,19 +81,17 @@ export const Header = () => {
 
 const MobileMenu = () => {
     const {isLoaded, userId} = useAuth();
-    const router = useRouter()
+    const {user} = useUser()
+    const imageUrl = user?.imageUrl
 
-    const handleToLogin = () => {
-        router.push('/sign-in')
-    }
     return (
-        <SheetContent>
+        <SheetContent className={'flex flex-col justify-between'}>
             <SheetHeader>
                 <SheetTitle className='text-left'>Let's Cook</SheetTitle>
                 <SheetDescription className='pt-5'>
                     {
-                        menuData.map((menu, index) => (
-                            <Link href={menu.href} key={menu.href} className={"border-b-2"}>
+                        menuData.map((menu) => (
+                            <Link href={menu.href} key={menu.href}>
                                 <SheetClose asChild>
                                     <p className={`text-lg text-start ${inter.className}`}>{menu.label}</p>
                                 </SheetClose>
@@ -101,15 +99,31 @@ const MobileMenu = () => {
                         ))
                     }
                 </SheetDescription>
-                <SheetFooter className='absolute bottom-4 right-4'>
-                    <div>
-                        {userId || isLoaded ?
-                            <UserButton afterSignOutUrl="/"/> : null
-
-                        }
-                    </div>
-                </SheetFooter>
             </SheetHeader>
+            <SheetFooter>
+                <div>
+                    {userId || isLoaded ?
+                        <SheetClose asChild>
+                            <Link href={'/user-profile'}>
+                                {
+                                    imageUrl ? <Image
+                                            className={'rounded-full'}
+                                            width={50} height={50} src={imageUrl}
+                                            alt={user?.fullName ?? 'profile image'}
+                                        />
+                                        : <div className={"w-[50px] h-[50px]"}/>
+                                }
+                            </Link>
+                        </SheetClose>
+                        :
+                        <Button className='w-full' >
+                            <Link href={'/sign-in'} className='text-lg'>
+                                Login
+                            </Link>
+                        </Button>
+                    }
+                </div>
+            </SheetFooter>
         </SheetContent>
     )
 }
@@ -145,44 +159,12 @@ const DesktopMenuItems = () => {
                             className={`w-[60px] hover:cursor-pointer text-md`}>
                         Login
                     </Button> :
-                    <UserButton afterSignOutUrl="/"/>
+                    <UserButton
+                        afterSignOutUrl="/"/>
+
                 }
             </div>
         </div>
-    )
-}
-
-const MobileMenuItems = () => {
-    const dispatch = useDispatch()
-
-    const toggleMobileMenu = () => {
-        dispatch(toggleMobileNav())
-    }
-    return (
-        <article
-            className="z-30 fixed top-16 left-0 h-screen w-full bg-black backdrop-filter backdrop-blur bg-opacity-80 text-black xl:hidden">
-            <div
-                className='flex flex-col justify-center items-center h-full w-full pb-16'>
-                <ul
-                    className="flex flex-col text-center items-stretch text-white">
-                    {
-                        menuData.map((menu, index) => (
-                            <Link onClick={toggleMobileMenu} href={menu.href} key={menu.href}>
-                                <motion.li
-                                    variants={{hidden: {opacity: 0, y: -400}, visible: {opacity: 1, y: 0}}}
-                                    initial='hidden'
-                                    animate='visible'
-                                    transition={{delay: index * 0.3, easings: 'ease'}}
-                                    className="mx-2 mb-5 cursor-pointer">
-                                    <p className={`text-2xl underline ${inter.className}`}>{menu.label}</p>
-                                </motion.li>
-                            </Link>
-                        ))
-                    }
-                </ul>
-            </div>
-        </article>
-
     )
 }
 
