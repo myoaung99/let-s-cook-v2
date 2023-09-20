@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {MenuData} from "@/components/layout/types";
-import {useDispatch, useSelector} from "@/hooks";
+import {useDispatch} from "@/hooks";
 import {toggleMobileNav} from "@/app/globalSlice";
 import {NextRouter, useRouter} from "next/router";
 import {motion, useMotionValueEvent, useScroll} from 'framer-motion';
@@ -32,7 +32,6 @@ const inter = Playfair({
 export const Header = () => {
     const [hideNavbar, setHideNavbar] = useState(false);
     const {scrollY} = useScroll();
-    const {showMobileNav} = useSelector(state => state.global)
     const dispatch = useDispatch();
 
     useMotionValueEvent(scrollY, 'change', (scrolledPosition) => {
@@ -44,14 +43,6 @@ export const Header = () => {
             setHideNavbar(false)
         }
     })
-
-    useEffect(() => {
-        if (showMobileNav) {
-            document.body.style.overflowY = 'hidden'
-        } else {
-            document.body.style.overflowY = 'scroll'
-        }
-    }, [showMobileNav]);
 
     const toggleMobileMenu = () => {
         dispatch(toggleMobileNav())
