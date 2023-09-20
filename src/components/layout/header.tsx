@@ -19,6 +19,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
+import {useClerk} from "@clerk/clerk-react";
 
 const SCROLL_WITH_NAV_HEIGHT = 150;
 
@@ -80,6 +81,7 @@ export const Header = () => {
 };
 
 const MobileMenu = () => {
+    const {signOut} = useClerk();
     const {isLoaded, userId} = useAuth();
     const {user} = useUser()
     const imageUrl = user?.imageUrl
@@ -98,11 +100,16 @@ const MobileMenu = () => {
                             </Link>
                         ))
                     }
+                    {userId && isLoaded
+                        ? <SheetClose asChild>
+                            <p onClick={() => signOut()} className={`text-lg text-start ${inter.className}`}>Logout</p>
+                        </SheetClose>
+                        : null}
                 </SheetDescription>
             </SheetHeader>
             <SheetFooter>
                 <div>
-                    {userId || isLoaded ?
+                    {userId && isLoaded ?
                         <SheetClose asChild>
                             <Link href={'/user-profile'}>
                                 {
@@ -116,11 +123,13 @@ const MobileMenu = () => {
                             </Link>
                         </SheetClose>
                         :
-                        <Button className='w-full' >
-                            <Link href={'/sign-in'} className='text-lg'>
-                                Login
-                            </Link>
-                        </Button>
+                        <Link href={'/sign-in'} className='text-lg'>
+                            <SheetClose asChild>
+                                <Button className='w-full'>
+                                    Login
+                                </Button>
+                            </SheetClose>
+                        </Link>
                     }
                 </div>
             </SheetFooter>
