@@ -1,9 +1,9 @@
 import {useRouter} from "next/router";
 import {useGetMealByIdQuery} from "@/features/Recipes/components/recipesService";
 import {skipToken} from "@reduxjs/toolkit/query";
-import {getRecipeIngredientMeasures} from "@/features/MealDetail/utils";
 import {useCallback, useMemo} from "react";
 import {Measurement} from "@/features/MealDetail/components/MealIngredients";
+import {getRecipeIngredientMeasures} from "@/features/MealDetail/utils";
 
 export const useGetMealData = () => {
     const router = useRouter()

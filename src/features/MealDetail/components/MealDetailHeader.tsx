@@ -4,43 +4,71 @@ import {MealDetailPDF} from "@/features/MealDetail/components/MealDetailPDF";
 import {useIsClient} from "@/hooks";
 import {useGetMealData} from "@/features/MealDetail/hooks/useGetMealData";
 import {useAuth} from "@clerk/nextjs";
-import {useEffect, useState} from "react";
-import {Heart} from "lucide-react";
+import {useCallback, useEffect, useState} from "react";
+import {Star} from "lucide-react";
+import {useToast} from "@/components/ui/use-toast";
+import {ToastAction} from "@/components/ui/toast";
+import {User} from "@/types";
+import {getSignInUserData} from "@/features/MealDetail/utils";
+import {createBookmark} from "@/features/MealDetail/utils/createBookmark";
 
 export const MealDetailHeader = () => {
     const [isClient] = useIsClient()
     const {userId} = useAuth()
+    const {toast} = useToast()
     const [isBookmarked, setIsBookmarked] = useState(false);
     const {router, mealDetailData, getMealIngredientMeasures, recipeId} = useGetMealData()
     const handlGoBack = () => {
         router.back()
     }
     const mealIngredientMeasures = getMealIngredientMeasures()
+    const getIsBookmarked = useCallback((user: User) => {
+        return !!user.bookmarks.find((bookmark: string) => bookmark === recipeId) || false;
+    }, [])
+
+
+    const setUserData = async () => {
+        if (!userId) {
+            return
+        }
+        const data = await getSignInUserData(userId)
+        const isBookmark = getIsBookmarked(data.user)
+        setIsBookmarked(isBookmark)
+    }
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            const res = await fetch('/api/me', {
-                method: 'POST',
-                body: JSON.stringify({clerk_id: userId}),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            const data = await res.json()
-            const isBookmark = data.user.bookmarks.find((bookmark: string) => bookmark === recipeId) || false
-            setIsBookmarked(isBookmark)
-        }
         if (window) {
-            fetchUserData()
+            setUserData()
         }
-    }, [userId]);
+    }, []);
 
     const handleBookmark = async () => {
+        if (!userId) {
+            toast({
+                variant: "destructive",
+                title: "Unauthorized action",
+                description: "Please login to bookmark recipe",
+                action: (
+                    <ToastAction onClick={() => router.push(`/sign-in?redirect_url=/recipes/${recipeId}`)}
+                                 altText="Goto login to sign-up">Login</ToastAction>
+
+                )
+            })
+
+            return null
+        }
         const status = isBookmarked ? 'REMOVE_BOOKMARK' : 'ADD_BOOKMARK';
         setIsBookmarked(prev => !prev)
-        const res = await fetchBookmark({status, recipeId, userId})
+        const res = await createBookmark({status, recipeId, userId})
+
         if (!res.ok) {
-            setIsBookmarked(prev => !prev)
+            setTimeout(() => {
+                setIsBookmarked(prev => !prev)
+                toast({
+                    title: "Something went wrong",
+                    description: "Fail to mark favorite recipe, please try again later",
+                })
+            }, 500)
         }
     }
 
@@ -71,8 +99,8 @@ export const MealDetailHeader = () => {
                             </Button>
                         </PDFDownloadLink>
                         : <div className='w-[150px]'/>}
-                    <Button variant={'ghost'} size={'icon'} onClick={handleBookmark}>
-                        <Heart {...isBookmarked ? {fill: 'true'} : {}}/>
+                    <Button key={router.asPath} variant={'ghost'} size={'icon'} onClick={handleBookmark}>
+                        <Star {...isBookmarked ? {fill: 'true'} : {}}/>
                     </Button>
                 </div>
 
@@ -80,19 +108,4 @@ export const MealDetailHeader = () => {
             <p className="visible md:hidden pb-1 pt-8 font-semibold underline text-2xl text-center underline-offset-2">{mealDetailData?.strMeal}</p>
         </>
     )
-}
-
-const fetchBookmark = async ({status, recipeId, userId}: { status?: any, recipeId?: any, userId?: any }) => {
-    return await fetch('/api/bookmark', {
-        method: 'POST',
-        body: JSON.stringify({
-                status,
-                recipeId,
-                userId
-            },
-        ),
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
 }

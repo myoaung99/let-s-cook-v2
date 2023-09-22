@@ -73,10 +73,10 @@ export const Header = () => {
 
 const MobileMenu = () => {
     const {signOut} = useClerk();
+    const router = useRouter()
     const {isLoaded, userId} = useAuth();
     const {user} = useUser()
     const imageUrl = user?.imageUrl
-
     return (
         <SheetContent className={'flex flex-col justify-between'}>
             <SheetHeader>
@@ -114,7 +114,7 @@ const MobileMenu = () => {
                             </Link>
                         </SheetClose>
                         :
-                        <Link href={'/sign-in'} className='text-lg'>
+                        <Link href={`/sign-in?redirect_url=${router.asPath}`} className='text-lg'>
                             <SheetClose asChild>
                                 <Button className='w-full'>
                                     Login

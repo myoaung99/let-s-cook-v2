@@ -9,6 +9,7 @@ import * as SEO from '../../next-seo.config'
 import {Analytics} from '@vercel/analytics/react';
 import {useProgressLine} from "@/hooks";
 import {ClerkProvider} from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster"
 
 export default function App({Component, pageProps}: AppProps) {
     useProgressLine()
@@ -21,6 +22,7 @@ export default function App({Component, pageProps}: AppProps) {
                     <Component {...props.pageProps} />
                     <Analytics/>
                 </Layout>
+                <Toaster />
             </ClerkProvider>
         </Provider>
     );

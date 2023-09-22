@@ -1,4 +1,6 @@
-const getRecipeIngredientMeasures = (mealDetail: any) => {
+import {extractNumberFromString} from "@/features/MealDetail/utils";
+
+export const getRecipeIngredientMeasures = (mealDetail: any) => {
     const mealIngredientMeasures: any = []
 
     for (const [key, value] of Object.entries(mealDetail)) {
@@ -19,27 +21,3 @@ const getRecipeIngredientMeasures = (mealDetail: any) => {
     }
     return mealIngredientMeasures
 }
-
-const extractNumberFromString = (str: string): string => {
-    const result = str.match(/\d+/g)
-    if (result) {
-        return result[0]
-    }
-    return '0'
-}
-
-
-const getYoutubeId = (url: string) => {
-    let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    let match = regExp.exec(url)
-
-    if (match && match[2].length === 11) {
-        return match[2];
-    } else {
-        return "error";
-    }
-}
-
-
-
-export {extractNumberFromString, getRecipeIngredientMeasures, getYoutubeId}

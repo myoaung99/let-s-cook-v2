@@ -1,5 +1,6 @@
-import {getYoutubeId} from "@/features/MealDetail/utils";
+
 import {useGetMealData} from "@/features/MealDetail/hooks/useGetMealData";
+import {getYoutubeId} from "@/features/MealDetail/utils";
 
 export const MealDetailTutorial = () => {
     const {mealDetailData} = useGetMealData()
