@@ -4,14 +4,14 @@
 R
 "src/features/Benefits/Benefits.tsx,4\d\4dc195f587e27c667967ac6c70d31cce170c378e
 >
-next.config.js,8\1\811a6d5a2e04fadb44d8eec365f2fa8af5c4facf
+next.config.js,8/1/811a6d5a2e04fadb44d8eec365f2fa8af5c4facf
 J
 src/features/Hero/hero.tsx,3\6\3651e713ece587e8fda93e3d904743942f92b92a
 9
 	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 :
 
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
 P
  src/pages/recipes/[recipeId].tsx,7\9\7979ec36ce389dd5031e30915ba39ad433196940
 :
@@ -38,7 +38,7 @@ R
 Å
 Q.idea/sonarlint/securityhotspotstore/3/6/3651e713ece587e8fda93e3d904743942f92b92a,d\d\dd8c78f2242b04edc1c62febb00dbe1dbdd9c30f
 P
- src/components/layout/header.tsx,b\9\b9b753c668bc2473e946d5598a999e51134cbb7e
+ src/components/layout/header.tsx,b/9/b9b753c668bc2473e946d5598a999e51134cbb7e
 w
 G.idea/sonarlint/issuestore/a/8/a813351f9c2c08cf80535c3b4be3516efb2865ea,e\7\e7411b2db6616f57ed633ba5963198f4c650282d
 A
@@ -77,3 +77,5 @@ I
 src/pages/api/bookmark.ts,7\2\72f65575dd4776a8a7d00d03a1cf64adde17e469
 K
 src/components/ui/sheet.tsx,6\e\6ebd5fb02ef5b7fd29cccdb8d2a7ac5ebcb93283
+\
+,src/features/TopCategories/TopCategories.tsx,2/6/2673dc73b3a81b2372877c86560b55667f12f478
