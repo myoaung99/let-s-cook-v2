@@ -106,7 +106,7 @@ function Benefits() {
     );
 }
 
-export {Benefits}
+export default Benefits
 
 const BenefitsContent = [
     {

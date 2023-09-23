@@ -1,6 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import connectDB from "@/lib/db-config";
 import User from "@/Model/User";
+import {disconnect} from "mongoose";
 
 export default async function handler(
     req: NextApiRequest,
@@ -21,6 +22,8 @@ export default async function handler(
         } else {
             res.status(400).json({message: 'bad request'});
         }
+
+        await disconnect()
     }
 
 }

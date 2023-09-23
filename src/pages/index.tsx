@@ -1,12 +1,15 @@
-import {Hero} from '@/features/Hero';
-import {MealPreviewList} from '@/features/MealPreview/MealPreviewList';
-import {NextSeo} from "next-seo";
-import Script from "next/script";
-import {Benefits} from "@/features/Benefits";
-import {TopCategories} from "@/features/TopCategories";
-import { clerkClient } from "@clerk/nextjs";
-import { getAuth, buildClerkProps } from "@clerk/nextjs/server";
-import { GetServerSideProps } from "next";
+import { Hero } from '@/features/Hero';
+import { NextSeo } from 'next-seo';
+import Script from 'next/script';
+import { clerkClient } from '@clerk/nextjs';
+import { getAuth, buildClerkProps } from '@clerk/nextjs/server';
+import { GetServerSideProps } from 'next';
+import dynamic from 'next/dynamic';
+
+const Benefits = dynamic(() => import('../features/Benefits'));
+const MealPreviewList = dynamic(
+    () => import('../features/MealPreview/MealPreviewList')
+);
 
 export default function Home() {
     return (
@@ -17,22 +20,25 @@ export default function Home() {
                 canonical="https://lets-cook-v2.vercel.app/"
                 openGraph={{
                     url: 'https://lets-cook-v2.vercel.app/',
-                    title: 'Let\'s Cook - Open Graph',
-                    description: 'This is a recipe finder website built by Next.js - Open Graph Description',
+                    title: "Let's Cook - Open Graph",
+                    description:
+                        'This is a recipe finder website built by Next.js - Open Graph Description',
                     images: [
                         {
                             url: 'https://lets-cook-v2.vercel.app/static/home-preview-800-600.png',
                             width: 800,
                             height: 600,
-                            alt: 'Let\'s Cook page - Og Image Alt',
+                            alt: "Let's Cook page - Og Image Alt",
                         },
                         {
                             url: 'https://lets-cook-v2.vercel.app/static/home-preview-900-800.png',
                             width: 900,
                             height: 800,
-                            alt: 'Let\'s Cook page - Og Image Alt',
+                            alt: "Let's Cook page - Og Image Alt",
                         },
-                        {url: 'https://lets-cook-v2.vercel.app/static/home-preview.png'},
+                        {
+                            url: 'https://lets-cook-v2.vercel.app/static/home-preview.png',
+                        },
                     ],
                 }}
                 additionalMetaTags={[
@@ -45,7 +51,9 @@ export default function Home() {
             />
 
             <section className="mb-16">
-                <Script src={`https://www.googletagmanager.com/gtag/js?id=G-5P4C2YF2MT`}/>
+                <Script
+                    src={`https://www.googletagmanager.com/gtag/js?id=G-5P4C2YF2MT`}
+                />
                 <Script id="google-analytics">
                     {`
           window.dataLayer = window.dataLayer || [];
@@ -55,14 +63,12 @@ export default function Home() {
         `}
                 </Script>
                 <div className="relative mt-8 md:mt-7 lg:mt-12 h-[550px] overflow-hidden">
-                    <Hero/>
+                    <Hero />
                 </div>
-                <Benefits/>
-                <MealPreviewList/>
-                <TopCategories/>
+                <Benefits />
+                <MealPreviewList />
             </section>
         </>
-
     );
 }
 
