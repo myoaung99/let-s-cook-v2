@@ -43,8 +43,6 @@ w
 G.idea/sonarlint/issuestore/a/8/a813351f9c2c08cf80535c3b4be3516efb2865ea,e\7\e7411b2db6616f57ed633ba5963198f4c650282d
 A
 src/middleware.ts,c\8\c877023f10ac16a1ece2899a03aec3e05df9896c
-H
-src/pages/categories.tsx,7\9\7943e983c138bc51aba35072e90ff6e736526e60
 w
 G.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d,b\4\b4a0b63ce8560bbc5de0f9995c20cc861dc2adb3
 w
@@ -87,3 +85,7 @@ Q
 !src/features/MealPreview/index.ts,2/a/2aa1d68d451ca350e887aebf47f6ffd88addb872
 G
 src/pages/_document.tsx,0/5/052f85edfc3fbb9d129530f0f8b191ff6c16f7ce
+A
+postcss.config.js,3/f/3f70684581fd16ab3be77ca959e0138ef3ee8bfb
+B
+next-seo.config.ts,2/d/2d1731a4b25bcb376bd163d2d8e1930a3fc7896e
