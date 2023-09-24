@@ -1,4 +1,4 @@
-import { baseApi } from "@/services/controller";
+import { baseApi } from '@/services/controller';
 
 export const recipesService = baseApi.injectEndpoints({
     endpoints: (build) => ({
@@ -6,40 +6,42 @@ export const recipesService = baseApi.injectEndpoints({
             query: () => `categories.php`,
         }),
         getAllCountries: build.query({
-            query: () => `list.php?a=list`
+            query: () => `list.php?a=list`,
         }),
         getAllIngredient: build.query({
-            query: () => `list.php?i=list`
+            query: () => `list.php?i=list`,
         }),
         getMealsByCategory: build.query({
-            query: (categoryId) => `filter.php?c=${categoryId}`
+            query: (categoryId) => `filter.php?c=${categoryId}`,
         }),
         getMealsByCountry: build.query({
-            query: (country) => `filter.php?a=${country}`
+            query: (country) => `filter.php?a=${country}`,
         }),
         getMealById: build.query({
-            query: (mealId)=> `lookup.php?i=${mealId}`
+            query: (mealId) => `lookup.php?i=${mealId}`,
         }),
         getMealsByIngredient: build.query({
-            query: (ingredient)=> `filter.php?i=${ingredient}`
-        })
+            query: (ingredient) => `filter.php?i=${ingredient}`,
+        }),
     }),
     overrideExisting: false,
 });
 
-export const { getCategories,
+export const {
+    getCategories,
     getMealsByCategory,
     getMealById,
     getAllCountries,
-    getMealsByCountry ,
+    getMealsByCountry,
     getAllIngredient,
-    getMealsByIngredient
+    getMealsByIngredient,
 } = recipesService.endpoints;
-export const { useGetCategoriesQuery,
+export const {
+    useGetCategoriesQuery,
     useGetMealsByCategoryQuery,
     useGetMealByIdQuery,
     useGetAllCountriesQuery,
     useGetMealsByCountryQuery,
     useGetAllIngredientQuery,
-    useGetMealsByIngredientQuery
+    useGetMealsByIngredientQuery,
 } = recipesService;
