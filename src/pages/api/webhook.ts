@@ -5,6 +5,7 @@ import type { WebhookEvent } from '@clerk/nextjs/server';
 import { Webhook } from 'svix';
 import User from "@/Model/User";
 import connectDB from "@/lib/db-config";
+import {disconnect} from "mongoose";
 
 const webhookSecret: string = process.env.WEBHOOK_SECRET!;
 
@@ -32,9 +33,8 @@ export default async function handler(
         await connectDB();
         const newUser = new User({clerk_id: id})
         const user = await newUser.save()
-        console.log('user', user)
         res.status(201).json({user});
-        console.log(`User ${id} was ${eventType}`);
+        await disconnect()
     }
 }
 

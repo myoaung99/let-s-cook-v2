@@ -3,7 +3,7 @@ import * as meals from '@/data/meals.json'
 import {SuggestionMeal} from "@/types";
 import {MealCard} from "@/components/MealCard";
 
-export const MealPreviewList = () => {
+const MealPreviewList = () => {
     return (
         <section className='md:pt-8'>
             <div className='flex justify-between items-center mb-2'>
@@ -17,6 +17,8 @@ export const MealPreviewList = () => {
         </section>
     );
 }
+
+export default MealPreviewList
 
 const PopularMeals = () => {
     return meals.popularMeals.map((meal: SuggestionMeal) => (

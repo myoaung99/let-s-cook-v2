@@ -7,34 +7,36 @@ export interface Pokemon {
 export interface SuggestionMeal {
     idMeal: string;
     strMeal: string;
-    strMealThumb : string;
+    strMealThumb: string;
 }
 
 export interface Meal {
     idMeal: string;
     strMeal: string;
-    strMealThumb : string;
+    strMealThumb: string;
 }
 
-export  interface  Area {
+export interface Area {
     strArea: string;
 }
 
-export interface User {
-    clerk_id: string;
-    bookmarks: Array<string>
-}
-
-export interface Ingredient{
+export interface Ingredient {
     idIngredient: string;
     strIngredient: string;
     strDescription: string;
-    strType: any
+    strType: any;
 }
 
-export interface Category{
+export interface Category {
     idCategory: string;
     strCategory: string;
     strCategoryDescription: string;
     strCategoryThumb: string;
+}
+
+export interface RecipeFilters {
+    filterBy: string;
+    ingredientSelector: string;
+    countrySelector: string;
+    categorySelector: string;
 }
