@@ -38,7 +38,7 @@ export default Bookmarks;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const {userId} = getAuth(ctx.req);
-    const res = await fetch(`${process.env.API_URL}/api/bookmark?clerk_userId=${userId}`)
+    const res = await fetch(`${'https://lets-cook-v2.vercel.app'}/api/bookmark?clerk_userId=${userId}`)
     if (res.ok) {
         const data = await res.json()
         return {props: {bookmarks: data.bookmarks}}
