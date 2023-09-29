@@ -1,4 +1,6 @@
 // api types
+import {ObjectId} from "mongoose";
+
 export interface Pokemon {
     name: string;
     url: string;
@@ -39,4 +41,10 @@ export interface RecipeFilters {
     ingredientSelector: string;
     countrySelector: string;
     categorySelector: string;
+}
+
+export interface User{
+    _id: ObjectId,
+    clerk_id: string;
+    bookmarks: Array<Meal>
 }

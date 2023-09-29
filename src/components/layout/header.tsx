@@ -189,5 +189,10 @@ const menuData: Array<MenuData> = [
         href: '/recipes?filter=Country&value=American',
         path: '/recipes',
         label: 'Recipes'
+    },
+    {
+        href: '/bookmarks',
+        path: '/bookmarks',
+        label: 'Bookmarks'
     }
 ]

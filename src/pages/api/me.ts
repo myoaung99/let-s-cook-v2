@@ -11,8 +11,8 @@ export default async function handler(
         const payload = JSON.stringify(req.body);
         const data = JSON.parse(payload)
 
+        await connectDB();
         if (data.clerk_id) {
-            await connectDB();
             const user = await User.findOne({clerk_id: data.clerk_id})
             if(user){
                 res.status(200).json({user: user});
@@ -22,8 +22,6 @@ export default async function handler(
         } else {
             res.status(400).json({message: 'bad request'});
         }
-
-        await disconnect()
     }
 
 }

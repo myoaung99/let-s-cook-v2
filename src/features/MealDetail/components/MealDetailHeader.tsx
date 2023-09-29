@@ -16,6 +16,7 @@ export const MealDetailHeader = () => {
     const [isClient] = useIsClient()
     const {userId} = useAuth()
     const {toast} = useToast()
+
     const [isBookmarked, setIsBookmarked] = useState(false);
     const {router, mealDetailData, getMealIngredientMeasures, recipeId} = useGetMealData()
     const handlGoBack = () => {
@@ -23,16 +24,19 @@ export const MealDetailHeader = () => {
     }
     const mealIngredientMeasures = getMealIngredientMeasures()
     const getIsBookmarked = useCallback((user: User) => {
-        return !!user.bookmarks.find((bookmark: string) => bookmark === recipeId) || false;
+        return !!user?.bookmarks.find((bookmark) => bookmark.idMeal === recipeId) || false;
     }, [])
 
+    console.log('mealDetailData', mealDetailData)
 
     const setUserData = async () => {
         if (!userId) {
             return
         }
+
         const data = await getSignInUserData(userId)
-        const isBookmark = getIsBookmarked(data.user)
+        console.log('data', data)
+        const isBookmark = getIsBookmarked(data?.user)
         setIsBookmarked(isBookmark)
     }
 
@@ -59,7 +63,7 @@ export const MealDetailHeader = () => {
         }
         const status = isBookmarked ? 'REMOVE_BOOKMARK' : 'ADD_BOOKMARK';
         setIsBookmarked(prev => !prev)
-        const res = await createBookmark({status, recipeId, userId})
+        const res = await createBookmark({status, recipe: mealDetailData, userId})
 
         if (!res.ok) {
             setTimeout(() => {

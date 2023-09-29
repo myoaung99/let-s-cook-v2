@@ -1,9 +1,9 @@
-export const createBookmark = async ({status, recipeId, userId}: { status?: any, recipeId?: any, userId?: any }) => {
+export const createBookmark = async ({status, recipe, userId}: { status?: any, recipe?: any, userId?: any }) => {
     return await fetch('/api/bookmark', {
         method: 'POST',
         body: JSON.stringify({
                 status,
-                recipeId,
+                recipe,
                 userId
             },
         ),

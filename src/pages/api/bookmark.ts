@@ -11,7 +11,7 @@ export default async function handler(
         const payload = JSON.stringify(req.body);
         const data = JSON.parse(payload)
 
-        const recipeId = data.recipeId;
+        const recipe = data.recipe;
         const status = data.status
 
         if (data.userId) {
@@ -22,19 +22,25 @@ export default async function handler(
                 const bookmarks = user.bookmarks;
                 let updatedBookmark;
                 if (status === 'ADD_BOOKMARK') {
-                    updatedBookmark = [...bookmarks, recipeId]
+                    updatedBookmark = [...bookmarks, recipe]
                 } else if (status === 'REMOVE_BOOKMARK') {
-                    updatedBookmark = bookmarks.filter((bookmark: string) => bookmark !== recipeId)
+                    updatedBookmark = bookmarks.filter((bookmark: any) => bookmark.id !== recipe.id)
                 }
                 const update = {$set: {bookmarks: updatedBookmark}};
                 const newUser = await user.updateOne(update);
                 res.status(201).json({user: newUser});
-            }
-            else {
+            } else {
                 res.status(404).json({message: 'user not found'});
             }
-            await disconnect()
         }
     }
-
+    if (req.method === 'GET') {
+        const clerk_id = req.query?.clerk_userId
+        if(!clerk_id){
+            res.status(400).json({message: 'invalid request'});
+        }
+        await connectDB();
+        const user = await User.findOne({clerk_id: clerk_id})
+        res.status(200).json({bookmarks: user.bookmarks || []})
+    }
 }

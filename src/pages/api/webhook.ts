@@ -34,7 +34,6 @@ export default async function handler(
         const newUser = new User({clerk_id: id})
         const user = await newUser.save()
         res.status(201).json({user});
-        await disconnect()
     }
 }
 
