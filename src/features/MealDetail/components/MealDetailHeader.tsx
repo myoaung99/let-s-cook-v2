@@ -27,8 +27,6 @@ export const MealDetailHeader = () => {
         return !!user?.bookmarks.find((bookmark) => bookmark.idMeal === recipeId) || false;
     }, [])
 
-    console.log('mealDetailData', mealDetailData)
-
     const setUserData = async () => {
         if (!userId) {
             return

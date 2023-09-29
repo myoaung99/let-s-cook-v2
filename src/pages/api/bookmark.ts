@@ -32,6 +32,7 @@ export default async function handler(
             } else {
                 res.status(404).json({message: 'user not found'});
             }
+
         }
     }
     if (req.method === 'GET') {
@@ -42,5 +43,6 @@ export default async function handler(
         await connectDB();
         const user = await User.findOne({clerk_id: clerk_id})
         res.status(200).json({bookmarks: user.bookmarks || []})
+        disconnect()
     }
 }
