@@ -14,12 +14,13 @@ import { Toaster } from "@/components/ui/toaster"
 export default function App({Component, pageProps}: AppProps) {
     useProgressLine()
     const {store, props} = wrapper.useWrappedStore(pageProps);
+
     return (
         <Provider store={store}>
             <ClerkProvider {...pageProps}>
                 <Layout>
                     <DefaultSeo {...SEO} />
-                    <Component {...props.pageProps} />
+                    <Component {...props} />
                     <Analytics/>
                 </Layout>
                 <Toaster />
