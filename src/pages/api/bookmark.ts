@@ -43,6 +43,5 @@ export default async function handler(
         await connectDB();
         const user = await User.findOne({clerk_id: clerk_id})
         res.status(200).json({bookmarks: user.bookmarks || []})
-        disconnect()
     }
 }

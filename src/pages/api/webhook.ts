@@ -5,7 +5,7 @@ import type { WebhookEvent } from '@clerk/nextjs/server';
 import { Webhook } from 'svix';
 import User from "@/Model/User";
 import connectDB from "@/lib/db-config";
-import {disconnect} from "mongoose";
+
 
 const webhookSecret: string = process.env.WEBHOOK_SECRET!;
 
@@ -28,7 +28,6 @@ export default async function handler(
     }
     const { id } = evt.data;
     const eventType = evt.type;
-
     if (eventType === 'user.created') {
         await connectDB();
         const newUser = new User({clerk_id: id})
