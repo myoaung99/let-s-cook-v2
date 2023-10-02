@@ -7,7 +7,7 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    if (req.method === 'PUT') {
+    if (req.method === 'POST') {
         const payload = JSON.stringify(req.body);
         const data = JSON.parse(payload)
 
