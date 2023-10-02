@@ -13,9 +13,9 @@ export default async function handler(
 
         const recipe = data.recipe;
         const status = data.status
-        console.log('post request at bookmark')
         if (data.userId) {
             await connectDB();
+
             const user = await User.findOne({clerk_id: data.userId})
 
             if (user) {
