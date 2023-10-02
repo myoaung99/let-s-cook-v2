@@ -4,6 +4,8 @@ import {Meal} from "@/types";
 import {motion} from "framer-motion";
 import {MealCard} from "@/components/MealCard";
 import React from "react";
+import connectDB from "@/lib/db-config";
+import User from "@/Model/User";
 
 const STAGGER_DELAY_IN_MILLISECOND = 0.08;
 const VIEWPORT_MARGIN_FROM_ALL_DIRECTIONS = '250px';
@@ -38,10 +40,10 @@ export default Bookmarks;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const {userId} = getAuth(ctx.req);
-    const res = await fetch(`https://lets-cook-v2.vercel.app/api/bookmark?clerk_userId=${userId}`)
-    if (res.ok) {
-        const data = await res.json()
-        return {props: {bookmarks: data.bookmarks}}
+    await connectDB();
+    const user = await User.findOne({clerk_id: userId})
+    if(user){
+        return {props: {bookmarks: user.bookmarks}}
     }
     return {props: {bookmarks: []}};
 };

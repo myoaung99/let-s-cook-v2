@@ -11,7 +11,7 @@ export default async function handler(
         const payload = JSON.stringify(req.body);
         const data = JSON.parse(payload)
 
-        const recipe = data.recipe;
+        const recipe = data.recipe
         const status = data.status
         if (data.userId) {
             await connectDB();
@@ -34,14 +34,5 @@ export default async function handler(
             }
 
         }
-    }
-    if (req.method === 'GET') {
-        const clerk_id = req.query?.clerk_userId
-        if(!clerk_id){
-            res.status(400).json({message: 'invalid request'});
-        }
-        await connectDB();
-        const user = await User.findOne({clerk_id: clerk_id})
-        res.status(200).json({bookmarks: user.bookmarks || []})
     }
 }
