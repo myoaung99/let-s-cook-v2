@@ -1,60 +1,68 @@
-import {GetServerSideProps} from "next";
-import {getAuth} from "@clerk/nextjs/server";
-import {Meal} from "@/types";
-import {motion} from "framer-motion";
-import {MealCard} from "@/components/MealCard";
-import React from "react";
-import connectDB from "@/lib/db-config";
-import User from "@/Model/User";
+import { GetServerSideProps } from 'next';
+import { getAuth } from '@clerk/nextjs/server';
+import { Meal } from '@/types';
+import { motion } from 'framer-motion';
+import { MealCard } from '@/components/MealCard';
+import React from 'react';
+import connectDB from '@/lib/db-config';
+import User from '@/Model/User';
 
 const STAGGER_DELAY_IN_MILLISECOND = 0.08;
 const VIEWPORT_MARGIN_FROM_ALL_DIRECTIONS = '250px';
 
-const Bookmarks = ({bookmarks}: { bookmarks: Array<Meal> }) => {
-    return <section>
-        <h1 className={'text-2xl font-semibold py-5'}>Bookmarks</h1>
+const Bookmarks = ({ bookmarks }: { bookmarks: Array<Meal> }) => {
+    return (
+        <section>
+            <h1 className={'text-2xl font-semibold py-5'}>Bookmarks</h1>
 
-        <section className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-            {bookmarks.map((meal: Meal, index: number) => (
-                <motion.div
-                    key={meal.idMeal}
-                    variants={mealCardVariants}
-                    initial={'hidden'}
-                    whileInView={'animate'}
-                    transition={{delay: STAGGER_DELAY_IN_MILLISECOND * index}}
-                    viewport={{once: true, margin: VIEWPORT_MARGIN_FROM_ALL_DIRECTIONS}}
-                >
-                    <MealCard
-                        mealData={meal}
-                        title={<MealCard.Title/>}
-                        image={<MealCard.Image/>}
-                        action={<MealCard.Button/>}
-                    />
-                </motion.div>
-            ))}
+            <section className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {bookmarks.map((meal: Meal, index: number) => (
+                    <motion.div
+                        key={meal.idMeal}
+                        variants={mealCardVariants}
+                        initial={'hidden'}
+                        whileInView={'animate'}
+                        transition={{
+                            delay: STAGGER_DELAY_IN_MILLISECOND * index,
+                        }}
+                        viewport={{
+                            once: true,
+                            margin: VIEWPORT_MARGIN_FROM_ALL_DIRECTIONS,
+                        }}
+                    >
+                        <MealCard
+                            mealData={meal}
+                            title={<MealCard.Title />}
+                            image={<MealCard.Image />}
+                            action={<MealCard.Button />}
+                        />
+                    </motion.div>
+                ))}
+            </section>
         </section>
-    </section>
-}
+    );
+};
 
 export default Bookmarks;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const {userId} = getAuth(ctx.req);
+    const { userId } = getAuth(ctx.req);
     await connectDB();
-    const user = await User.findOne({clerk_id: userId})
-    if(user){
-        return {props: {bookmarks: user.bookmarks}}
+    console.log('connected to db');
+    const user = await User.findOne({ clerk_id: userId });
+    if (user) {
+        return { props: { bookmarks: user.bookmarks } };
     }
-    return {props: {bookmarks: []}};
+    return { props: { bookmarks: [] } };
 };
 
 const mealCardVariants = {
     hidden: {
         opacity: 0,
-        translateX: -20
+        translateX: -20,
     },
     animate: {
         opacity: 1,
-        translateX: 0
-    }
-}
+        translateX: 0,
+    },
+};
