@@ -7,7 +7,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
-import { User } from '@/types';
 import { getSignInUserData } from '@/features/MealDetail/utils';
 import { createBookmark } from '@/features/MealDetail/utils/createBookmark';
 
@@ -22,13 +21,7 @@ export const MealDetailHeader = () => {
         router.back();
     };
     const mealIngredientMeasures = getMealIngredientMeasures();
-    const getIsBookmarked = useCallback((user: User) => {
-        return (
-            !!user?.bookmarks.find(
-                (bookmark) => bookmark.idMeal === recipeId
-            ) || false
-        );
-    }, []);
+    const getIsBookmarked = () => {};
 
     const handleBookmark = async () => {};
 
