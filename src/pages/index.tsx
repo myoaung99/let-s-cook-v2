@@ -1,9 +1,6 @@
 import { Hero } from '@/features/Hero';
 import { NextSeo } from 'next-seo';
 import Script from 'next/script';
-import { clerkClient } from '@clerk/nextjs';
-import { getAuth, buildClerkProps } from '@clerk/nextjs/server';
-import { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 
 const Benefits = dynamic(() => import('../features/Benefits'));
@@ -71,11 +68,3 @@ export default function Home() {
         </>
     );
 }
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const { userId } = getAuth(ctx.req);
-
-    const user = userId ? await clerkClient.users.getUser(userId) : undefined;
-
-    return { props: { ...buildClerkProps(ctx.req, { user }) } };
-};

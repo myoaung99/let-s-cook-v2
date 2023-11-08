@@ -10,7 +10,7 @@ import User from '@/Model/User';
 const STAGGER_DELAY_IN_MILLISECOND = 0.08;
 const VIEWPORT_MARGIN_FROM_ALL_DIRECTIONS = '250px';
 
-const Bookmarks = ({ bookmarks }: { bookmarks: Array<Meal> }) => {
+const Bookmarks = ({ bookmarks = [] }: { bookmarks: Array<Meal> }) => {
     return (
         <section>
             <h1 className={'text-2xl font-semibold py-5'}>Bookmarks</h1>
@@ -44,17 +44,6 @@ const Bookmarks = ({ bookmarks }: { bookmarks: Array<Meal> }) => {
 };
 
 export default Bookmarks;
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const { userId } = getAuth(ctx.req);
-    await connectDB();
-    console.log('connected to db');
-    const user = await User.findOne({ clerk_id: userId });
-    if (user) {
-        return { props: { bookmarks: user.bookmarks } };
-    }
-    return { props: { bookmarks: [] } };
-};
 
 const mealCardVariants = {
     hidden: {

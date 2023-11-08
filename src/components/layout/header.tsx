@@ -7,8 +7,6 @@ import { NextRouter, useRouter } from 'next/router';
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import Image from 'next/image';
 import { Playfair } from 'next/font/google';
-import { useAuth, UserButton, useUser } from '@clerk/nextjs';
-import { Button } from '@/components/ui/button';
 import {
     Sheet,
     SheetClose,
@@ -19,7 +17,6 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import { useClerk } from '@clerk/clerk-react';
 
 const SCROLL_WITH_NAV_HEIGHT = 150;
 
@@ -52,7 +49,7 @@ export const Header = () => {
             variants={{ hidden: { y: -100 }, visible: { y: 0 } }}
             animate={hideNavbar ? 'hidden' : 'visible'}
             transition={{ delay: 0.3, easings: 'easeInOut' }}
-            className="fixed w-full bg-stone-900 text-white z-10"
+            className="fixed w-full bg-stone-900 text-white z-20"
         >
             <nav className="container h-16 flex items-center justify-between ">
                 <div className="font-bold text-xl px-3 flex gap-2 items-center">
@@ -82,11 +79,7 @@ export const Header = () => {
 };
 
 const MobileMenu = () => {
-    const { signOut } = useClerk();
     const router = useRouter();
-    const { isLoaded, userId } = useAuth();
-    const { user } = useUser();
-    const imageUrl = user?.imageUrl;
     return (
         <SheetContent className={'flex flex-col justify-between'}>
             <SheetHeader>
@@ -103,7 +96,7 @@ const MobileMenu = () => {
                             </SheetClose>
                         </Link>
                     ))}
-                    {userId && isLoaded ? (
+                    {/* {userId && isLoaded ? (
                         <SheetClose asChild>
                             <p
                                 onClick={() => signOut()}
@@ -112,10 +105,10 @@ const MobileMenu = () => {
                                 Logout
                             </p>
                         </SheetClose>
-                    ) : null}
+                    ) : null} */}
                 </SheetDescription>
             </SheetHeader>
-            <SheetFooter>
+            {/* <SheetFooter>
                 <div>
                     {userId && isLoaded ? (
                         <SheetClose asChild>
@@ -144,14 +137,14 @@ const MobileMenu = () => {
                         </Link>
                     )}
                 </div>
-            </SheetFooter>
+            </SheetFooter> */}
         </SheetContent>
     );
 };
 
 const DesktopMenuItems = () => {
     const router = useRouter();
-    const { isLoaded, userId } = useAuth();
+    // const { isLoaded, userId } = useAuth();
 
     const handleToLogin = () => {
         router.push('/sign-in');
@@ -177,7 +170,7 @@ const DesktopMenuItems = () => {
             </ul>
 
             <div className="hidden lg:block">
-                {!userId || !isLoaded ? (
+                {/* {!userId || !isLoaded ? (
                     <Button
                         onClick={handleToLogin}
                         variant="ghost"
@@ -187,7 +180,7 @@ const DesktopMenuItems = () => {
                     </Button>
                 ) : (
                     <UserButton afterSignOutUrl="/" />
-                )}
+                )} */}
             </div>
         </div>
     );
