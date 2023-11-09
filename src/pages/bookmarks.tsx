@@ -1,9 +1,7 @@
-import { GetServerSideProps } from 'next';
 import { Meal } from '@/types';
 import { motion } from 'framer-motion';
 import { MealCard } from '@/components/MealCard';
 import React from 'react';
-import connectDB from '@/lib/db-config';
 
 const STAGGER_DELAY_IN_MILLISECOND = 0.08;
 const VIEWPORT_MARGIN_FROM_ALL_DIRECTIONS = '250px';

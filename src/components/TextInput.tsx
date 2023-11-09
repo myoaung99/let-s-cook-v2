@@ -3,7 +3,13 @@ import { FormControl, FormField, FormItem, FormMessage } from './ui/form';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
-const TextInput = ({ control, isLoading, name = '', label }: any) => {
+const TextInput = ({
+    control,
+    isLoading,
+    name = '',
+    label,
+    ...inputProps
+}: any) => {
     return (
         <>
             {label ? (
@@ -19,7 +25,7 @@ const TextInput = ({ control, isLoading, name = '', label }: any) => {
                         <FormControl>
                             <Input
                                 id={name}
-                                placeholder="your name"
+                                {...inputProps}
                                 {...field}
                                 disabled={isLoading}
                             />

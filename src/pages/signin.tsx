@@ -5,7 +5,7 @@ import { NextSeo } from 'next-seo';
 const SignUpPage = () => {
     return (
         <>
-            <NextSeo title="Create an accunt" />
+            <NextSeo title="Sign In Account" />
             <AuthenticationPage />
         </>
     );

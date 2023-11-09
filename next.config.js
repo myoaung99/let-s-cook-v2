@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 // @ts-check
-const withOffline = require('next-offline')
-const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
+const withOffline = require('next-offline');
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 
 module.exports = (phase, { defaultConfig }) => {
     const isDev = phase === PHASE_DEVELOPMENT_SERVER;
@@ -10,14 +10,19 @@ module.exports = (phase, { defaultConfig }) => {
         : process.env.PRODUCTION_API_ROUTE;
 
     const env = {
-       API_URL: apiUrl,
+        API_URL: apiUrl,
+        BACKEND_URL: process.env.BACKEND_URL,
     };
 
     return {
         reactStrictMode: true,
         env,
         images: {
-            domains: ['www.themealdb.com', 'www.themealdb.com/images/media/meals', 'img.clerk.com']
+            domains: [
+                'www.themealdb.com',
+                'www.themealdb.com/images/media/meals',
+                'img.clerk.com',
+            ],
         },
         workboxOpts: {
             swDest: process.env.NEXT_EXPORT
@@ -42,8 +47,7 @@ module.exports = (phase, { defaultConfig }) => {
                     source: '/service-worker.js',
                     destination: '/_next/static/service-worker.js',
                 },
-            ]
+            ];
         },
     };
 };
-
