@@ -170,7 +170,7 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.hasOtp = true;
                 state.createSuccess = false;
-                state.message = action.payload.message;
+                state.message = action.payload;
                 state.messageType = 'destructive';
             })
             .addCase(requestOtpAsync.pending, (state, action) => {
