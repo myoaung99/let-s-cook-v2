@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
+import axios from 'axios';
 interface signIn {
     email: string;
     password: string;
@@ -16,37 +16,24 @@ interface otp {
     email: string;
 }
 
-interface Returned {
-    message: string;
-    expiresIn: string;
-    token: string;
-    userId: string;
-}
-
-interface OtpReturned {
-    message: string;
-}
-
 export const signinAsync = createAsyncThunk(
     'auth/signin',
     async (payload: signIn, { rejectWithValue }) => {
         try {
-            const response = await fetch(
+            const response = await axios.post(
                 `${process.env.BACKEND_URL}/auth/signin`,
+                payload,
                 {
-                    body: JSON.stringify(payload),
-                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                 }
             );
-            if (!response.ok) {
-                throw new Error('signin failed');
-            }
-            return (await response.json()) as Returned;
-        } catch (error) {
-            rejectWithValue('signin failed');
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(
+                error.response.data.message || 'signin failed'
+            );
         }
     }
 );
@@ -55,17 +42,15 @@ export const requestOtpAsync = createAsyncThunk(
     'auth/sendOtp',
     async (payload: otp, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${process.env.BACKEND_URL}/sendOtp`, {
-                body: JSON.stringify(payload),
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            return response;
-        } catch (error) {
-            rejectWithValue('otp request failed');
+            const response = await axios.post(
+                `${process.env.BACKEND_URL}/sendOtp`,
+                payload
+            );
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(
+                error.response.data.message || 'otp request failed'
+            );
         }
     }
 );
@@ -74,47 +59,46 @@ export const signupAsync = createAsyncThunk(
     'auth/signup',
     async (payload: signUp, { rejectWithValue }) => {
         try {
-            const response = await fetch(
+            const response = await axios.post(
                 `${process.env.BACKEND_URL}/auth/signup`,
-                {
-                    body: JSON.stringify(payload),
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
+                payload
             );
-            if (!response.ok) {
-                throw new Error('signin failed');
-            }
-            return (await response.json()) as Returned;
-        } catch (error) {
-            rejectWithValue('signin failed');
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(
+                error.response.data.message || 'signin failed'
+            );
         }
     }
 );
 
 interface UsersState {
-    isLoggedIn: boolean;
     loading: boolean;
     hasOtp: boolean;
-    token: string | undefined;
-    message: string | undefined;
-    userId: string | undefined;
     createSuccess: boolean;
+    message: string | undefined;
+    messageType: string | undefined;
+
+    isLoggedIn: boolean;
+    token: string | undefined;
+    user: { email: string; name: string } | undefined;
 }
 const ISSERVER = typeof window === 'undefined';
 const accessToken =
     (!ISSERVER && localStorage.getItem('lets-cook-token')) || undefined;
+const user = (!ISSERVER && localStorage.getItem('lets-cook-user')) || undefined;
 
 const initialState = {
-    isLoggedIn: accessToken ? true : false,
-    token: accessToken,
-    hasOtp: false,
-    userId: undefined,
     loading: false,
-    message: undefined,
+    hasOtp: false,
     createSuccess: false,
+
+    message: undefined,
+    messageType: undefined,
+
+    user: user ? JSON.parse(user) : undefined,
+    token: accessToken,
+    isLoggedIn: accessToken ? true : false,
 } as UsersState;
 
 const authSlice = createSlice({
@@ -122,6 +106,17 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         // fill in primary logic here
+        clearMessage: (state) => {
+            state.message = undefined;
+        },
+        logout: (state) => {
+            state.isLoggedIn = false;
+            state.token = undefined;
+            state.user = undefined;
+            localStorage.removeItem('lets-cook-token');
+            localStorage.removeItem('tokenExpiration');
+            localStorage.removeItem('lets-cook-user');
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -129,61 +124,78 @@ const authSlice = createSlice({
                 state.loading = true;
                 state.isLoggedIn = false;
                 state.token = undefined;
+                state.message = undefined;
+                state.messageType = undefined;
+                state.createSuccess = false;
             })
-            .addCase(signinAsync.fulfilled, (state, action) => {
-                state.loading = false;
-                state.isLoggedIn = true;
-                state.message = 'Login successful. Welcome';
-                state.token = action.payload?.token;
-                state.userId = action.payload?.userId;
+            .addCase(signinAsync.fulfilled, (state, action: any) => {
+                state.token = action.payload!.token;
+                state.user = action.payload!.user;
+
                 localStorage.setItem('lets-cook-token', action.payload!.token);
                 localStorage.setItem(
                     'tokenExpiration',
                     action.payload!.expiresIn
                 );
+                localStorage.setItem(
+                    'lets-cook-user',
+                    JSON.stringify(action.payload!.user)
+                );
+
+                state.loading = false;
+                state.isLoggedIn = true;
+                state.message = action.payload.message as string;
+                state.messageType = 'default';
             })
             .addCase(signinAsync.rejected, (state, action) => {
                 state.loading = false;
                 state.message = action.payload as string;
+                state.messageType = 'destructive';
             })
             .addCase(signupAsync.pending, (state, action) => {
                 state.loading = true;
+                state.createSuccess = false;
+                state.message = undefined;
+                state.messageType = undefined;
             })
             .addCase(signupAsync.fulfilled, (state, action) => {
                 state.loading = false;
-                state.message = 'Signup successful. Please signin';
                 state.hasOtp = false;
                 state.createSuccess = true;
+
+                state.message = action.payload.message;
+                state.messageType = 'default';
             })
-            .addCase(signupAsync.rejected, (state, action) => {
+            .addCase(signupAsync.rejected, (state, action: any) => {
                 state.loading = false;
-                state.message = action.payload as string;
+                state.hasOtp = true;
+                state.createSuccess = false;
+                state.message = action.payload.message;
+                state.messageType = 'destructive';
             })
             .addCase(requestOtpAsync.pending, (state, action) => {
                 state.loading = true;
                 state.hasOtp = false;
+                state.createSuccess = false;
+                state.message = undefined;
+                state.messageType = undefined;
             })
             .addCase(requestOtpAsync.fulfilled, (state, action) => {
-                const isSuccess = action.payload!.status === 201;
-                const dupEmail = action.payload!.status === 409;
-                let message = 'something bad happened';
-                if (dupEmail) {
-                    message = 'email already in use';
-                }
-                if (isSuccess) {
-                    message = 'sent otp successfully';
-                }
-
                 state.loading = false;
-                state.hasOtp = isSuccess ? true : false;
-                state.message = message;
+                state.hasOtp = true;
+                state.message = action.payload.message as string;
+                state.messageType = 'default';
             })
-            .addCase(requestOtpAsync.rejected, (state, action) => {
+            .addCase(requestOtpAsync.rejected, (state, action: any) => {
+                console.log('payload', action.payload);
                 state.loading = false;
                 state.hasOtp = false;
                 state.message = action.payload as string;
+                state.messageType = 'destructive';
             });
     },
 });
+
+export const { clearMessage, logout } = authSlice.actions;
 
 export default authSlice.reducer;

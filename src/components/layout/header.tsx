@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { MenuData } from '@/components/layout/types';
-import { useDispatch } from '@/hooks';
+import { useDispatch, useIsClient } from '@/hooks';
 import { toggleMobileNav } from '@/app/globalSlice';
 import { NextRouter, useRouter } from 'next/router';
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
@@ -17,6 +17,27 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
+import { useAppSelector } from '@/hooks/useSelector';
+import { Button } from '../ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useAppDispatch } from '@/hooks/useDispatch';
+import { logout } from '@/features/authentication/authSlice';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog';
 
 const SCROLL_WITH_NAV_HEIGHT = 150;
 
@@ -79,7 +100,13 @@ export const Header = () => {
 };
 
 const MobileMenu = () => {
-    const router = useRouter();
+    const { user } = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
+
     return (
         <SheetContent className={'flex flex-col justify-between'}>
             <SheetHeader>
@@ -96,58 +123,49 @@ const MobileMenu = () => {
                             </SheetClose>
                         </Link>
                     ))}
-                    {/* {userId && isLoaded ? (
-                        <SheetClose asChild>
-                            <p
-                                onClick={() => signOut()}
-                                className={`text-lg text-start ${inter.className}`}
-                            >
-                                Logout
-                            </p>
-                        </SheetClose>
-                    ) : null} */}
                 </SheetDescription>
             </SheetHeader>
-            {/* <SheetFooter>
+            <SheetFooter>
                 <div>
-                    {userId && isLoaded ? (
+                    {user ? (
                         <SheetClose asChild>
-                            <Link href={'/user-profile'}>
-                                {imageUrl ? (
-                                    <Image
-                                        className={'rounded-full'}
-                                        width={50}
-                                        height={50}
-                                        src={imageUrl}
-                                        alt={user?.fullName ?? 'profile image'}
-                                    />
-                                ) : (
-                                    <div className={'w-[50px] h-[50px]'} />
-                                )}
-                            </Link>
+                            <section className="space-y-4">
+                                <Avatar>
+                                    <AvatarFallback>
+                                        <span className="text-black">
+                                            {user!.name?.slice(0, 3)}
+                                        </span>
+                                    </AvatarFallback>
+                                </Avatar>
+                                <Button
+                                    className="w-full"
+                                    onClick={handleLogout}
+                                >
+                                    Logout
+                                </Button>
+                            </section>
                         </SheetClose>
                     ) : (
-                        <Link
-                            href={`/sign-in?redirect_url=${router.asPath}`}
-                            className="text-lg"
-                        >
+                        <Link href={`/signin`} className="text-lg">
                             <SheetClose asChild>
-                                <Button className="w-full">Login</Button>
+                                <Button className="w-full">Sign In</Button>
                             </SheetClose>
                         </Link>
                     )}
                 </div>
-            </SheetFooter> */}
+            </SheetFooter>
         </SheetContent>
     );
 };
 
 const DesktopMenuItems = () => {
+    const [isClient] = useIsClient();
+    const dispatch = useAppDispatch();
+    const { isLoggedIn, user } = useAppSelector((state) => state.auth);
     const router = useRouter();
-    // const { isLoaded, userId } = useAuth();
 
-    const handleToLogin = () => {
-        router.push('/sign-in');
+    const handleLogout = () => {
+        dispatch(logout());
     };
 
     return (
@@ -169,19 +187,40 @@ const DesktopMenuItems = () => {
                 ))}
             </ul>
 
-            <div className="hidden lg:block">
-                {/* {!userId || !isLoaded ? (
-                    <Button
-                        onClick={handleToLogin}
-                        variant="ghost"
-                        className={`w-[60px] hover:cursor-pointer text-md`}
-                    >
-                        Login
-                    </Button>
-                ) : (
-                    <UserButton afterSignOutUrl="/" />
-                )} */}
-            </div>
+            {isClient ? (
+                <div className="hidden lg:block">
+                    {!isLoggedIn ? (
+                        <Link href={'/signin'}>
+                            <Button
+                                variant="ghost"
+                                className={`w-[60px] hover:cursor-pointer text-md`}
+                            >
+                                Login
+                            </Button>
+                        </Link>
+                    ) : (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <Avatar>
+                                    <AvatarFallback>
+                                        <span className="text-black">
+                                            {user!.name?.slice(0, 3)}
+                                        </span>
+                                    </AvatarFallback>
+                                </Avatar>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem
+                                    onClick={handleLogout}
+                                    className="hover:cursor-pointer"
+                                >
+                                    Logout
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    )}
+                </div>
+            ) : null}
         </div>
     );
 };

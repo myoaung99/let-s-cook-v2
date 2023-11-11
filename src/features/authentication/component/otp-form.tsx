@@ -4,11 +4,12 @@ import OtpInput from 'react-otp-input';
 import { signupAsync } from '../authSlice';
 import { useAppDispatch } from '@/hooks/useDispatch';
 import { useAppSelector } from '@/hooks/useSelector';
+import { useRouter } from 'next/router';
 
 const OTPForm = ({ userData }: any) => {
     const [otp, setOtp] = React.useState('');
     const dispatch = useAppDispatch();
-    const { createSuccess } = useAppSelector((state) => state.auth);
+    const { createSuccess, loading } = useAppSelector((state) => state.auth);
 
     const containerStyle = {
         display: 'flex',
@@ -28,7 +29,6 @@ const OTPForm = ({ userData }: any) => {
     };
 
     const handleOtpSubmit = () => {
-        console.log('hii');
         dispatch(
             signupAsync({
                 name: userData!.name,
@@ -51,7 +51,9 @@ const OTPForm = ({ userData }: any) => {
                 renderSeparator={<span></span>}
                 renderInput={(props) => <input {...props} />}
             />
-            <Button onClick={handleOtpSubmit}>Submit OTP</Button>
+            <Button disabled={loading} onClick={handleOtpSubmit}>
+                {loading ? 'Submitting' : 'Submit OTP'}
+            </Button>
 
             {createSuccess ? (
                 <p>

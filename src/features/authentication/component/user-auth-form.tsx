@@ -10,9 +10,16 @@ import { Form } from '@/components/ui/form';
 import TextInput from '@/components/TextInput';
 import { useRouter } from 'next/router';
 import OTPForm from './otp-form';
-import { requestOtpAsync, signinAsync, signupAsync } from '../authSlice';
+import {
+    clearMessage,
+    requestOtpAsync,
+    signinAsync,
+    signupAsync,
+} from '../authSlice';
 import { useAppSelector } from '@/hooks/useSelector';
 import { useAppDispatch } from '@/hooks/useDispatch';
+import { ToastAction } from '@/components/ui/toast';
+import { useToast } from '@/components/ui/use-toast';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -54,7 +61,8 @@ interface UserInfo {
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const [userData, setUserData] = React.useState<null | UserInfo>(null);
     const router = useRouter();
-    const { loading, isLoggedIn, hasOtp, message, createSuccess } =
+    const { toast } = useToast();
+    const { loading, isLoggedIn, hasOtp, message, messageType, createSuccess } =
         useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const isSignup = router.pathname === '/signup';
@@ -93,15 +101,39 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         }
     }, [isLoggedIn]);
 
+    React.useEffect(() => {
+        dispatch(clearMessage());
+        if (message) {
+            toast({
+                title: message,
+                variant:
+                    messageType === 'destructive' ? messageType : 'default',
+                duration: 3000,
+            });
+            const timer = setTimeout(() => {
+                dispatch(clearMessage());
+            }, 3000);
+
+            return () => {
+                clearTimeout(timer);
+            };
+        }
+    }, [message]);
+
+    React.useEffect(() => {
+        if (createSuccess) {
+            router.replace('/signin');
+        }
+    }, [createSuccess]);
+
     return (
         <div className={cn('grid gap-6', className)} {...props}>
-            <p>{message}</p>
             {!hasOtp ? (
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(submitHandler)}>
                         <FormProvider {...form}>
                             <div className="grid gap-5">
-                                {isSignup ? (
+                                {!createSuccess && isSignup ? (
                                     <div className="grid gap-1">
                                         <TextInput
                                             label="Name"
@@ -130,7 +162,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                                     />
                                 </div>
 
-                                {isSignup ? (
+                                {!createSuccess && isSignup ? (
                                     <div className="grid gap-1">
                                         <TextInput
                                             label="Confirm Password"
