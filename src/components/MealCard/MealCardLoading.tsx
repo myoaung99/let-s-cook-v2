@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export const MealCardLoading = () => {
-
     return (
         <Card>
             <CardHeader>
@@ -23,5 +16,4 @@ export const MealCardLoading = () => {
             </CardContent>
         </Card>
     );
-}
-
+};

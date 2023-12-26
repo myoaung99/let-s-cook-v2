@@ -1,9 +1,9 @@
-import {useMealCard} from "@/components/MealCard/MealCardContext";
-import Image from "next/image";
-import React from "react";
+import { useMealCard } from '@/components/MealCard/MealCardContext';
+import Image from 'next/image';
+import React from 'react';
 
 export const MealCardImage = () => {
-    const {strMealThumb} = useMealCard()
+    const { strMealThumb } = useMealCard();
     return (
         <Image
             fill
@@ -12,4 +12,4 @@ export const MealCardImage = () => {
             alt="meal suggestion"
         />
     );
-}
+};
